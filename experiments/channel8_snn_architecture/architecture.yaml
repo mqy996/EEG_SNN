@@ -1,0 +1,17 @@
+﻿# SNN-3 architecture ablation over the frozen direct-current encoding.
+base_config: experiments/channel8_hybrid_snn_pilot/pilot.yaml
+results_root: results/snn_architecture
+beta: 0.90
+threshold: 0.5
+seed: 20260717
+smoke_epochs: 3
+full_epochs: 11
+train_batch_size: 50
+eval_batch_size: 256
+target_spike_rate: 0.15
+spike_rate_regularization: 0.01
+temporal_kernel: 3
+architectures:
+  - hybrid_lif_head
+  - spiking_temporal_block
+  - ann_control

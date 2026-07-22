@@ -1,0 +1,15 @@
+﻿# Software-only fixed-point feasibility probe for the frozen SNN head.
+base_config: experiments/channel8_hybrid_snn_pilot/pilot.yaml
+results_root: results/snn_hardware
+seed: 20260717
+fold: 2
+epochs: 3
+train_batch_size: 50
+eval_batch_size: 256
+target_part: xc7z020clg400-1
+clock_mhz: 100.0
+input_format: feature_current_q
+fixed_points:
+  - {total_bits: 8, frac_bits: 4}
+  - {total_bits: 12, frac_bits: 6}
+  - {total_bits: 16, frac_bits: 8}

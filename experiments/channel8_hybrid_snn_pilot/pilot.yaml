@@ -1,0 +1,25 @@
+﻿# Exploratory matched ANN vs Hybrid-SNN configuration.
+# This uses class-blocked balanced MAT data under LOSO; it is not chronological replay.
+dataset_path: data/dataset.mat
+expected_dataset_sha256: 53cc4ef14b1343f7f3fb5322dd2b541c031c6c2297bddf1817aed04dc687a6a4
+results_root: results/snn_pilot
+seed: 20260717
+epochs: 11
+smoke_epochs: 3
+learning_rate: 0.001
+train_batch_size: 50
+eval_batch_size: 256
+dtype: float32
+model:
+  sample_length: 384
+  n1: 16
+  depth_multiplier: 2
+  kernel_length: 32
+  temporal_steps: 48
+snn:
+  beta: 0.9
+  threshold: 1.0
+  surrogate_slope: 25.0
+  current_scale: 1.0
+spike_rate_regularization: 0.01
+target_spike_rate: 0.15

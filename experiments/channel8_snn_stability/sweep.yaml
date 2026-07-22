@@ -1,0 +1,21 @@
+﻿base_config: experiments/channel8_hybrid_snn_pilot/pilot.yaml
+results_root: results/snn_stability
+screen_seed: 20260717
+stability_seeds: [20260717, 20260718, 20260719]
+smoke_fold: 2
+smoke_epochs: 3
+full_epochs: 11
+max_selected_configs: 2
+configs:
+  S1:
+    beta: 0.90
+    threshold: 1.0
+  S2:
+    beta: 0.90
+    threshold: 0.5
+  S3:
+    beta: 0.90
+    threshold: 1.5
+  S4:
+    beta: 0.95
+    threshold: 1.0

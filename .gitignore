@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Experiment artifacts
+results/**
+!results/**/
+!results/**/.gitkeep
+checkpoints/**
+!checkpoints/
+!checkpoints/.gitkeep
+runs/
+wandb/
+mlruns/
+*.pt
+*.pth
+*.onnx
+*.npy
+*.npz
+*.mat
+*.csv
+*.tsv
+*.log
+
+# FPGA / HLS generated outputs
+hls/**/solution*/
+hls/**/.autopilot/
+hls/**/*.rpt
+hls/**/*.jou
+hls/**/*.log
+hls/**/*.bit
+hls/**/*.hwh
+hls/**/*.xsa
+
+# Local data: keep data README only
+data/**
+!data/
+!data/README.md
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local editable package metadata
+*.egg-info/
