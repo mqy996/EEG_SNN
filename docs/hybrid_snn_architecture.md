@@ -1,39 +1,37 @@
-﻿# Hybrid-SNN Architecture Diagram
+# Hybrid-SNN 架构图
 
 ```mermaid
 flowchart LR
-    A[EEG window\n8 channels x 384 samples] --> B[Pointwise spatial Conv2d\nchannel mixing]
-    B --> C[Depthwise temporal Conv2d\nper-feature temporal filters]
-    C --> D[ReLU]
-    D --> E[GroupNorm\nbatch-independent]
-    E --> F[Adaptive average pool\n32 features x 48 steps]
-    F --> G[Direct-current encoding\ncontinuous feature current]
-    G --> H[LIF step t=1..48\nmembrane beta=0.90]
-    H --> I{membrane >= 0.5?}
-    I -->|yes| J[Emit spike\nsubtract threshold]
-    I -->|no| K[No spike]
-    J --> L[Spike count accumulation]
+    A[EEG 窗口\n8 通道 × 384 采样点] --> B[逐点空间 Conv2d\n混合通道信息]
+    B --> C[深度时间 Conv2d\n提取时间模式]
+    C --> D[ReLU\n整流线性激活]
+    D --> E[GroupNorm\n不依赖 batch 大小]
+    E --> F[自适应平均池化\n32 个特征 × 48 时间步]
+    F --> G[Direct-current 直流编码\n连续特征电流]
+    G --> H[LIF 时间步 1..48\nbeta=0.90]
+    H --> I{膜电位 ≥ 0.5？}
+    I -->|是| J[发放脉冲\n减去阈值]
+    I -->|否| K[不发放脉冲]
+    J --> L[累计脉冲数]
     K --> L
-    L --> M[Rate = spike count / 48]
-    M --> N[Linear 32 -> 2]
-    N --> O[Alert / Drowsy logits]
+    L --> M[发放率 = 脉冲数 / 48]
+    M --> N[Linear 32 → 2]
+    N --> O[警觉 / 困倦 logits]
 ```
 
-## Module table
+## 模块说明
 
-| Stage | Role | Deployment note |
+| 模块 | 作用 | 部署含义 |
 |---|---|---|
-| Pointwise spatial convolution | Mix the selected EEG channels | Fixed convolution weights |
-| Depthwise temporal convolution | Extract per-feature temporal patterns | Separable and parameter-efficient |
-| GroupNorm | Normalize each sample independently of batch size | Avoids dynamic-BN BS=1 dependence |
-| Adaptive pooling | Produce exactly 48 simulation steps | Deterministic temporal contract |
-| Direct-current | Pass continuous current to LIF | Selected after encoding ablation |
-| LIF | Integrate, threshold and subtract-reset | Local membrane state resets per sample |
-| Spike-count readout | Aggregate 48 spikes steps | Software proxy only, not energy measurement |
-| Linear classifier | Map 32 rates to two classes | Small head suitable for fixed-point study |
+| 逐点空间卷积 | 混合选定 EEG 通道 | 权重可固定 |
+| 深度时间卷积 | 提取每个特征的时间模式 | 参数量较小、便于分离实现 |
+| GroupNorm（组归一化） | 对每个样本独立归一化 | 避免动态 BN 在 BS=1 时依赖 batch 统计量 |
+| 自适应池化 | 固定产生 48 个时间步 | 形成确定性的时间接口 |
+| Direct-current（直流编码） | 将连续特征直接送入 LIF | 由编码消融实验选出 |
+| LIF | 积分、比较阈值、减阈值复位 | 每个样本结束后清空膜电位 |
+| 脉冲计数读出 | 汇总 48 个时间步的脉冲 | 目前只是软件代理，不是能耗测量 |
+| 线性分类器 | 将 32 个发放率映射为两类 | 适合进行定点实现研究 |
 
-## Why Direct Current
+## 为什么选择直流编码
 
-Deterministic amplitude/count and signed Delta encoders reduced spike rate but produced large
-accuracy and macro-F1 losses on the current normalized feature representation. Direct-current is
-therefore the frozen baseline for architecture and fixed-point work.
+在当前归一化 CNN 特征空间中，amplitude/count（幅值/计数事件）和 signed Delta（带符号差分事件）编码虽然降低了脉冲率，但造成较大的准确率和 Macro-F1 损失。因此当前基线冻结为 direct-current。这个选择说明它更适合当前任务和特征表示，不等于已经证明它的硬件能耗最低。

@@ -1,4 +1,4 @@
-﻿# SNN 阶段性实验汇报
+# SNN 阶段性实验汇报
 
 **汇报日期：2026 年 7 月 22 日**  
 **汇报范围：2026 年 7 月 17 日至 7 月 22 日完成的 6 个 Trellis 任务**
@@ -357,3 +357,18 @@ Q8.4：定点一致率不足
 ## 一分钟口头汇报版本
 
 > 这几天我完成了 SNN 从可训练性、参数稳定性、输入编码、架构消融到定点可行性的完整探索。实验表明，当前最合适的方案是 Channel8 + GroupNorm + direct-current + Hybrid LIF head，LIF 参数为 beta=0.90、threshold=0.5。amplitude/count 和 Delta 事件编码虽然降低了脉冲率，但带来了 10 到 18 个百分点的性能损失；额外的 spiking temporal block 也没有带来收益，反而使运算代理增加约 4 倍。定点预研中 Q12.6 达到 99.24% 的 float/fixed prediction agreement，因此可以作为第一版 HLS 候选。但目前实验基于官方 class-blocked compatibility 数据，尚未完成 chronology、BS=1、HLS 和板端验证，所以现阶段结论是 SNN 具备可行性和硬件探索价值，还不能声称已经完成在线 FPGA 部署。
+---
+
+# 十二、术语说明
+
+- **balanced（平衡数据集）**：不同类别的样本数量经过平衡处理，减少类别比例对准确率的影响。
+- **class-blocked compatibility（类别分块兼容性顺序）**：为了复现历史实验而保留的文件排列顺序，不代表真实时间顺序。
+- **chronological replay（时间顺序回放）**：按照样本实际发生的时间先后进行推理，用于检验在线因果部署。
+- **LOSO（Leave-One-Subject-Out）**：每次留出一个被试测试，其余被试训练，用于检验跨被试泛化。
+- **Macro-F1**：分别计算各类别 F1 后取平均，适合观察类别是否都得到较好识别。
+- **GroupNorm（组归一化）**：对单个样本内部的特征归一化，不依赖 batch 内其他样本的运行统计量。
+- **LIF（漏积分发放神经元）**：膜电位随时间积累并衰减，达到阈值后发放脉冲。
+- **surrogate gradient（替代梯度）**：训练时用平滑近似函数代替脉冲函数的不可导梯度。
+- **Q12.6**：总位宽 12 位、小数位 6 位的定点格式。
+- **HLS csim/csynth**：分别表示高层次综合中的 C 级仿真和 C/C++ 到 RTL 电路的综合阶段。
+- **pp（percentage point，百分点）**：例如准确率从 72% 变为 73%，表示增加 1 个百分点，而不是相对提升 1%。

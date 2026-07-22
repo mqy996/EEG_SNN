@@ -1,38 +1,32 @@
-﻿# SNN-2 Encoding Comparison — Results
+# SNN-2 输入编码对比——结果
 
-Status: **complete** (one-seed, 11-fold comparison)
+状态：**已完成**（单随机种子、11 折对比）。
 
-## Protocol
+## 实验协议
 
-- Dataset: audited official balanced SADT artifact, `2022 x 30`, class-blocked compatibility order.
-- Input: Channel8, GroupNorm front end, 48 temporal steps.
-- Frozen SNN-1 configuration: S2, `beta=0.90`, neuron threshold `0.5`.
-- Seed: `20260717`.
-- Training: 11-fold subject holdout, 11 epochs per fold, matched optimizer and parameter budget.
-- Encoders: exactly `direct_current`, `amplitude_count`, and signed causal `delta`.
-- This is software evidence only. Operation counts are proxies, not energy or power measurements.
+- 官方平衡版 SADT，形状 `2022 × 30`，类别分块兼容性顺序。
+- 输入为 Channel8 + GroupNorm，48 个时间步。
+- 冻结 SNN-1 S2：`beta=0.90`，阈值 `0.5`。
+- 随机种子：`20260717`；每折训练 11 个 epoch。
+- 编码器：`direct_current`、`amplitude_count` 和带符号因果 `delta`。
+- 运算次数为软件代理，不是能耗或功耗测量。
 
-Run artifact: `results/snn_encoding/snn-encoding-20260722T035356Z/`.
+## 汇总结果
 
-## Aggregate results
-
-| Encoder | Accuracy | Balanced accuracy | Macro-F1 | Accuracy Δ vs direct | Macro-F1 Δ vs direct | Output spike rate | Input event rate | State bytes | Ops proxy/sample | Silent ratio | Saturated ratio |
+| 编码器 | 准确率 | 平衡准确率 | Macro-F1 | 相对直流准确率变化 | 相对直流 F1 变化 | 输出脉冲率 | 输入事件率 | 状态字节 | 运算代理/样本 | 静默比例 | 饱和比例 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| direct-current | 72.39% | 72.39% | 71.00% | 0.00 pp | 0.00 pp | 25.18% | n/a | 0 | 1,536 | 8.99% | 12.33% |
-| amplitude/count | 60.92% | 60.92% | 60.15% | -11.47 pp | -10.86 pp | 14.62% | 38.15% | 0 | 4,608 | 6.91% | 0.26% |
-| signed Delta | 55.35% | 55.35% | 52.59% | -17.04 pp | -18.42 pp | 11.60% | 39.25% | 128 | 6,144 | 0.23% | 0.00% |
+| direct-current 直流编码 | 72.39% | 72.39% | 71.00% | 0.00 pp | 0.00 pp | 25.18% | 不适用 | 0 | 1,536 | 8.99% | 12.33% |
+| amplitude/count 幅值/计数 | 60.92% | 60.92% | 60.15% | -11.47 pp | -10.86 pp | 14.62% | 38.15% | 0 | 4,608 | 6.91% | 0.26% |
+| signed Delta 带符号差分 | 55.35% | 55.35% | 52.59% | -17.04 pp | -18.42 pp | 11.60% | 39.25% | 128 | 6,144 | 0.23% | 0.00% |
 
-## Decision
+## 决策
 
-**Go for the next architecture-ablation task with direct-current as the frozen encoding.**
+**进入架构消融，并冻结 direct-current 作为输入编码。**
 
-The deterministic event encoders are not promoted as replacements in this setting. Both reduce output spike rate and saturation, but the reduction is accompanied by a large accuracy/F1 loss. Delta additionally requires per-feature reference state and has the largest operation proxy. This is a useful negative result: on the current normalized feature representation, converting the feature current into threshold events discards information that the matched LIF head needs.
+两种事件编码都降低了输出脉冲率和饱和率，但同时造成较大性能损失。Delta 还需要每个特征的参考状态，并具有最高运算代理。在当前归一化特征表示中，把连续特征电流转换成阈值事件会丢失 LIF 读出所需信息，这是一个有价值的负结果。
 
-The direct-current baseline is selected because it is the only candidate satisfying the exploratory selection gate (macro-F1 not more than 5 pp below direct, output spike rate between 5% and 30%, saturation below 50%). The selection is not a claim of lower energy; no hardware power measurement was performed.
+直流编码满足探索性门槛：Macro-F1 损失不超过 5 个百分点，输出脉冲率为 5%–30%，饱和率低于 50%。这个选择不等于能耗更低，因为没有硬件功耗测量。
 
-## Reproducibility and limitations
+## 可复现性和限制
 
-- All 33 jobs completed: 3 encoders x 11 held-out folds.
-- Unit and contract tests: 26 passed; Ruff passed.
-- The comparison uses one seed and the existing class-blocked compatibility artifact. It is not yet suitable as a final paper claim.
-- The result supports freezing direct-current for architecture ablation; it does not rule out event encodings after a representation redesign or threshold calibration study.
+33 个任务全部完成（3 种编码器 × 11 折）；26 个测试通过，Ruff 通过。结果基于单随机种子和类别分块兼容性数据，不足以作为最终论文结论，也不排除未来在重新设计特征表示或校准阈值后重新研究事件编码。

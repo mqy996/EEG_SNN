@@ -1,38 +1,32 @@
-﻿# SNN-3 Architecture Ablation — Results
+# SNN-3 架构消融——结果
 
-Status: **complete** (one-seed, 11-fold attribution study)
+状态：**已完成**（单随机种子、11 折归因实验）。
 
-## Protocol
+## 实验协议
 
-- Dataset: audited official balanced SADT artifact, `2022 x 30`, class-blocked compatibility order.
-- Frozen input: Channel8, GroupNorm front end, 48 temporal steps, deterministic `direct_current` encoding.
-- Frozen SNN-1 configuration: S2, `beta=0.90`, neuron threshold `0.5`.
-- Seed: `20260717`; 11-fold subject holdout; 11 epochs per fold.
-- Variants: Hybrid LIF head, depthwise spiking temporal block (`kernel=3`), and matched ANN control.
-- The ANN-to-SNN conversion baseline was blocked because activation calibration and normalization handling were not yet testable.
-- Parameter budget tolerance was declared as 10%; the temporal block overhead was 7.22%.
+- 数据：官方平衡版 SADT，`2022 × 30`，类别分块兼容性顺序。
+- 输入：Channel8、GroupNorm、48 个时间步、`direct_current` 编码。
+- SNN-1：S2，`beta=0.90`，阈值 `0.5`。
+- 随机种子：`20260717`；11 折被试留出；每折 11 个 epoch。
+- 变体：Hybrid LIF 读出头、深度可分离脉冲时间模块（`kernel=3`）和 ANN 对照组。
+- ANN-to-SNN 转换基线暂不执行，因为激活校准和归一化处理尚不可测试。
 
-Run artifact: `results/snn_architecture/snn-architecture-20260722T041252Z/`.
+## 汇总结果
 
-## Aggregate results
-
-| Variant | Accuracy | Balanced accuracy | Macro-F1 | Δ Macro-F1 vs Hybrid | Output spike rate | Parameters | Δ Parameters | Ops proxy/sample |
+| 变体 | 准确率 | 平衡准确率 | Macro-F1 | 相对 Hybrid F1 变化 | 输出脉冲率 | 参数量 | 参数变化 | 运算代理/样本 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Hybrid LIF head | 72.39% | 72.39% | 71.00% | 0.00 pp | 25.18% | 1,330 | 0.00% | 1,536 |
-| Spiking temporal block | 70.35% | 70.35% | 68.52% | -2.49 pp | 25.33% | 1,426 | +7.22% | 6,144 |
-| ANN control | 71.25% | 71.25% | 69.70% | -1.31 pp | n/a | 1,330 | 0.00% | n/a |
+| Hybrid LIF 读出头 | 72.39% | 72.39% | 71.00% | 0.00 pp | 25.18% | 1,330 | 0.00% | 1,536 |
+| 脉冲时间模块 | 70.35% | 70.35% | 68.52% | -2.49 pp | 25.33% | 1,426 | +7.22% | 6,144 |
+| ANN 对照组 | 71.25% | 71.25% | 69.70% | -1.31 pp | 不适用 | 1,330 | 0.00% | 不适用 |
 
-## Attribution decision
+## 归因决策
 
-**PASS — proceed to hardware-feasibility planning with the Hybrid LIF head and direct-current encoding frozen.**
+**通过：后续硬件可行性规划冻结 Hybrid LIF 读出头和 direct-current 编码。**
 
-The temporal block did not improve performance: it lost 2.49 percentage points of macro-F1 while increasing the architecture operation proxy by 4x and parameters by 7.22%. The simpler Hybrid LIF head is therefore the only selected SNN candidate. The ANN control was slightly below the Hybrid SNN on macro-F1 in this exploratory protocol; this does not establish an SNN advantage or energy benefit.
+脉冲时间模块没有提升性能，Macro-F1 下降 2.49 个百分点，架构运算代理约增加 4 倍，参数量增加 7.22%。因此当前只保留更简单的 Hybrid LIF 读出头。ANN 对照组略低于 Hybrid-SNN，但这不能证明 SNN 普遍更强或能耗更低。
 
-The result attributes the current performance primarily to the shared convolutional front end plus the simple LIF readout, not to an additional temporal convolution. No conversion baseline was invented because its calibration contract is currently underspecified.
+当前性能主要归因于共享卷积前端和简单 LIF 读出，而不是额外时间卷积。由于转换校准契约尚未明确，本实验没有添加不可复现的 ANN-to-SNN 转换基线。
 
-## Reproducibility and limitations
+## 限制
 
-- All 33 jobs completed: 3 variants x 11 held-out folds.
-- Unit and contract tests: 30 passed; Ruff passed.
-- This remains one-seed evidence on the class-blocked compatibility artifact, not a final paper statistic or chronological deployment claim.
-- Operation counts are software proxies only; no energy, power, FPGA, HLS, or board measurement was performed.
+33 个任务全部完成（3 个变体 × 11 折），30 个测试和 Ruff 检查通过。结果是类别分块兼容性数据上的单种子证据，不是最终论文统计或时间顺序部署结论；运算次数只是软件代理，没有进行能耗、FPGA、HLS 或板卡测量。

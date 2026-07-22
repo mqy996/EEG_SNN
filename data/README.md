@@ -1,28 +1,27 @@
-﻿# Dataset boundary
+# 数据集说明与边界
 
-The official balanced SADT MAT file is intentionally not stored in this repository.
-
-Place it at:
+官方平衡版 SADT MAT 文件不存放在本仓库中。复现实验前请将文件放到：
 
 ```text
 data/dataset.mat
 ```
 
-Expected SHA-256:
+## SHA-256 校验值
 
 ```text
 53cc4ef14b1343f7f3fb5322dd2b541c031c6c2297bddf1817aed04dc687a6a4
 ```
 
-Expected metadata:
+SHA-256 是用于确认文件内容未被修改的哈希值，脚本会在运行前检查它。
+
+## 预期元数据
 
 ```text
-samples: 2022
-channels: 30
-timepoints: 384
-subjects: 11
-order_kind: class_blocked_compatibility
+样本：2022
+通道：30
+时间点：384
+被试：11
+顺序：class_blocked_compatibility（按类别分块的兼容性顺序）
 ```
 
-The data order is not a chronological replay manifest. Do not reorder or modify the official data
-when reproducing the compatibility experiments.
+该顺序用于复现历史兼容性实验，不是 chronology（时间顺序）或在线因果回放清单。复现时不要自行重排或修改官方数据。

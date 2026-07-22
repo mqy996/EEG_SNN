@@ -1,48 +1,44 @@
-﻿# Hybrid-SNN Technical Design
+# 混合 SNN 技术设计
 
-## Model data flow
+## 模型数据流
 
-The selected baseline is a matched compact CNN front-end followed by a deterministic LIF readout.
-The front-end produces a 32-channel temporal representation with 48 steps. Direct-current encoding
-passes each feature current to the corresponding simulation step; no Poisson/random rate encoder is
-used.
+选定基线由匹配的轻量 CNN（卷积神经网络）前端和确定性的 LIF（漏积分发放）读出头组成。前端输出 32 个特征通道、48 个时间步的表示。Direct-current（直流编码）把连续特征直接作为每一步的输入电流，不使用 Poisson（泊松随机发放）编码器。
 
 ```text
 EEG [B, 1, 8, 384]
-  -> pointwise Conv2d over 8 EEG channels
-  -> depthwise temporal Conv2d
-  -> ReLU
-  -> GroupNorm
-  -> adaptive average pool [B, 32, 48]
-  -> direct-current temporal current
-  -> 48-step subtract-reset LIF (beta=0.90, threshold=0.5)
-  -> spike counts / 48
-  -> Linear(32, 2)
-  -> alert / drowsy logits
+  → 逐点 Conv2d：混合 8 个 EEG 通道
+  → 深度时间 Conv2d：提取时间模式
+  → ReLU：整流线性激活
+  → GroupNorm：与 batch 大小无关的组归一化
+  → 自适应平均池化 [B, 32, 48]
+  → 直流时间输入电流
+  → 48 步 subtract-reset LIF：减阈值复位
+  → 脉冲计数 / 48
+  → Linear(32, 2)
+  → alert / drowsy logits：警觉/困倦两类未归一化分数
 ```
 
-## State and reset
+`B` 表示 batch size（批大小）。
 
-For every forward/sample, the LIF membrane and spike-count tensors are initialized to zero.
-The software models do not carry hidden state across samples, subjects or folds. The Delta encoder
-and HCSN/chronology modules are intentionally not part of this curated baseline.
+## 状态和复位
 
-## Parameter and implementation contract
+每次前向计算时，LIF 膜电位和脉冲计数张量都初始化为零。模型不会在不同样本、被试或数据折之间传递隐藏状态。Delta 编码器和 HCSN/时间顺序模块不属于本仓库的冻结基线。
 
-- Channels: 8 selected EEG channels.
-- Window: 384 samples at 128 Hz (3 seconds).
-- Temporal steps: 48.
-- Feature channels: 32.
-- LIF: subtract-reset, deterministic hard spike with surrogate gradient for training.
-- Classifier: 32-to-2 linear head.
-- Frozen exploratory configuration: S2, `beta=0.90`, `threshold=0.5`.
-- First fixed-point candidate: Q12.6 for the head-level reference.
+## 参数与实现约束
 
-## Architecture diagram
+- 输入：8 个选定 EEG 通道。
+- 窗口：128 Hz 下 384 个采样点，即 3 秒。
+- 时间步：48。
+- 特征通道：32。
+- LIF：减阈值复位、确定性硬脉冲；训练时使用 surrogate gradient（替代梯度）近似发放函数梯度。
+- 分类器：32 维到 2 类的线性层。
+- 冻结配置：S2，`beta=0.90`、`threshold=0.5`。
+- 第一版定点候选：Q12.6。
 
-See `docs/hybrid_snn_architecture.md` for the Mermaid diagram and explanatory table.
+## 架构图
 
-## Non-claims
+见 `docs/hybrid_snn_architecture.md`。
 
-This repository does not claim chronological streaming, measured energy, FPGA deployment, HLS
-synthesis, or board power. Those require separate manifests and tool/board evidence.
+## 不作出的结论
+
+本仓库不声称已经完成时间顺序流式推理、实测能耗、FPGA 部署、HLS 综合或板端功耗测量。这些结论需要独立的时间顺序数据、HLS/Vivado 报告和板端实测证据。

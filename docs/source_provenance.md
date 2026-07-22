@@ -1,18 +1,16 @@
-﻿# Source Provenance
+# 源代码与实验来源
 
-This curated repository was prepared from `q1_deployment_causal_eeg` on 2026-07-22.
+本整理版仓库于 **2026 年 7 月 22 日** 从 `q1_deployment_causal_eeg` 生成。
 
-Relevant q1 source commits:
+## 相关 q1 提交
 
 ```text
-4beb182  validate Cui BS1 normalization gap
-2c81e69  add fixed-point feasibility probe
-2dd639b  add architecture ablation runner
-572ce27  add deterministic encoding comparison
-65dec86  add staged stability sweep
-4d8d0fe  add Channel8 Hybrid-SNN pilot
+4beb182  验证 Cui BS=1 归一化缺口
+2c81e69  添加定点可行性预研
+2dd639b  添加架构消融运行器
+572ce27  添加确定性编码对比
+65dec86  添加分阶段稳定性扫描
+4d8d0fe  添加 Channel8 Hybrid-SNN 初始实验
 ```
 
-The q1 repository remains the complete source-of-record. This repository contains the selected
-SNN implementation and curated documentation for teacher review. It intentionally excludes raw
-MAT data, checkpoints and generated result directories.
+q1 仓库仍是完整研究事实来源。本仓库只包含选定的 SNN 实现和供老师审阅的文档，有意排除原始 MAT 数据、模型检查点和自动生成的结果目录。

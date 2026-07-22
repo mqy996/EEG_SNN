@@ -1,39 +1,30 @@
-# Pilot Results
+# 初始试验结果
 
-## Status
+## 状态
 
-Completed on 2026-07-17 using the local RTX 3060 Laptop GPU.
+实验于 2026 年 7 月 17 日在 RTX 3060 Laptop GPU 上完成。
 
-- Run: `results/snn_pilot/loso-seed20260717-clean-4d8d0fe` (ignored runtime artifact).
-- Code revision: 4d8d0fe, git_dirty=false.
-- Dataset SHA-256: `53cc4ef14b1343f7f3fb5322dd2b541c031c6c2297bddf1817aed04dc687a6a4`.
-- Protocol: one seed (`20260717`), 11-fold subject-independent LOSO.
-- Models: matched GroupNorm ANN and Hybrid-SNN, both 1,330 parameters.
-- Training: 11 epochs/fold, float32, temporal feature sequence pooled to 48 LIF steps.
-- Evidence boundary: class-blocked compatibility pilot; not chronological, causal replay,
-  fixed-point, FPGA, or measured energy evidence.
+- 协议：单随机种子 `20260717`，11 折被试独立 LOSO。
+- 模型：匹配的 GroupNorm ANN 和 Hybrid-SNN，均为 1,330 个参数。
+- 训练：每折 11 个 epoch，float32，时间特征池化为 48 个 LIF 时间步。
+- 数据集 SHA-256：`53cc4ef14b1343f7f3fb5322dd2b541c031c6c2297bddf1817aed04dc687a6a4`。
+- 证据边界：类别分块兼容性初始实验，不是时间顺序、因果回放、定点、FPGA 或实测能耗证据。
 
-## Aggregate result
+## 汇总结果
 
-| Metric | Matched ANN | Hybrid-SNN | SNN - ANN |
+| 指标 | 匹配 ANN | Hybrid-SNN | SNN - ANN |
 |---|---:|---:|---:|
-| Subject-mean accuracy | 71.80% ± 9.37% | 71.99% ± 12.15% | +0.19 pp |
-| Subject-mean macro-F1 | 70.02% ± 11.09% | 70.07% ± 14.20% | +0.05 pp |
-| Balanced accuracy | 71.80% | 71.99% | +0.19 pp |
-| Sensitivity | 72.37% | 70.64% | -1.73 pp |
-| Specificity | 71.24% | 73.34% | +2.11 pp |
+| 被试均值准确率 | 71.80% ± 9.37% | 71.99% ± 12.15% | +0.19 pp |
+| 被试均值 Macro-F1 | 70.02% ± 11.09% | 70.07% ± 14.20% | +0.05 pp |
+| 平衡准确率 | 71.80% | 71.99% | +0.19 pp |
+| 敏感度 | 72.37% | 70.64% | -1.73 pp |
+| 特异度 | 71.24% | 73.34% | +2.11 pp |
 
-SNN activity summary:
+SNN 活动摘要：平均脉冲率 **17.76%**；静默样本-特征比例 **13.08%**；饱和样本-特征比例（脉冲率 ≥ 50%）**4.36%**；读出头 SynOps 软件代理 **545.48 次加法/样本**。
 
-- mean spike rate: **17.76%**;
-- mean silent sample-feature ratio: **13.08%**;
-- mean saturated sample-feature ratio (rate >= 50%): **4.36%**;
-- head SynOps proxy: **545.48 additions/sample**;
-- completion decision: `worth_continuing = true`.
+## 被试级结果
 
-## Per-subject result
-
-| Subject | ANN Acc. (%) | SNN Acc. (%) | Delta (pp) | ANN macro-F1 (%) | SNN macro-F1 (%) | Spike rate (%) |
+| 被试 | ANN 准确率 (%) | SNN 准确率 (%) | 差值 (pp) | ANN Macro-F1 (%) | SNN Macro-F1 (%) | 脉冲率 (%) |
 |---:|---:|---:|---:|---:|---:|---:|
 | 1 | 84.04 | 83.51 | -0.53 | 84.04 | 83.50 | 16.41 |
 | 2 | 58.33 | 54.55 | -3.79 | 54.35 | 50.89 | 17.11 |
@@ -47,30 +38,20 @@ SNN activity summary:
 | 10 | 81.48 | 82.41 | +0.93 | 80.82 | 82.06 | 19.66 |
 | 11 | 68.58 | 60.62 | -7.96 | 68.19 | 59.41 | 17.77 |
 
-## Interpretation
+## 解释
 
-The first controlled pilot is positive: the Hybrid-SNN matched the ANN aggregate accuracy
-and macro-F1 while maintaining a non-trivial 17.76% spike rate. The result satisfies the
-predefined continuation gate (no more than five percentage points aggregate loss and a
-5%–30% mean spike rate).
+第一次受控初始实验为正：Hybrid-SNN 的总体准确率和 Macro-F1 与匹配 ANN 基本一致，同时保持了 17.76% 的脉冲率，满足继续实验门槛。
 
-The subject variance is larger for the SNN, and individual effects are mixed: subjects 5, 6,
-8, 9, and 10 improve, while subjects 2, 3, 7, and especially 11 decline. Therefore the next
-SNN-specific experiment should be a small beta/threshold stability sweep with multiple seeds,
-not an immediate energy or superiority claim.
+SNN 的被试间方差更大，个体变化方向不一致。因此下一步应先进行多随机种子的 beta/threshold 稳定性扫描，而不是直接宣称低能耗或 SNN 优越性。
 
-The matched ANN is not the historical dynamic-BN float64 CompactCNN. Its lower 71.80% mean
-accuracy reflects the deliberately batch-independent GroupNorm/pooling pilot boundary, so the
-71.99% SNN result must not be compared directly with the approximately 78% historical
-full-batch compatibility statistic.
+这里的匹配 ANN 不是历史动态 BN float64 CompactCNN。71.80% 的均值来自有意采用的 GroupNorm/池化基线，不能直接与历史约 78% 的 full-batch 兼容性统计比较。
 
-## Validation performed
+## 验证记录
 
 ```text
-17 pytest tests passed
-Ruff passed
-CUDA environment verified: PyTorch 2.13.0+cu130, RTX 3060 Laptop GPU
-fold-2 3-epoch smoke passed: spike rate 12.31%
-fold-2 11-epoch check: ANN 58.33%, SNN 54.55%, spike rate 17.11%
-full 11-fold run completed: 22 fold/model results, finite=true
+17 个 pytest 测试通过
+Ruff 检查通过
+CUDA 环境验证通过：PyTorch 2.13.0+cu130，RTX 3060 Laptop GPU
+fold-2、3 epoch 冒烟实验通过：脉冲率 12.31%
+完整 11 折实验完成：22 个折/模型结果，finite=true
 ```

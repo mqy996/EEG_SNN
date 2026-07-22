@@ -1,55 +1,67 @@
-﻿# Hybrid-SNN EEG baseline
+# EEG 混合脉冲神经网络（Hybrid-SNN）基准仓库
 
-This repository is a curated, teacher-facing snapshot of the verified Hybrid-SNN experiments
-from `q1_deployment_causal_eeg`. It is intended for code review and reproduction, not as a copy
-of the entire research workspace.
+本仓库是从 `q1_deployment_causal_eeg` 整理出的、面向老师审阅和复现实验的独立仓库。它不是完整研究工作区副本；完整研究历史、时间顺序规划和其他实验仍保留在 q1 仓库。
 
-## Frozen baseline
+## 当前冻结基线
 
-```text
-Input: Channel8 EEG window, 8 x 384
-Front-end: pointwise spatial convolution -> depthwise temporal convolution -> ReLU -> GroupNorm
-Temporal representation: adaptive average pool to 48 steps
-Encoding: direct-current
-Spiking head: subtract-reset LIF
-beta: 0.90
-threshold: 0.5
-Fixed-point candidate: Q12.6
-```
-
-The initial pilot configuration is retained for historical comparison. The SNN-1 stability
-sweep selected S2 (`beta=0.90`, `threshold=0.5`) for the encoding and architecture comparisons.
-
-## Repository map
+“冻结”表示后续对比实验暂时不修改这些设置，以保证实验公平。
 
 ```text
-src/dc_eeg/                  reusable model, data, metric and experiment modules
-scripts/                     executable experiment entry points
-experiments/                 versioned YAML configs and curated results
-  channel8_hybrid_snn_pilot/ initial matched ANN/SNN pilot
-  channel8_snn_stability/    beta/threshold stability sweep
-  channel8_snn_encoding/     deterministic input encoding comparison
-  channel8_snn_architecture/ architecture ablation
-  channel8_snn_hardware/    fixed-point feasibility probe
-tests/                       model and configuration contracts
-docs/                        architecture, technical report and reproducibility notes
-data/                        README only; official MAT is intentionally ignored
+输入：Channel8 EEG 窗口，8 个通道 × 384 个采样点
+前端：逐点空间卷积 → 深度时间卷积 → ReLU → GroupNorm
+时间表示：自适应平均池化为 48 个时间步
+编码：direct-current（直流编码，将连续特征直接作为输入电流）
+脉冲读出：Hybrid LIF（混合漏积分发放神经元）
+beta：0.90（膜电位历史记忆系数）
+threshold：0.5（发放脉冲的膜电位阈值）
+定点候选：Q12.6（总位宽 12 位，小数位 6 位）
 ```
 
-## Dataset
+SNN-1 稳定性实验选择 S2（`beta=0.90`、`threshold=0.5`）。
 
-The code expects the official balanced MAT artifact at:
+## 术语说明
+
+| 术语 | 解释 |
+|---|---|
+| SNN | Spiking Neural Network，脉冲神经网络；通过离散脉冲传递信息 |
+| Hybrid-SNN | 混合脉冲神经网络；本项目保留 CNN 前端，仅将读出部分改为脉冲神经元 |
+| LIF | Leaky Integrate-and-Fire，漏积分发放神经元；膜电位积累到阈值后发放脉冲并复位 |
+| Direct-current | 直流编码；把连续特征值直接送入各个时间步，不使用随机脉冲编码 |
+| GroupNorm | 组归一化；每个样本独立归一化，不依赖 batch 内统计量 |
+| LOSO | Leave-One-Subject-Out，留一被试交叉验证 |
+| Macro-F1 | 各类别 F1 分数的平均值，用于观察类别是否均衡 |
+| Spike rate | 脉冲发放率；产生脉冲的时间步比例 |
+| SynOps | 突触操作数估计；当前仅为软件代理，不等于实测能耗 |
+| HLS | High-Level Synthesis，高层次综合；将 C/C++ 算法转换为 FPGA 电路 |
+| csim/csynth | HLS 中的 C 级仿真和综合阶段 |
+| Q12.6 | 总位宽 12 位、小数位 6 位的定点格式 |
+```
+
+## 目录结构
+
+```text
+src/dc_eeg/                  模型、数据、指标和实验模块
+scripts/                     可执行实验入口
+experiments/                 YAML 配置和整理后的实验结果
+data/                        数据说明；官方 MAT 文件被忽略
+hls/                         HLS 协同设计说明
+tests/                       模型和配置契约测试
+docs/                        架构、技术报告和复现说明
+```
+
+## 数据集
+
+将官方平衡版 MAT 文件放到：
 
 ```text
 data/dataset.mat
 ```
 
-The file is not committed. See `data/README.md` for provenance, expected dimensions and SHA-256.
+该文件不提交到 Git。数据来源、预期尺寸和 SHA-256 校验值见 `data/README.md`。
 
-## Environment
+## 环境和验证
 
-Use the existing `eeg-causal` Conda environment or create an equivalent Python >=3.11 environment.
-The project requires PyTorch, NumPy, SciPy, PyYAML, pytest and Ruff.
+使用已有的 `eeg-causal` Conda 环境，或创建等价的 Python >=3.11 环境。依赖包括 PyTorch、NumPy、SciPy、PyYAML、pytest 和 Ruff。
 
 ```powershell
 conda run -n eeg-causal python scripts/verify_environment.py
@@ -57,10 +69,11 @@ conda run -n eeg-causal python -m ruff check src scripts tests
 conda run -n eeg-causal python -m pytest
 ```
 
-## Reproduction entry points
+Ruff 是 Python 静态检查工具，pytest 是自动化测试框架。
 
-All commands are executed from the repository root. Run smoke/dry-run first; full runs write
-ignored artifacts under `results/`.
+## 复现实验入口
+
+所有命令均从仓库根目录执行。建议先运行 `--dry-run` 或 smoke（短时冒烟实验）；完整结果会写入被 Git 忽略的 `results/` 目录。
 
 ```powershell
 conda run -n eeg-causal python scripts/run_channel8_snn_pilot.py `
@@ -79,17 +92,6 @@ conda run -n eeg-causal python scripts/run_snn_hardware_feasibility.py `
   --config experiments/channel8_snn_hardware/hardware.yaml --device cuda --dry-run
 ```
 
-## Evidence boundaries
+## 结论边界
 
-- Current result summaries use the official balanced `class_blocked_compatibility` artifact; they are
-  not chronological replay or causal BS=1 evidence.
-- Spike rate, operation counts and SynOps are software proxies, not measured energy.
-- Q12.6 is a software fixed-point candidate; it is not an HLS csim/csynth or board result.
-- Generated results, checkpoints, datasets and FPGA tool outputs remain ignored.
-
-See:
-
-- `docs/hybrid_snn_architecture.md`
-- `docs/technical_report.md`
-- `docs/reproducibility.md`
-- `experiments/*/RESULTS.md`
+当前结果基于官方平衡版 `class_blocked_compatibility` 数据顺序，不能直接解释为严格时间顺序、BS=1 因果回放、FPGA 部署或实测低功耗证据。详细限制见 `docs/teacher_report.md` 和各实验目录的 `RESULTS.md`。

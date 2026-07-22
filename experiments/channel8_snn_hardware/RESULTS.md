@@ -1,50 +1,41 @@
-﻿# SNN-4 Fixed-Point / FPGA Feasibility — Results
+# SNN-4 定点数与 FPGA 可行性——结果
 
-Status: **software feasibility gate passed; HLS csim is the next gated step**.
+状态：**软件可行性门槛通过；下一步进入 HLS csim/csynth**。
 
-## Frozen target contract
+## 冻结目标契约
 
-- Target part: `xc7z020clg400-1` (Zynq-7020 family, consistent with existing project HLS configurations).
-- Clock assumption: 100 MHz. This is a planning assumption, not a timing report.
-- Selected model: Channel8 + GroupNorm front end, direct-current encoding, Hybrid LIF head.
-- Head-level interface: 32 feature currents x 48 temporal steps, represented as `feature_current_q`; one sample per invocation.
-- Reset: membrane and spike-count state are reinitialized for every sample.
-- Fixed-point candidates: Q8.4, Q12.6, Q16.8, signed saturating round-to-nearest.
+- 目标器件：`xc7z020clg400-1`，Zynq-7020 系列。
+- 时钟假设：100 MHz。这是规划假设，不是时序报告。
+- 模型：Channel8 + GroupNorm 前端、direct-current 编码、Hybrid LIF 读出头。
+- 读出接口：32 个特征电流 × 48 个时间步，每次处理一个样本。
+- 复位：每个样本开始时重新初始化膜电位和脉冲计数状态。
+- 定点候选：Q8.4、Q12.6、Q16.8，采用有符号饱和和就近舍入。
 
-The front end remains a float software reference in this probe. Therefore this is a head-level
-fixed-point feasibility result, not an end-to-end quantized deployment result.
+本次前端仍是浮点软件参考，因此这是读出头级别的定点可行性结果，不是端到端量化部署结果。
 
-Run artifact: `results/snn_hardware/snn-hardware-20260722T042835Z/feasibility.json`.
+## Fold-2 预研结果
 
-## Fold-2 probe results
+在留出第 2 折上训练冻结的 Hybrid LIF 参考模型 3 个 epoch，并在 132 个测试样本上比较浮点和定点输出。
 
-The probe trained the frozen Hybrid LIF reference for 3 epochs on held-out fold 2, then compared
-float and fixed LIF/classifier outputs on 132 test samples.
-
-| Format | Prediction agreement | Logit MAE | Float spike rate | Fixed spike rate | Spike-rate drift | Saturation | Feature stream/sample | Membrane state | Latency proxy |
+| 格式 | 预测一致率 | Logit MAE | 浮点脉冲率 | 定点脉冲率 | 脉冲率漂移 | 饱和率 | 特征流/样本 | 膜电位状态 | 延迟代理 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | Q8.4 | 96.97% | 0.0405 | 20.79% | 21.25% | +0.46 pp | 0% | 1,536 B | 32 B | 4,672 cycles / 46.72 µs |
 | Q12.6 | 99.24% | 0.0090 | 20.79% | 20.82% | +0.03 pp | 0% | 2,304 B | 48 B | 4,672 cycles / 46.72 µs |
 | Q16.8 | 100.00% | 0.0032 | 20.79% | 20.82% | +0.03 pp | 0% | 3,072 B | 64 B | 4,672 cycles / 46.72 µs |
 
-Parameter storage proxies for the 32-to-2 classifier are 66 B, 99 B and 132 B respectively.
-The operation counts, memory sizes and latency are analytical software proxies; they are not
-Vivado/Vitis reports and are not energy measurements.
+32→2 分类器的参数存储代理分别为 66 B、99 B 和 132 B。运算、存储和延迟均为软件分析代理，不是 Vivado/Vitis 报告，也不是能耗测量。
 
-## Decision
+## 决策
 
-**GO to an isolated HLS csim/csynth task, starting with Q12.6.**
+**进入独立 HLS csim/csynth 任务，第一版使用 Q12.6。**
 
-Q8.4 does not meet the exploratory prediction-agreement target of 99%. Q12.6 meets the target
-with no observed saturation and negligible spike-rate drift; Q16.8 is the higher-fidelity reference.
-No board deployment or power claim is made. HLS work must first reproduce the fixed-point tensor
-contract and compare csim outputs against this JSON artifact.
+Q8.4 未达到 99% 的探索性一致率目标；Q12.6 达到目标且没有观察到饱和，脉冲率漂移可忽略；Q16.8 作为高精度软件参考。当前不作板端部署或功耗结论。HLS 首先要复现定点张量契约，并将 csim 输出与 JSON 黄金结果逐项比较。
 
-## Validation and limitations
+## 验证与限制
 
-- `python -m ruff check src scripts tests` — **PASS**.
-- `python -m pytest` — **PASS**, 33 tests.
-- Dry-run validates the pinned dataset, target part, clock, input format and three fixed-point formats.
-- This is one held-out fold and 3 training epochs; it is a feasibility probe, not paper-level accuracy evidence.
-- The convolutional front end is not yet quantized. End-to-end fixed-point closure remains open.
-- No HLS csim/csynth, Vivado timing/resource report, board replay or power measurement was performed.
+- `python -m ruff check src scripts tests`：**通过**。
+- `python -m pytest`：**通过**，共 33 个测试。
+- dry-run 已验证数据集、目标器件、时钟、输入格式和三种定点格式。
+- 这是单个留出折、3 个训练 epoch 的可行性预研，不是论文级准确率证据。
+- 卷积前端尚未定点化，端到端定点闭环仍未完成。
+- 尚未执行 HLS csim/csynth、Vivado 时序/资源报告、板端回放或功耗测量。
