@@ -23,7 +23,7 @@ SNN-1 稳定性实验选择 S2（`beta=0.90`、`threshold=0.5`）。
 
 第一阶段 HLS 只冻结 Hybrid LIF 读出头的外部 Q12.6 接口；CNN/GroupNorm 前端仍在软件参考侧。接口、`[B, 32, 48] → [48][32]` 布局转换、调用级状态复位、目标器件/时钟假设和非结论见 [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](docs/direct_current_hls_architecture.md)。
 
-当前只有软件定点可行性结果，尚未完成 HLS C++、csim/csynth、Vivado 或板端部署；简明状态见 [hls/README.md](hls/README.md)。
+?? HLS ??? HLS-0 ? HLS-3?????? HLS C++?Vitis CSim????? `xc7z020clg400-1`?10 ns/100 MHz ??? C ???????????? CNN/GroupNorm ????? Hybrid LIF readout head????? CNN-SNN FPGA ???????? [hls/README.md](hls/README.md)?[hls/RESULTS.md](hls/RESULTS.md) ? [Direct-current SNN HLS ????](docs/direct_current_hls_baseline_summary.md)??? Vivado ??????? CNN-LSTM ??? 50 MHz PS FCLK0?
 
 ## 术语说明
 
