@@ -19,6 +19,12 @@ threshold：0.5（发放脉冲的膜电位阈值）
 
 SNN-1 稳定性实验选择 S2（`beta=0.90`、`threshold=0.5`）。
 
+## HLS 基线状态
+
+第一阶段 HLS 只冻结 Hybrid LIF 读出头的外部 Q12.6 接口；CNN/GroupNorm 前端仍在软件参考侧。接口、`[B, 32, 48] → [48][32]` 布局转换、调用级状态复位、目标器件/时钟假设和非结论见 [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](docs/direct_current_hls_architecture.md)。
+
+当前只有软件定点可行性结果，尚未完成 HLS C++、csim/csynth、Vivado 或板端部署；简明状态见 [hls/README.md](hls/README.md)。
+
 ## 术语说明
 
 | 术语 | 解释 |
@@ -35,7 +41,6 @@ SNN-1 稳定性实验选择 S2（`beta=0.90`、`threshold=0.5`）。
 | HLS | High-Level Synthesis，高层次综合；将 C/C++ 算法转换为 FPGA 电路 |
 | csim/csynth | HLS 中的 C 级仿真和综合阶段 |
 | Q12.6 | 总位宽 12 位、小数位 6 位的定点格式 |
-```
 
 ## 目录结构
 

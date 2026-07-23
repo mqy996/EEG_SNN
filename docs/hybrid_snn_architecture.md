@@ -1,5 +1,7 @@
 # Hybrid-SNN 架构图
 
+> 本页概述完整软件模型。关于 HLS Phase-1 的边界、Q12.6 外部接口、状态复位和证据边界，请阅读 [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](direct_current_hls_architecture.md)。
+
 ```mermaid
 flowchart LR
     A[EEG 窗口\n8 通道 × 384 采样点] --> B[逐点空间 Conv2d\n混合通道信息]
