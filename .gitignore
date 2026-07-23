@@ -51,10 +51,14 @@ Thumbs.db
 
 # Local editable package metadata
 *.egg-info/
+
 # Vitis HLS component/session outputs
 hls/**/hls/
 hls/**/logs/
 hls/**/reports/
 hls/**/vitis-comp.json
 hls/**/*.hlsrun_*
+hls/**/*.hlscompile_summary
+hls/**/*.hlsrun_csim_summary
+hls/**/*.zip
 hls/dfx_runtime.txt
