@@ -2,7 +2,7 @@
 
 HLS（High-Level Synthesis，高层次综合）是将受约束的 C/C++ 算法描述综合为 FPGA RTL 的流程；`csim` 是 C 级仿真，`csynth` 是综合阶段。二者都不是板端运行或功耗测量。
 
-**HLS-3 status: Q12.6 no-float C++ baseline completed Vitis HLS C synthesis for `xc7z020clg400-1` with a 10 ns clock constraint.** CSim 的 3 个黄金用例全部通过；CSynth 给出了资源、延迟和估计时钟结果。详细摘要见 [RESULTS.md](./RESULTS.md)。这仍不是 Vivado implementation、bitstream、板端回放或功耗实测。完整接口契约见 [Direct-current Hybrid-SNN and HLS Phase-1 interface contract](../docs/direct_current_hls_architecture.md)。
+**HLS-4 status: Q12.6 no-float C++ baseline completed Vitis HLS C synthesis and Verilog C/RTL co-simulation.** HLS-2 ? CSim 3/3 ???HLS-3 ? CSynth ???HLS-4 ? XSIM RTL cosim 3 ??????6 ? RTL transaction ?????????? [RESULTS.md](./RESULTS.md)?RTL cosim ??? [RTL_COSIM_RESULTS.md](./RTL_COSIM_RESULTS.md)????? Vivado implementation?bitstream?????????????????? [Direct-current Hybrid-SNN and HLS Phase-1 interface contract](../docs/direct_current_hls_architecture.md)?
 
 ## Phase-1 范围
 
@@ -43,6 +43,16 @@ HLS-3 ? 100 MHz ??????????????????????? 50 MHz/20 ns ?????? Vivado synthesis/imp
 
 ??????? [Direct-current SNN HLS ????](../docs/direct_current_hls_baseline_summary.md)?
 
+## HLS-4 RTL C/RTL ????
+
+HLS-4 ????? `hls/hybrid_lif_head/config/hls_cosim_config.cfg` ? top-only testbench??????? Verilog solution???? XSIM cosim?
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File hls/hybrid_lif_head/scripts/run_cosim.ps1
+```
+
+C/RTL cosim ????? top ?? `logits_q`?`spike_count_q`??????? `rate_q`???????????????? spikes/membrane debug ????? HLS-2 CSim ?????? [RTL_COSIM_RESULTS.md](./RTL_COSIM_RESULTS.md)?
 ## HLS-3 复现
 
 在安装 Vitis/Vivado 2025.1 且路径与脚本一致的 Windows 环境中运行：

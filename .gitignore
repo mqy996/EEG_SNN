@@ -62,3 +62,4 @@ hls/**/*.hlscompile_summary
 hls/**/*.hlsrun_csim_summary
 hls/**/*.zip
 hls/dfx_runtime.txt
+hls/**/cosim_work/
