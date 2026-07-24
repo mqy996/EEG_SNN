@@ -1,11 +1,22 @@
-# SNN 混合 EEG 仓库说明
+# 文档导航
 
-这是面向老师审阅的整理版仓库，不是完整的 `q1_deployment_causal_eeg` 原始研究仓库。
+本目录只保留导师审阅和复现实验所需的关键文档，详细研究历史仍在 `q1_deployment_causal_eeg` 仓库。
 
-q1 仓库保留完整研究历史、时间顺序规划、BS=1 归一化实验和其他探索；本仓库只保留已经验证的 Hybrid-SNN 路径、代码和关键证据，方便查看和复现。
+## 架构与接口
 
-## ?? HLS ??
+- [Hybrid-SNN 软件架构图](hybrid_snn_architecture.md)
+- [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](direct_current_hls_architecture.md)
+- [Direct-current HLS 基线摘要](direct_current_hls_baseline_summary.md)
 
-- [Direct-current SNN HLS ????](direct_current_hls_baseline_summary.md)
-- [Direct-current Hybrid-SNN ? HLS Phase-1 ????](direct_current_hls_architecture.md)
-- [HLS ????](../hls/RESULTS.md)
+## 实验与复现
+
+- [教师阶段性汇报](teacher_report.md)
+- [技术报告摘要](technical_report.md)
+- [复现实验指南](reproducibility.md)
+- [源代码与实验来源](source_provenance.md)
+- [数据集说明](../data/README.md)
+
+## HLS 结果
+
+- [HLS 综合结果](../hls/RESULTS.md)
+- [HLS-4 RTL C/RTL 协同仿真结果](../hls/RTL_COSIM_RESULTS.md)

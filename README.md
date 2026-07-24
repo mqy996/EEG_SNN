@@ -1,72 +1,62 @@
-# EEG 混合脉冲神经网络（Hybrid-SNN）基准仓库
+# EEG 混合脉冲神经网络基线仓库
 
-本仓库是从 `q1_deployment_causal_eeg` 整理出的、面向老师审阅和复现实验的独立仓库。它不是完整研究工作区副本；完整研究历史、时间顺序规划和其他实验仍保留在 q1 仓库。
+本仓库是从 `q1_deployment_causal_eeg` 整理出的、供导师审阅和复现实验的独立仓库。它不包含完整研究历史；历史实验、研究规划和其他探索仍保留在 q1 仓库。
 
-## 当前冻结基线
+## 一句话结论
 
-“冻结”表示后续对比实验暂时不修改这些设置，以保证实验公平。
+当前已完成一个可复现的 Channel8 Hybrid-SNN 软件基线，并完成 Hybrid LIF 读出头的 Q12.6 定点 HLS 验证链路：C 仿真、C 综合和 Verilog C/RTL 协同仿真均已通过。下一步是把该读出头接入实际 50 MHz 的 FPGA 系统，并补充完整 CNN-SNN 的端到端证据。
 
-```text
-输入：Channel8 EEG 窗口，8 个通道 × 384 个采样点
-前端：逐点空间卷积 → 深度时间卷积 → ReLU → GroupNorm
-时间表示：自适应平均池化为 48 个时间步
-编码：direct-current（直流编码，将连续特征直接作为输入电流）
-脉冲读出：Hybrid LIF（混合漏积分发放神经元）
-beta：0.90（膜电位历史记忆系数）
-threshold：0.5（发放脉冲的膜电位阈值）
-定点候选：Q12.6（总位宽 12 位，小数位 6 位）
-```
+## 当前基线
 
-SNN-1 稳定性实验选择 S2（`beta=0.90`、`threshold=0.5`）。
-
-## HLS 基线状态
-
-第一阶段 HLS 只冻结 Hybrid LIF 读出头的外部 Q12.6 接口；CNN/GroupNorm 前端仍在软件参考侧。接口、`[B, 32, 48] → [48][32]` 布局转换、调用级状态复位、目标器件/时钟假设和非结论见 [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](docs/direct_current_hls_architecture.md)。
-
-?? HLS ??? HLS-0 ? HLS-3?????? HLS C++?Vitis CSim????? `xc7z020clg400-1`?10 ns/100 MHz ??? C ???????????? CNN/GroupNorm ????? Hybrid LIF readout head????? CNN-SNN FPGA ???????? [hls/README.md](hls/README.md)?[hls/RESULTS.md](hls/RESULTS.md) ? [Direct-current SNN HLS ????](docs/direct_current_hls_baseline_summary.md)??? Vivado ??????? CNN-LSTM ??? 50 MHz PS FCLK0?
-
-## 术语说明
-
-| 术语 | 解释 |
+| 项目 | 当前设置 |
 |---|---|
-| SNN | Spiking Neural Network，脉冲神经网络；通过离散脉冲传递信息 |
-| Hybrid-SNN | 混合脉冲神经网络；本项目保留 CNN 前端，仅将读出部分改为脉冲神经元 |
-| LIF | Leaky Integrate-and-Fire，漏积分发放神经元；膜电位积累到阈值后发放脉冲并复位 |
-| Direct-current | 直流编码；把连续特征值直接送入各个时间步，不使用随机脉冲编码 |
-| GroupNorm | 组归一化；每个样本独立归一化，不依赖 batch 内统计量 |
-| LOSO | Leave-One-Subject-Out，留一被试交叉验证 |
-| Macro-F1 | 各类别 F1 分数的平均值，用于观察类别是否均衡 |
-| Spike rate | 脉冲发放率；产生脉冲的时间步比例 |
-| SynOps | 突触操作数估计；当前仅为软件代理，不等于实测能耗 |
-| HLS | High-Level Synthesis，高层次综合；将 C/C++ 算法转换为 FPGA 电路 |
-| csim/csynth | HLS 中的 C 级仿真和综合阶段 |
-| Q12.6 | 总位宽 12 位、小数位 6 位的定点格式 |
+| 输入 | Channel8 EEG 窗口，8 个通道 × 384 个采样点 |
+| CNN 前端 | 逐点空间卷积 → 深度时间卷积 → ReLU → GroupNorm |
+| 时间表示 | 自适应平均池化为 48 个时间步 |
+| 编码 | Direct-current 直流编码，将连续特征直接输入各时间步 |
+| 脉冲读出 | Hybrid LIF 漏积分发放读出头 |
+| LIF 参数 | `beta=0.90`，`threshold=0.5` |
+| HLS 定点候选 | Q12.6，总位宽 12 位，小数位 6 位 |
+| 目标器件 | `xc7z020clg400-1` |
 
-## 目录结构
+## 已完成的证据
 
-```text
-src/dc_eeg/                  模型、数据、指标和实验模块
-scripts/                     可执行实验入口
-experiments/                 YAML 配置和整理后的实验结果
-data/                        数据说明；官方 MAT 文件被忽略
-hls/                         HLS 协同设计说明
-tests/                       模型和配置契约测试
-docs/                        架构、技术报告和复现说明
-```
+1. 完成 SNN 参数稳定性、编码方式、架构消融和定点可行性探索。
+2. 选择 `Direct-current + Hybrid LIF` 作为当前基准网络。
+3. Q12.6 在读出头软件预研中达到 99.24% 的浮点/定点预测一致率。
+4. HLS-2：Q12.6 无浮点 CSim，黄金用例 3/3 通过。
+5. HLS-3：Vitis HLS C 综合完成，报告了资源和延迟估计。
+6. HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
 
-## 数据集
+详细证据：
 
-将官方平衡版 MAT 文件放到：
+- [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](docs/direct_current_hls_architecture.md)
+- [HLS 综合结果](hls/RESULTS.md)
+- [HLS-4 RTL 协同仿真结果](hls/RTL_COSIM_RESULTS.md)
+- [Direct-current HLS 基线摘要](docs/direct_current_hls_baseline_summary.md)
+- [教师阶段性汇报](docs/teacher_report.md)
 
-```text
-data/dataset.mat
-```
+## 必须明确的边界
 
-该文件不提交到 Git。数据来源、预期尺寸和 SHA-256 校验值见 `data/README.md`。
+当前 HLS 只实现 Hybrid LIF 读出头，CNN/GroupNorm 前端仍由软件参考模型负责。因此，已有 HLS 结果不能表述为完整 CNN-SNN 已经完成 FPGA 部署。
 
-## 环境和验证
+- HLS-3 和 HLS-4 使用 100 MHz、10 ns 作为综合与协同仿真约束。
+- 现有 CNN-LSTM 系统记录的 Zynq PS `FCLK_CLK0` 为 50 MHz、20 ns；这是后续系统集成的时钟参考，不是 SNN 已完成的板级结果。
+- 尚未完成完整 CNN 前端的 HLS、Vivado implementation、bitstream、板上回放、整网准确率和功耗测量。
+- 当前软件结果使用官方平衡版 `class_blocked_compatibility` 数据顺序，不能直接等同于严格时间顺序或在线因果部署证据。
 
-使用已有的 `eeg-causal` Conda 环境，或创建等价的 Python >=3.11 环境。依赖包括 PyTorch、NumPy、SciPy、PyYAML、pytest 和 Ruff。
+## 下一步工作
+
+1. 将 Hybrid LIF HLS 读出头接入 50 MHz 的 Zynq/Vivado 系统，确认接口和时序。
+2. 用软件参考模型与 RTL/IP 逐样本对齐，形成端到端接口回放证据。
+3. 再决定是否继续完成 CNN/GroupNorm 前端的硬件化，以及板端整网验证。
+4. 在独立实验中补充严格时间顺序、BS=1 和在线因果协议，避免把兼容性数据顺序的结果过度外推。
+
+## 复现入口
+
+数据文件不提交到 Git。请将官方平衡版 MAT 文件放到 `data/dataset.mat`，数据来源、预期形状和 SHA-256 校验值见 [数据集说明](data/README.md)。
+
+环境检查：
 
 ```powershell
 conda run -n eeg-causal python scripts/verify_environment.py
@@ -74,29 +64,30 @@ conda run -n eeg-causal python -m ruff check src scripts tests
 conda run -n eeg-causal python -m pytest
 ```
 
-Ruff 是 Python 静态检查工具，pytest 是自动化测试框架。
-
-## 复现实验入口
-
-所有命令均从仓库根目录执行。建议先运行 `--dry-run` 或 smoke（短时冒烟实验）；完整结果会写入被 Git 忽略的 `results/` 目录。
+建议先运行 dry-run 或 smoke 命令，具体入口见 [复现实验指南](docs/reproducibility.md)。HLS 读出头协同仿真入口为：
 
 ```powershell
-conda run -n eeg-causal python scripts/run_channel8_snn_pilot.py `
-  --config experiments/channel8_hybrid_snn_pilot/pilot.yaml --dry-run --device cuda
-
-conda run -n eeg-causal python scripts/run_channel8_snn_stability.py `
-  --config experiments/channel8_snn_stability/sweep.yaml --stage smoke --dry-run --device cuda
-
-conda run -n eeg-causal python scripts/run_channel8_snn_encoding.py `
-  --config experiments/channel8_snn_encoding/encoding.yaml --stage smoke --dry-run --device cuda
-
-conda run -n eeg-causal python scripts/run_channel8_snn_architecture.py `
-  --config experiments/channel8_snn_architecture/architecture.yaml --stage smoke --dry-run --device cuda
-
-conda run -n eeg-causal python scripts/run_snn_hardware_feasibility.py `
-  --config experiments/channel8_snn_hardware/hardware.yaml --device cuda --dry-run
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File hls/hybrid_lif_head/scripts/run_cosim.ps1
 ```
 
-## 结论边界
+## 目录导航
 
-当前结果基于官方平衡版 `class_blocked_compatibility` 数据顺序，不能直接解释为严格时间顺序、BS=1 因果回放、FPGA 部署或实测低功耗证据。详细限制见 `docs/teacher_report.md` 和各实验目录的 `RESULTS.md`。
+```text
+src/        软件模型、数据和指标
+scripts/    可执行实验入口
+experiments/实验配置和整理后的结果
+hls/        HLS 源码、脚本和验证报告
+docs/       架构、实验汇报和复现说明
+data/       数据来源与校验说明，不含原始 MAT 文件
+tests/      模型和配置契约测试
+```
+
+## 术语
+
+- **Hybrid-SNN**：保留 CNN 前端、将读出部分替换为脉冲神经元的混合模型。
+- **LIF**：漏积分发放神经元，膜电位累积到阈值后发放脉冲并复位。
+- **Direct-current**：直流编码，把连续特征直接送入各个时间步，不使用随机脉冲编码。
+- **GroupNorm**：组归一化，不依赖 batch 内运行统计量，适合当前小批量和单样本推理场景。
+- **HLS**：高层次综合，将 C/C++ 算法转换为 FPGA 电路。
+- **Q12.6**：总位宽 12 位、小数位 6 位的定点格式。
