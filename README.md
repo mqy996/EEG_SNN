@@ -27,12 +27,14 @@
 4. HLS-2：Q12.6 无浮点 CSim，黄金用例 3/3 通过。
 5. HLS-3：Vitis HLS C 综合完成，报告了资源和延迟估计。
 6. HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
+7. HLS-5A：在目标器件、50 MHz/20 ns 约束下完成 Vivado out-of-context implementation；系统 bitstream 和板端回放仍在后续任务。
 
 详细证据：
 
 - [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](docs/direct_current_hls_architecture.md)
 - [HLS 综合结果](hls/RESULTS.md)
 - [HLS-4 RTL 协同仿真结果](hls/RTL_COSIM_RESULTS.md)
+- [HLS-5A 50 MHz 实现结果](hls/HLS5A_50MHZ_IMPL_RESULTS.md)
 - [Direct-current HLS 基线摘要](docs/direct_current_hls_baseline_summary.md)
 - [教师阶段性汇报](docs/teacher_report.md)
 

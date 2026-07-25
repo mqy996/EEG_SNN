@@ -7,6 +7,7 @@
 - HLS-2：Q12.6 无浮点 CSim，3/3 黄金用例通过。
 - HLS-3：Vitis HLS 2025.1 C 综合完成。
 - HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
+- HLS-5A：`xc7z020clg400-1`、20 ns/50 MHz 的 Vivado out-of-context implementation 通过；尚未完成 Zynq bitstream 和板端回放。
 - 目标器件：`xc7z020clg400-1`。
 - HLS 约束：10 ns，也就是 100 MHz。
 
@@ -24,6 +25,15 @@
 ## 时钟说明
 
 HLS-3 和 HLS-4 使用 100 MHz/10 ns 作为独立的综合与协同仿真约束。已有 CNN-LSTM Vivado 系统记录的 Zynq PS `FCLK_CLK0` 为 50 MHz/20 ns，这是后续系统集成的参考时钟，不是当前 SNN 已完成的板级验证结果。
+
+## HLS-5A 50 MHz 实现验证
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File hls/hybrid_lif_head/scripts/run_impl_50mhz.ps1
+```
+
+结果见 [HLS-5A 50 MHz 实现报告](HLS5A_50MHZ_IMPL_RESULTS.md)。
 
 ## 运行验证
 
