@@ -36,6 +36,7 @@
 - [HLS-4 RTL 协同仿真结果](hls/RTL_COSIM_RESULTS.md)
 - [HLS-5A 50 MHz 实现结果](hls/HLS5A_50MHZ_IMPL_RESULTS.md)
 - [固定向量 replay wrapper 结果](vivado/replay/README.md)
+- [AXI-Lite memory-window 预上板接口](vivado/system/README.md)
 - [2026-07-25 HLS-5A 工作总结](vivado/replay/reports/HLS5A_2026-07-25_SUMMARY.md)
 - [Direct-current HLS 基线摘要](docs/direct_current_hls_baseline_summary.md)
 - [教师阶段性汇报](docs/teacher_report.md)
@@ -52,7 +53,7 @@
 ## 下一步工作
 
 1. 先确认开发板精确型号和 master XDC，再将 Hybrid LIF HLS 读出头接入 50 MHz 的 Zynq/Vivado 系统。
-2. 将固定初始化 replay wrapper 改为 PS/AXI 或 BRAM 可访问的系统接口，生成 bitstream/XSA 后再开展板端回放。
+2. AXI-Lite memory-window wrapper 已完成预上板 RTL/综合验证；下一步建立 Zynq PS/PL、生成 XSA/bitstream 后再开展板端回放。
 3. 用软件参考模型与 RTL/IP 逐样本对齐，形成端到端接口回放证据。
 4. 再决定是否继续完成 CNN/GroupNorm 前端的硬件化，以及板端整网验证。
 5. 在独立实验中补充严格时间顺序、BS=1 和在线因果协议，避免把兼容性数据顺序的结果过度外推。

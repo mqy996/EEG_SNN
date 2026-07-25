@@ -80,3 +80,6 @@ vivado/replay/.Xil/
 /xsim.jou
 /xsim.dir/
 /xvlog.pb
+
+# AXI wrapper local simulation/synthesis work products
+vivado/system/*_work*/
