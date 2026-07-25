@@ -27,7 +27,7 @@
 4. HLS-2：Q12.6 无浮点 CSim，黄金用例 3/3 通过。
 5. HLS-3：Vitis HLS C 综合完成，报告了资源和延迟估计。
 6. HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
-7. HLS-5A：在目标器件、50 MHz/20 ns 约束下完成 Vivado out-of-context implementation；系统 bitstream 和板端回放仍在后续任务。
+7. HLS-5A：在目标器件、50 MHz/20 ns 约束下完成 Vivado out-of-context implementation，并完成固定向量 replay wrapper 的 XSim 与 Vivado implementation；系统 bitstream 和板端回放仍在后续任务。
 
 详细证据：
 
@@ -35,6 +35,7 @@
 - [HLS 综合结果](hls/RESULTS.md)
 - [HLS-4 RTL 协同仿真结果](hls/RTL_COSIM_RESULTS.md)
 - [HLS-5A 50 MHz 实现结果](hls/HLS5A_50MHZ_IMPL_RESULTS.md)
+- [固定向量 replay wrapper 结果](vivado/replay/README.md)
 - [Direct-current HLS 基线摘要](docs/direct_current_hls_baseline_summary.md)
 - [教师阶段性汇报](docs/teacher_report.md)
 
@@ -49,10 +50,11 @@
 
 ## 下一步工作
 
-1. 将 Hybrid LIF HLS 读出头接入 50 MHz 的 Zynq/Vivado 系统，确认接口和时序。
-2. 用软件参考模型与 RTL/IP 逐样本对齐，形成端到端接口回放证据。
-3. 再决定是否继续完成 CNN/GroupNorm 前端的硬件化，以及板端整网验证。
-4. 在独立实验中补充严格时间顺序、BS=1 和在线因果协议，避免把兼容性数据顺序的结果过度外推。
+1. 先确认开发板精确型号和 master XDC，再将 Hybrid LIF HLS 读出头接入 50 MHz 的 Zynq/Vivado 系统。
+2. 将固定初始化 replay wrapper 改为 PS/AXI 或 BRAM 可访问的系统接口，生成 bitstream/XSA 后再开展板端回放。
+3. 用软件参考模型与 RTL/IP 逐样本对齐，形成端到端接口回放证据。
+4. 再决定是否继续完成 CNN/GroupNorm 前端的硬件化，以及板端整网验证。
+5. 在独立实验中补充严格时间顺序、BS=1 和在线因果协议，避免把兼容性数据顺序的结果过度外推。
 
 ## 复现入口
 

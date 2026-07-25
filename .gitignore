@@ -67,3 +67,16 @@ hls/**/cosim_work/
 hls/**/impl_50mhz_work/
 hls/**/dfx_runtime.txt
 hls/**/.hls.failed
+# Vivado/XSim local replay work products
+vivado/replay/replay_work/
+vivado/replay/sim_work/
+vivado/replay/.Xil/
+/clockInfo.txt
+/dfx_runtime.txt
+/vivado.jou
+/vivado_*.backup.jou
+/replay_sim.wdb
+/xelab.pb
+/xsim.jou
+/xsim.dir/
+/xvlog.pb

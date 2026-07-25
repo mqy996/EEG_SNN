@@ -7,7 +7,7 @@
 - HLS-2：Q12.6 无浮点 CSim，3/3 黄金用例通过。
 - HLS-3：Vitis HLS 2025.1 C 综合完成。
 - HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
-- HLS-5A：`xc7z020clg400-1`、20 ns/50 MHz 的 Vivado out-of-context implementation 通过；尚未完成 Zynq bitstream 和板端回放。
+- HLS-5A：`xc7z020clg400-1`、20 ns/50 MHz 的 Vivado out-of-context implementation 通过；固定向量 replay wrapper 的 XSim 和 Vivado implementation 也已通过，但尚未完成 Zynq bitstream 和板端回放。
 - 目标器件：`xc7z020clg400-1`。
 - HLS 约束：10 ns，也就是 100 MHz。
 
