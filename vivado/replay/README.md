@@ -38,6 +38,7 @@
 - `replay_50mhz.xdc` 只约束 wrapper 内部 `clk`，并明确将复位、启动和查询端口作为 smoke harness 输入处理。由于没有开发板 I/O 时序和 I/O 标准，DRC 仍会报告 `NSTD-1`/`UCIO-1` critical warning；这不是最终 bitstream 的合格约束。
 - 当前 wrapper 使用固定向量初始化片上存储器，目标是验证接口和数据通路，不代表 PS 可以动态写入模型数据。
 - `logits` 和 `spike_count` 的软件参考值来自 `hls/hybrid_lif_head/golden/vectors_q12_6.json`；该文件是合成参考向量，不是训练模型或真实 EEG 结果。
+- [2026 年 7 月 25 日 HLS-5A 工作总结](reports/HLS5A_2026-07-25_SUMMARY.md)
 
 ## 复现
 

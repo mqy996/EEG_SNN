@@ -36,6 +36,7 @@
 - [HLS-4 RTL 协同仿真结果](hls/RTL_COSIM_RESULTS.md)
 - [HLS-5A 50 MHz 实现结果](hls/HLS5A_50MHZ_IMPL_RESULTS.md)
 - [固定向量 replay wrapper 结果](vivado/replay/README.md)
+- [2026-07-25 HLS-5A 工作总结](vivado/replay/reports/HLS5A_2026-07-25_SUMMARY.md)
 - [Direct-current HLS 基线摘要](docs/direct_current_hls_baseline_summary.md)
 - [教师阶段性汇报](docs/teacher_report.md)
 
