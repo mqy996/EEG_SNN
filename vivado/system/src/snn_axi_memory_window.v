@@ -63,7 +63,7 @@ module snn_axi_memory_window #(
     reg [31:0] error_status;
     reg        done_latched;
     reg        start_pulse;
-    reg        soft_reset_pending;
+    reg [2:0]  soft_reset_count;
 
     reg [11:0] feature_mem [0:1535];
     reg [11:0] weight_mem [0:63];
@@ -71,7 +71,7 @@ module snn_axi_memory_window #(
     reg [17:0] logits_mem [0:1];
     reg [5:0]  count_mem [0:31];
 
-    wire ap_rst = (~s_axi_aresetn) | soft_reset_pending;
+    wire ap_rst = (~s_axi_aresetn) | (soft_reset_count != 3'd0);
     wire ap_done;
     wire ap_idle;
     wire ap_ready;
@@ -86,9 +86,9 @@ module snn_axi_memory_window #(
     wire [31:0] write_data = w_hs ? s_axi_wdata : wdata_reg;
     wire [3:0] write_strb = w_hs ? s_axi_wstrb : wstrb_reg;
 
-    assign s_axi_awready = !aw_pending && !s_axi_bvalid && !soft_reset_pending;
-    assign s_axi_wready  = !w_pending && !s_axi_bvalid && !soft_reset_pending;
-    assign s_axi_arready = !s_axi_rvalid && !soft_reset_pending;
+    assign s_axi_awready = !aw_pending && !s_axi_bvalid && (soft_reset_count == 3'd0);
+    assign s_axi_wready  = !w_pending && !s_axi_bvalid && (soft_reset_count == 3'd0);
+    assign s_axi_arready = !s_axi_rvalid && (soft_reset_count == 3'd0);
 
     wire [10:0] feature_addr;
     wire feature_ce;
@@ -172,7 +172,7 @@ module snn_axi_memory_window #(
             error_status <= 32'd0;
             done_latched <= 1'b0;
             start_pulse <= 1'b0;
-            soft_reset_pending <= 1'b0;
+            soft_reset_count <= 3'd0;
             feature_addr_q <= 11'd0;
             weight0_addr_q <= 6'd0;
             weight1_addr_q <= 6'd0;
@@ -206,8 +206,8 @@ module snn_axi_memory_window #(
 
             // The pending pulse gives the HLS core one complete active-high
             // reset cycle after a software reset write is acknowledged.
-            if (soft_reset_pending) begin
-                soft_reset_pending <= 1'b0;
+            if (soft_reset_count != 3'd0) begin
+                soft_reset_count <= soft_reset_count - 3'd1;
                 feature_index <= 11'd0;
                 weight_index <= 6'd0;
                 bias_index <= 1'd0;
@@ -258,7 +258,7 @@ module snn_axi_memory_window #(
                         ADDR_CONTROL: begin
                             if (write_strb[0]) begin
                                 if (write_data[1]) begin
-                                    soft_reset_pending <= 1'b1;
+                                    soft_reset_count <= 3'd4;
                                     if (write_data[0]) error_status[2] <= 1'b1;
                                 end else if (write_data[0]) begin
                                     if (ap_idle) begin

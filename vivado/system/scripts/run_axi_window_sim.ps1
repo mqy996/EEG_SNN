@@ -9,15 +9,19 @@ $hlsWork = Join-Path $WorkDir "hls_work"
 $simOut = Join-Path $WorkDir "sim"
 $vectorOut = Join-Path $simOut "vivado\replay\vectors"
 $vectorIn = Join-Path $repo "vivado\replay\vectors"
+$systemVectorOut = Join-Path $simOut "vivado\system\vectors"
+$systemVectorIn = Join-Path $repo "vivado\system\vectors"
 $rtlDir = Join-Path $head "hls\impl\verilog"
 $settingsV = "D:\vitis\2025.1\Vivado\.settings64-Vivado.bat"
 $settingsT = "D:\vitis\2025.1\Vitis\.settings64-Vitis.bat"
 $wrapper = Join-Path $repo "vivado\system\src\snn_axi_memory_window.v"
 $tb = Join-Path $repo "vivado\system\tb\tb_snn_axi_memory_window.sv"
-foreach ($path in @($settingsV,$settingsT,$wrapper,$tb,$rtlDir)) { if (-not (Test-Path $path)) { throw "Missing path: $path" } }
+foreach ($path in @($settingsV,$settingsT,$wrapper,$tb,$rtlDir,$systemVectorIn)) { if (-not (Test-Path $path)) { throw "Missing path: $path" } }
 New-Item -ItemType Directory -Force -Path $simOut | Out-Null
 New-Item -ItemType Directory -Force -Path $vectorOut | Out-Null
+New-Item -ItemType Directory -Force -Path $systemVectorOut | Out-Null
 Get-ChildItem -LiteralPath $vectorIn -Filter "threshold_edge_*.mem" -File | Copy-Item -Destination $vectorOut -Force
+Get-ChildItem -LiteralPath $systemVectorIn -File | Copy-Item -Destination $systemVectorOut -Force
 $files = (Get-ChildItem -LiteralPath $rtlDir -Filter *.v -File | ForEach-Object { '"{0}"' -f $_.FullName }) -join ' '
 $cmd = 'call "{0}" && call "{1}" && cd /d "{2}" && call xvlog -sv -work work {3} "{4}" "{5}" && call xelab -debug typical work.tb_snn_axi_memory_window -s axi_window_sim && call xsim axi_window_sim -runall' -f $settingsV,$settingsT,$simOut,$files,$wrapper,$tb
 cmd.exe /d /s /c $cmd

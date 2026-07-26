@@ -55,10 +55,12 @@ powershell -NoProfile -ExecutionPolicy Bypass `
 
 固定向量 `threshold_edge` 的 RTL 回放结果为：
 
-- XSim：`SNN AXI memory-window simulation PASS`。
-- `logits_q=(-116, 120)`。
-- `spike_count_q[0..3]=(1, 48, 1, 1)`。
-- 三类 AXI 错误/控制行为被覆盖：越界访问、busy 写保护、soft reset。
+- XSim：`SNN AXI memory-window 3-case simulation PASS`。
+- `threshold_edge`：`logits_q=(-116, 120)`，`spike_count_q[0..3]=(1, 48, 1, 1)`。
+- `signed_currents`：`logits_q=(1152, -1142)`。
+- `rounding_and_reset`：`logits_q=(-4, 16)`。
+- 三组用例均连续运行两次，全部 logits 和 32 个 spike counts bit-exact 一致。
+- AXI 错误/控制行为覆盖：越界访问、busy 写保护、非法 start、clear_done 和 soft reset。
 - Vivado synthesis：目标 `xc7z020clg400-1`，50 MHz/20 ns，WNS `11.476 ns`，TNS `0 ns`，WHS `0.220 ns`，THS `0 ns`。
 - 综合资源：LUT `8468`，FF `20553`，DSP `34`，BRAM `0`。该资源结果包含 HLS 读出头和 wrapper 的寄存器型 memory window，不是最终 PS/PL 实现资源。
 

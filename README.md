@@ -28,6 +28,7 @@
 5. HLS-3：Vitis HLS C 综合完成，报告了资源和延迟估计。
 6. HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
 7. HLS-5A：在目标器件、50 MHz/20 ns 约束下完成 Vivado out-of-context implementation，并完成固定向量 replay wrapper 的 XSim 与 Vivado implementation；系统 bitstream 和板端回放仍在后续任务。
+8. HLS-5A.2：AXI-Lite wrapper 对三组 Q12.6 golden case 各连续运行两次，logits/count 全部 bit-exact 通过。
 
 详细证据：
 
@@ -37,6 +38,7 @@
 - [HLS-5A 50 MHz 实现结果](hls/HLS5A_50MHZ_IMPL_RESULTS.md)
 - [固定向量 replay wrapper 结果](vivado/replay/README.md)
 - [AXI-Lite memory-window 预上板接口](vivado/system/README.md)
+- [AXI-Lite wrapper 三用例验证结果](vivado/system/reports/AXI_WINDOW_3CASE_RESULTS.md)
 - [2026-07-25 HLS-5A 工作总结](vivado/replay/reports/HLS5A_2026-07-25_SUMMARY.md)
 - [Direct-current HLS 基线摘要](docs/direct_current_hls_baseline_summary.md)
 - [教师阶段性汇报](docs/teacher_report.md)

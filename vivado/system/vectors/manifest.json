@@ -1,0 +1,32 @@
+{
+  "schema_version": "hls-q12.6-golden-v1",
+  "cases": [
+    {
+      "case_name": "threshold_edge",
+      "feature_words": 1536,
+      "weight_words": 64,
+      "bias_words": 2,
+      "logit_words": 2,
+      "count_words": 32,
+      "source": "hls/hybrid_lif_head/golden/vectors_q12_6.json"
+    },
+    {
+      "case_name": "signed_currents",
+      "feature_words": 1536,
+      "weight_words": 64,
+      "bias_words": 2,
+      "logit_words": 2,
+      "count_words": 32,
+      "source": "hls/hybrid_lif_head/golden/vectors_q12_6.json"
+    },
+    {
+      "case_name": "rounding_and_reset",
+      "feature_words": 1536,
+      "weight_words": 64,
+      "bias_words": 2,
+      "logit_words": 2,
+      "count_words": 32,
+      "source": "hls/hybrid_lif_head/golden/vectors_q12_6.json"
+    }
+  ]
+}
