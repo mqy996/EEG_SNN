@@ -18,6 +18,15 @@
 - `scripts/export_golden_to_c.py`：从 `hls/hybrid_lif_head/golden/vectors_q12_6.json` 生成 header/manifest。
 - `src/main.c`：standalone 应用主体。
 
+生成 standalone platform/BSP（不创建 application ELF）：
+
+```powershell
+& "D:\vitis\2025.1\Vitis\bin\xsct.bat" `
+  vivado/system/vitis/snn_replay_standalone/scripts/create_standalone_platform.tcl `
+  vivado/system/artifacts/snn_replay_system.xsa `
+  vivado/system/vitis_standalone_build
+```
+
 重新生成 header：
 
 ```powershell
