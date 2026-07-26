@@ -27,8 +27,10 @@
 4. HLS-2：Q12.6 无浮点 CSim，黄金用例 3/3 通过。
 5. HLS-3：Vitis HLS C 综合完成，报告了资源和延迟估计。
 6. HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
-7. HLS-5A：在目标器件、50 MHz/20 ns 约束下完成 Vivado out-of-context implementation，并完成固定向量 replay wrapper 的 XSim 与 Vivado implementation；系统 bitstream 和板端回放仍在后续任务。
+7. HLS-5A：在目标器件、50 MHz/20 ns 约束下完成 Vivado out-of-context implementation，并完成固定向量 replay wrapper 的 XSim 与 Vivado implementation。
 8. HLS-5A.2：AXI-Lite wrapper 对三组 Q12.6 golden case 各连续运行两次，logits/count 全部 bit-exact 通过。
+9. HLS-5A.3：完成 Zynq PS7 + AXI Interconnect + 50 MHz FCLK0 + reset 的 project-mode Vivado implementation，生成可供 Vitis 导入的 XSA 和候选 bitstream；仍未完成板端下载。
+10. HLS-5A.4：完成 standalone 回放程序源码、golden header 自动生成和 ARM GCC 语法检查；正式 ELF 与板端 UART 回放待后续。
 
 详细证据：
 
@@ -39,6 +41,8 @@
 - [固定向量 replay wrapper 结果](vivado/replay/README.md)
 - [AXI-Lite memory-window 预上板接口](vivado/system/README.md)
 - [AXI-Lite wrapper 三用例验证结果](vivado/system/reports/AXI_WINDOW_3CASE_RESULTS.md)
+- [HLS-5A.3 PS/PL 系统结果](vivado/system/reports/HLS5A3_SYSTEM_RESULTS.md)
+- [HLS-5A.4 Vitis standalone 结果](vivado/system/reports/HLS5A4_VITIS_STANDALONE_RESULTS.md)
 - [2026-07-25 HLS-5A 工作总结](vivado/replay/reports/HLS5A_2026-07-25_SUMMARY.md)
 - [Direct-current HLS 基线摘要](docs/direct_current_hls_baseline_summary.md)
 - [教师阶段性汇报](docs/teacher_report.md)
@@ -55,7 +59,7 @@
 ## 下一步工作
 
 1. 先确认开发板精确型号和 master XDC，再将 Hybrid LIF HLS 读出头接入 50 MHz 的 Zynq/Vivado 系统。
-2. AXI-Lite memory-window wrapper 已完成预上板 RTL/综合验证；下一步建立 Zynq PS/PL、生成 XSA/bitstream 后再开展板端回放。
+2. AXI-Lite memory-window wrapper 和 Zynq PS/PL 预上板系统已完成；下一步是生成 Vitis ELF、连接开发板并开展板端回放。
 3. 用软件参考模型与 RTL/IP 逐样本对齐，形成端到端接口回放证据。
 4. 再决定是否继续完成 CNN/GroupNorm 前端的硬件化，以及板端整网验证。
 5. 在独立实验中补充严格时间顺序、BS=1 和在线因果协议，避免把兼容性数据顺序的结果过度外推。

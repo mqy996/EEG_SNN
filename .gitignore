@@ -83,3 +83,11 @@ vivado/replay/.Xil/
 
 # AXI wrapper local simulation/synthesis work products
 vivado/system/*_work*/
+
+# Vivado system generated projects and reports (keep source Tcl/RTL/XDC tracked)
+vivado/system/snn_system_*/
+vivado/system/*_work/
+vivado/system/project_build*/
+.Xil/
+vivado/system/vitis_standalone_build*/
+vivado/system/artifacts/xsa_extract_*/

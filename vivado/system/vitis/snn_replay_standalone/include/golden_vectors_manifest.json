@@ -1,0 +1,11 @@
+{
+  "source": "snn_hybrid_eeg/hls/hybrid_lif_head/golden/vectors_q12_6.json",
+  "sha256": "8f73683b4448f8315af76151e36dacff494197c0caf8bcf2e8ace01ad301604a",
+  "case_names": [
+    "threshold_edge",
+    "signed_currents",
+    "rounding_and_reset"
+  ],
+  "schema_version": "hls-q12.6-golden-v1",
+  "generated_header": "snn_hybrid_eeg/vivado/system/vitis/snn_replay_standalone/include/golden_vectors_q12_6.h"
+}

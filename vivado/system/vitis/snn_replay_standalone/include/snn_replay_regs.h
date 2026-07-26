@@ -1,0 +1,45 @@
+﻿#ifndef SNN_REPLAY_REGS_H
+#define SNN_REPLAY_REGS_H
+
+#include <stdint.h>
+#include "xparameters.h"
+#include "xil_io.h"
+
+#ifndef XPAR_SNN_AXI_MEMORY_WINDOW_0_BASEADDR
+#define XPAR_SNN_AXI_MEMORY_WINDOW_0_BASEADDR 0x43C00000U
+#endif
+
+#define SNN_REPLAY_BASEADDR XPAR_SNN_AXI_MEMORY_WINDOW_0_BASEADDR
+#define SNN_REPLAY_CONTROL 0x00U
+#define SNN_REPLAY_STATUS 0x04U
+#define SNN_REPLAY_VERSION 0x08U
+#define SNN_REPLAY_VECTOR_ID 0x0CU
+#define SNN_REPLAY_FEATURE_INDEX 0x10U
+#define SNN_REPLAY_FEATURE_DATA 0x14U
+#define SNN_REPLAY_WEIGHT_INDEX 0x18U
+#define SNN_REPLAY_WEIGHT_DATA 0x1CU
+#define SNN_REPLAY_BIAS_INDEX 0x20U
+#define SNN_REPLAY_BIAS_DATA 0x24U
+#define SNN_REPLAY_LOGIT_INDEX 0x28U
+#define SNN_REPLAY_LOGIT_DATA 0x2CU
+#define SNN_REPLAY_COUNT_INDEX 0x30U
+#define SNN_REPLAY_COUNT_DATA 0x34U
+#define SNN_REPLAY_CHECKSUM 0x38U
+#define SNN_REPLAY_ERROR_STATUS 0x3CU
+
+#define SNN_REPLAY_CONTROL_START (1U << 0)
+#define SNN_REPLAY_CONTROL_SOFT_RESET (1U << 1)
+#define SNN_REPLAY_CONTROL_CLEAR_DONE (1U << 2)
+#define SNN_REPLAY_STATUS_IDLE (1U << 0)
+#define SNN_REPLAY_STATUS_DONE (1U << 1)
+#define SNN_REPLAY_STATUS_BUSY (1U << 2)
+#define SNN_REPLAY_STATUS_READY (1U << 4)
+
+static inline void snn_replay_write(uint32_t offset, uint32_t value) {
+    Xil_Out32(SNN_REPLAY_BASEADDR + offset, value);
+}
+static inline uint32_t snn_replay_read(uint32_t offset) {
+    return Xil_In32(SNN_REPLAY_BASEADDR + offset);
+}
+
+#endif /* SNN_REPLAY_REGS_H */

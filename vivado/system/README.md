@@ -74,3 +74,16 @@ powershell -NoProfile -ExecutionPolicy Bypass `
 - UART/板端日志。
 
 因此当前证据等级是“AXI wrapper RTL + out-of-context synthesis”，不能表述为上板验证。下一步 HLS-5A.2 验证三组 golden case，随后 HLS-5A.3 建立 Zynq PS/PL 系统。
+
+## HLS-5A.3：Zynq PS/PL 预上板系统
+
+- `tcl/create_snn_replay_system.tcl`：从空目录创建 PS7、AXI Interconnect、reset 和 SNN wrapper；`project_bitstream` 模式使用 project-mode flow 生成 Vitis-ready XSA。
+- `scripts/run_snn_replay_system.ps1`：可复现入口。
+- `constraints/PYNQ-Z2_v1.0.xdc`：PYNQ-Z2 v1.0 board-reference master XDC，未启用不存在的 PL 端口。
+- `artifacts/snn_replay_system.bit`：目标 part 的候选 bitstream。
+- `artifacts/snn_replay_system.xsa`：包含 HWH、sysdef、PS7 初始化文件和 bitstream 的 XSA。
+- 详细结果见 [HLS5A3_SYSTEM_RESULTS.md](reports/HLS5A3_SYSTEM_RESULTS.md)。
+
+## HLS-5A.4：Vitis standalone 回放程序
+
+`vitis/snn_replay_standalone/` 提供寄存器协议、三组 golden case C header、自动生成脚本和 `main.c`。当前已完成源代码与 standalone BSP 语法检查；正式 ELF 和板端 UART 回放尚未宣称完成。详见 [HLS5A4_VITIS_STANDALONE_RESULTS.md](reports/HLS5A4_VITIS_STANDALONE_RESULTS.md)。
