@@ -1,105 +1,81 @@
 # EEG 混合脉冲神经网络基线仓库
 
-本仓库是从 `q1_deployment_causal_eeg` 整理出的、供导师审阅和复现实验的独立仓库。它不包含完整研究历史；历史实验、研究规划和其他探索仍保留在 q1 仓库。
+本仓库是给导师审阅和复现实验的 SNN/HLS/Vivado 基线仓库。当前验证对象是 **Direct-current 编码 + Hybrid LIF 读出头**，CNN/GroupNorm 前端仍然属于软件参考模型，不应把当前结果表述为完整 CNN-SNN 已经完成 FPGA 部署。
 
-## 一句话结论
+## 当前结论
 
-当前已完成一个可复现的 Channel8 Hybrid-SNN 软件基线，并完成 Hybrid LIF 读出头的 Q12.6 定点 HLS 验证链路：C 仿真、C 综合和 Verilog C/RTL 协同仿真均已通过。下一步是把该读出头接入实际 50 MHz 的 FPGA 系统，并补充完整 CNN-SNN 的端到端证据。
+截至 **2026 年 7 月 27 日**，固定向量回放链路已经完成开发板连接、bitstream 下载和 UART smoke test；AXI-Lite 读事务仍在板端调试：
+
+- Vivado 2025.1 在 `xc7z020clg400-1` 上生成 bitstream/XSA；
+- Zynq PS7 的 FCLK0 为 50 MHz；PS 通过 `M_AXI_GP0`、SmartConnect 访问 AXI-Lite SNN wrapper；
+- 通过 JTAG 下载 bitstream，并由 Vitis 2025.1 生成 Cortex-A9 standalone ELF；
+- COM5（Silicon Labs CP210x USB-UART，115200 8N1）已收到独立 UART smoke test；
+- 当前 SNN ELF 访问 `0x43C00000` 时仍会阻塞，三个 golden case 尚不能写成板端 PASS；
+- 板端验证只覆盖固定 Q12.6 向量和 HLS Hybrid LIF 读出头，不覆盖完整 EEG 输入、CNN 前端、整网准确率、实时吞吐或功耗。
+
+完整证据见 [`vivado/system/reports/HLS5B_BOARD_RESULTS.md`](vivado/system/reports/HLS5B_BOARD_RESULTS.md)。
 
 ## 当前基线
 
-| 项目 | 当前设置 |
+| 项目 | 设置 |
 |---|---|
 | 输入 | Channel8 EEG 窗口，8 个通道 × 384 个采样点 |
 | CNN 前端 | 逐点空间卷积 → 深度时间卷积 → ReLU → GroupNorm |
 | 时间表示 | 自适应平均池化为 48 个时间步 |
-| 编码 | Direct-current 直流编码，将连续特征直接输入各时间步 |
+| 编码 | Direct-current 直流编码 |
 | 脉冲读出 | Hybrid LIF 漏积分发放读出头 |
 | LIF 参数 | `beta=0.90`，`threshold=0.5` |
-| HLS 定点候选 | Q12.6，总位宽 12 位，小数位 6 位 |
+| HLS 定点 | Q12.6 |
 | 目标器件 | `xc7z020clg400-1` |
 
 ## 已完成的证据
 
-1. 完成 SNN 参数稳定性、编码方式、架构消融和定点可行性探索。
-2. 选择 `Direct-current + Hybrid LIF` 作为当前基准网络。
-3. Q12.6 在读出头软件预研中达到 99.24% 的浮点/定点预测一致率。
-4. HLS-2：Q12.6 无浮点 CSim，黄金用例 3/3 通过。
-5. HLS-3：Vitis HLS C 综合完成，报告了资源和延迟估计。
-6. HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
-7. HLS-5A：在目标器件、50 MHz/20 ns 约束下完成 Vivado out-of-context implementation，并完成固定向量 replay wrapper 的 XSim 与 Vivado implementation。
-8. HLS-5A.2：AXI-Lite wrapper 对三组 Q12.6 golden case 各连续运行两次，logits/count 全部 bit-exact 通过。
-9. HLS-5A.3：完成 Zynq PS7 + AXI Interconnect + 50 MHz FCLK0 + reset 的 project-mode Vivado implementation，生成可供 Vitis 导入的 XSA 和候选 bitstream；仍未完成板端下载。
-10. HLS-5A.4：完成 standalone 回放程序源码、golden header 自动生成和 ARM GCC 语法检查；正式 ELF 与板端 UART 回放待后续。
+1. Direct-current + Hybrid LIF 软件基线和 Q12.6 定点契约。
+2. HLS CSim、C 综合、Verilog C/RTL 协同仿真。
+3. AXI-Lite memory-window wrapper 三组 golden case 的 RTL 验证。
+4. Zynq PS7 + SmartConnect + 50 MHz FCLK0 + reset 的 Vivado project-mode 实现。
+5. Vitis standalone platform/BSP/FSBL 和 Cortex-A9 ELF 构建。
+6. 真实开发板 bitstream 下载、Vitis ELF 构建和 UART smoke test；AXI/板端回放问题已定位到下一轮调试。
 
-详细证据：
+## 关键文档
 
-- [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](docs/direct_current_hls_architecture.md)
-- [HLS 综合结果](hls/RESULTS.md)
-- [HLS-4 RTL 协同仿真结果](hls/RTL_COSIM_RESULTS.md)
-- [HLS-5A 50 MHz 实现结果](hls/HLS5A_50MHZ_IMPL_RESULTS.md)
-- [固定向量 replay wrapper 结果](vivado/replay/README.md)
-- [AXI-Lite memory-window 预上板接口](vivado/system/README.md)
-- [AXI-Lite wrapper 三用例验证结果](vivado/system/reports/AXI_WINDOW_3CASE_RESULTS.md)
-- [HLS-5A.3 PS/PL 系统结果](vivado/system/reports/HLS5A3_SYSTEM_RESULTS.md)
-- [HLS-5A.4 Vitis standalone 结果](vivado/system/reports/HLS5A4_VITIS_STANDALONE_RESULTS.md)
-- [2026-07-25 HLS-5A 工作总结](vivado/replay/reports/HLS5A_2026-07-25_SUMMARY.md)
-- [Direct-current HLS 基线摘要](docs/direct_current_hls_baseline_summary.md)
+- [Direct-current HLS 架构与接口契约](docs/direct_current_hls_architecture.md)
 - [教师阶段性汇报](docs/teacher_report.md)
+- [Vivado PS/PL 系统说明](vivado/system/README.md)
+- [板端回放证据](vivado/system/reports/HLS5B_BOARD_RESULTS.md)
+- [AXI wrapper 三用例验证](vivado/system/reports/AXI_WINDOW_3CASE_RESULTS.md)
+- [HLS 综合结果](hls/RESULTS.md)
+- [HLS RTL 协同仿真结果](hls/RTL_COSIM_RESULTS.md)
+- [数据集说明](data/README.md)
 
-## 必须明确的边界
+## 结果边界
 
-当前 HLS 只实现 Hybrid LIF 读出头，CNN/GroupNorm 前端仍由软件参考模型负责。因此，已有 HLS 结果不能表述为完整 CNN-SNN 已经完成 FPGA 部署。
-
-- HLS-3 和 HLS-4 使用 100 MHz、10 ns 作为综合与协同仿真约束。
-- 现有 CNN-LSTM 系统记录的 Zynq PS `FCLK_CLK0` 为 50 MHz、20 ns；这是后续系统集成的时钟参考，不是 SNN 已完成的板级结果。
-- 尚未完成完整 CNN 前端的 HLS、Vivado implementation、bitstream、板上回放、整网准确率和功耗测量。
-- 当前软件结果使用官方平衡版 `class_blocked_compatibility` 数据顺序，不能直接等同于严格时间顺序或在线因果部署证据。
-
-## 下一步工作
-
-1. 先确认开发板精确型号和 master XDC，再将 Hybrid LIF HLS 读出头接入 50 MHz 的 Zynq/Vivado 系统。
-2. AXI-Lite memory-window wrapper 和 Zynq PS/PL 预上板系统已完成；下一步是生成 Vitis ELF、连接开发板并开展板端回放。
-3. 用软件参考模型与 RTL/IP 逐样本对齐，形成端到端接口回放证据。
-4. 再决定是否继续完成 CNN/GroupNorm 前端的硬件化，以及板端整网验证。
-5. 在独立实验中补充严格时间顺序、BS=1 和在线因果协议，避免把兼容性数据顺序的结果过度外推。
+- 当前硬件只实现 Hybrid LIF 读出头和 AXI-Lite 固定向量回放窗口。
+- CNN、GroupNorm、EEG 数据预处理和整网分类仍未进入当前 bitstream。
+- 当前板端 PASS 证明的是“PS→AXI wrapper→HLS readout→PS/UART”链路，不是整网 EEG 分类准确率。
+- 后续若要形成论文级硬件结果，还需要完成 CNN 前端硬件化或明确软件/硬件分工，并测量整网准确率、吞吐、延迟、资源和功耗。
 
 ## 复现入口
 
-数据文件不提交到 Git。请将官方平衡版 MAT 文件放到 `data/dataset.mat`，数据来源、预期形状和 SHA-256 校验值见 [数据集说明](data/README.md)。
+数据文件不提交 Git。数据来源、形状和 SHA-256 校验值见 [`data/README.md`](data/README.md)。
 
-环境检查：
-
-```powershell
-conda run -n eeg-causal python scripts/verify_environment.py
-conda run -n eeg-causal python -m ruff check src scripts tests
-conda run -n eeg-causal python -m pytest
-```
-
-建议先运行 dry-run 或 smoke 命令，具体入口见 [复现实验指南](docs/reproducibility.md)。HLS 读出头协同仿真入口为：
+Vivado 系统生成：
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass `
-  -File hls/hybrid_lif_head/scripts/run_cosim.ps1
+  -File vivado/system/scripts/run_snn_replay_system.ps1 `
+  -Mode project_bitstream `
+  -WorkDir D:/eeg_fpga/w_uart1_reset_20260727
 ```
 
-## 目录导航
+Vitis standalone 构建：
 
-```text
-src/        软件模型、数据和指标
-scripts/    可执行实验入口
-experiments/实验配置和整理后的结果
-hls/        HLS 源码、脚本和验证报告
-docs/       架构、实验汇报和复现说明
-data/       数据来源与校验说明，不含原始 MAT 文件
-tests/      模型和配置契约测试
+```powershell
+$env:SNN_REPLAY_XSA = (Resolve-Path vivado/system/artifacts/snn_replay_system.xsa).Path
+$env:SNN_REPLAY_WORKSPACE = 'D:/eeg_fpga/vitis_board_replay_uart1_20260727'
+$env:SNN_REPLAY_SOURCE = (Resolve-Path vivado/system/vitis/snn_replay_standalone).Path
+& 'D:/vitis/2025.1/Vitis/bin/vitis.bat' -s `
+  vivado/system/vitis/snn_replay_standalone/scripts/create_vitis_standalone_app.py
 ```
 
-## 术语
-
-- **Hybrid-SNN**：保留 CNN 前端、将读出部分替换为脉冲神经元的混合模型。
-- **LIF**：漏积分发放神经元，膜电位累积到阈值后发放脉冲并复位。
-- **Direct-current**：直流编码，把连续特征直接送入各个时间步，不使用随机脉冲编码。
-- **GroupNorm**：组归一化，不依赖 batch 内运行统计量，适合当前小批量和单样本推理场景。
-- **HLS**：高层次综合，将 C/C++ 算法转换为 FPGA 电路。
-- **Q12.6**：总位宽 12 位、小数位 6 位的定点格式。
+板端回放步骤和证据边界见 `HLS5B_BOARD_RESULTS.md`。

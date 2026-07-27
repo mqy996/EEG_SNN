@@ -48,8 +48,8 @@
                 "availableResources": {
                     "bramCount": "140",
                     "dspCount": "186",
-                    "lutCount": "44661",
-                    "registerCount": "85385"
+                    "lutCount": "44548",
+                    "registerCount": "85235"
                 }
             }
         }
@@ -81,15 +81,15 @@
     "generatedChangeList": "6140274",
     "generatedIpChangeList": "6138677",
     "generatedSharedDataChangeList": "6139179",
-    "generatedTimestamp": "Mon Jul 27 11:27:27 2026",
+    "generatedTimestamp": "Mon Jul 27 19:30:01 2026",
     "idCode": "03727093",
     "designIDs": {
-        "designID": "1654902050"
+        "designID": "1816056770"
     },
     "resources": [
         {
             "type": "REG",
-            "count": "85385"
+            "count": "85235"
         }
     ]
 }

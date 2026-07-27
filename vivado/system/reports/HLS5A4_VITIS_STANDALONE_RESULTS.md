@@ -1,3 +1,5 @@
+> 状态说明：该文档记录的是开发板连接前的阶段性结果。2026-07-27 已完成开发板连接、下载和 UART smoke test，但 AXI-Lite 板端回放仍在调试，最新结论见 [`HLS5B_BOARD_RESULTS.md`](HLS5B_BOARD_RESULTS.md)。
+
 # HLS-5A.4：Vitis standalone 回放程序结果
 
 ## 已完成

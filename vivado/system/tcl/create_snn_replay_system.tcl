@@ -24,7 +24,7 @@ update_compile_order -fileset sources_1
 create_bd_design $bd_name
 set ps [create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0]
 # Historical CNN-LSTM BD and project documentation agree on Zynq-7020,
-# UART1 on MIO 48/49, and FCLK_CLK0=50 MHz. The physical board preset is
+# The connected board exposes its USB-UART through PS UART1 on MIO 48/49, and FCLK_CLK0=50 MHz. SmartConnect bridges the PS GP0 master to the AXI-Lite wrapper. The exact board preset is
 # not inferred from the old project because its BoardPart is empty.
 set_property -dict [list \
     CONFIG.PCW_USE_M_AXI_GP0 {1} \
@@ -38,19 +38,16 @@ set_property -dict [list \
     CONFIG.PCW_UIPARAM_DDR_PARTNO {MT41K256M16 RE-125} \
 ] $ps
 apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 -config {make_external "FIXED_IO, DDR"} $ps
-add_files -norecurse [file join $system_dir src snn_peripheral_reset.v]
 update_compile_order -fileset sources_1
-set rst [create_bd_cell -type module -reference snn_peripheral_reset proc_sys_reset_0]
-set axi [create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect:2.1 axi_interconnect_0]
+set axi [create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 axi_interconnect_0]
 set_property CONFIG.NUM_SI {1} $axi
 set_property CONFIG.NUM_MI {1} $axi
 set snn [create_bd_cell -type module -reference snn_axi_memory_window snn_axi_memory_window_0]
 connect_bd_intf_net [get_bd_intf_pins $ps/M_AXI_GP0] [get_bd_intf_pins $axi/S00_AXI]
 connect_bd_intf_net [get_bd_intf_pins $axi/M00_AXI] [get_bd_intf_pins $snn/S_AXI]
-connect_bd_net [get_bd_pins $ps/FCLK_CLK0] [get_bd_pins $ps/M_AXI_GP0_ACLK] [get_bd_pins $rst/slowest_sync_clk]
+connect_bd_net [get_bd_pins $ps/FCLK_CLK0] [get_bd_pins $ps/M_AXI_GP0_ACLK]
 connect_bd_net [get_bd_pins $ps/FCLK_CLK0] [get_bd_pins $axi/ACLK] [get_bd_pins $axi/S00_ACLK] [get_bd_pins $axi/M00_ACLK] [get_bd_pins $snn/s_axi_aclk]
-connect_bd_net [get_bd_pins $ps/FCLK_RESET0_N] [get_bd_pins $rst/ext_reset_in]
-connect_bd_net [get_bd_pins $rst/peripheral_aresetn] [get_bd_pins $axi/ARESETN] [get_bd_pins $axi/S00_ARESETN] [get_bd_pins $axi/M00_ARESETN] [get_bd_pins $snn/s_axi_aresetn]
+connect_bd_net [get_bd_pins $ps/FCLK_RESET0_N] [get_bd_pins $axi/ARESETN] [get_bd_pins $axi/S00_ARESETN] [get_bd_pins $axi/M00_ARESETN] [get_bd_pins $snn/s_axi_aresetn]
 assign_bd_address
 set segs [get_bd_addr_segs -quiet $snn/S_AXI/*]
 if {[llength $segs] == 0} { error "SNN AXI address segment was not inferred" }
@@ -133,7 +130,6 @@ foreach item $generated_bd_rtl { lappend include_dirs [file dirname $item] }
 set_property include_dirs [lsort -unique $include_dirs] [current_fileset]
 read_verilog -sv $hls_files
 read_verilog -sv $wrapper_rtl
-read_verilog -sv [file join $system_dir src snn_peripheral_reset.v]
 foreach item $generated_bd_rtl {
     if {[string match *.vhd $item]} { read_vhdl $item } else { read_verilog -sv $item }
 }
@@ -159,3 +155,4 @@ if {$mode eq "candidate_bitstream"} {
     write_hw_platform -fixed -force -file [file join $work_dir snn_replay_system.xsa]
 }
 exit
+

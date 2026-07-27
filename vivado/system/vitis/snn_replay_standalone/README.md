@@ -1,61 +1,40 @@
-﻿# HLS-5A.4：Vitis standalone 固定向量回放程序
+# HLS-5A.4/5B：Vitis standalone 固定向量回放程序
 
-## 目的
+## 作用
 
-`src/main.c` 是给 Zynq PS 裸机环境使用的 UART 回放程序。它不包含 CNN 前端，只回放当前 HLS-5A.1 AXI memory-window wrapper 支持的三个 Q12.6 golden case：
+`src/main.c` 在 Zynq PS 裸机环境中回放三个 Q12.6 golden case：
 
 - `threshold_edge`
 - `signed_currents`
 - `rounding_and_reset`
 
-程序执行顺序为：读取版本 → soft reset → indexed 写入 feature/weight/bias → 校验硬件 XOR checksum → start → 轮询 done → 读回 logits/count → 输出逐向量 PASS/FAIL。
+程序按“读取版本 → soft reset → indexed 写入 → XOR checksum → start → 轮询 done → 读回 logits/count → UART 输出”的顺序执行。
 
-## 文件
+## 生成 ELF
 
-- `include/snn_replay_regs.h`：寄存器偏移和控制位。AXI base 优先使用 Vitis 生成的 `XPAR_SNN_AXI_MEMORY_WINDOW_0_BASEADDR`，缺失时仅使用 `0x43C00000` 作为当前地址契约的离线 fallback。
-- `include/golden_vectors_q12_6.h`：由 JSON 自动生成的 C 数组，不手工重复抄写 expected 值。
-- `include/golden_vectors_manifest.json`：golden JSON SHA-256 和 case 清单。
-- `scripts/export_golden_to_c.py`：从 `hls/hybrid_lif_head/golden/vectors_q12_6.json` 生成 header/manifest。
-- `src/main.c`：standalone 应用主体。
-
-生成 standalone platform/BSP（不创建 application ELF）：
+使用 Vitis 2025.1 Python API：
 
 ```powershell
-& "D:\vitis\2025.1\Vitis\bin\xsct.bat" `
-  vivado/system/vitis/snn_replay_standalone/scripts/create_standalone_platform.tcl `
-  vivado/system/artifacts/snn_replay_system.xsa `
-  vivado/system/vitis_standalone_build
+$env:SNN_REPLAY_XSA = (Resolve-Path vivado/system/artifacts/snn_replay_system.xsa).Path
+$env:SNN_REPLAY_WORKSPACE = 'D:/eeg_fpga/vitis_board_replay_uart1_20260727'
+$env:SNN_REPLAY_SOURCE = (Resolve-Path vivado/system/vitis/snn_replay_standalone).Path
+& 'D:/vitis/2025.1/Vitis/bin/vitis.bat' -s `
+  vivado/system/vitis/snn_replay_standalone/scripts/create_vitis_standalone_app.py
 ```
 
-重新生成 header：
+脚本使用 `empty_application` 模板，避免 Vitis 2025.1 中不存在的 `empty` 模板；脚本会检查最终 ELF 是否真实存在，不以 Vitis Python 进程退出码代替构建结果。
 
-```powershell
-python vivado/system/vitis/snn_replay_standalone/scripts/export_golden_to_c.py `
-  hls/hybrid_lif_head/golden/vectors_q12_6.json `
-  vivado/system/vitis/snn_replay_standalone/include/golden_vectors_q12_6.h `
-  vivado/system/vitis/snn_replay_standalone/include/golden_vectors_manifest.json
-```
+## 板端 UART 输出
 
-## Vitis 构建边界
-
-HLS-5A.3 已使用 **project-mode Vivado flow** 生成带有 PS7 handoff、`ps7_init.*`、`sysdef.xml`、HWH 和 bitstream 的 XSA。稳定交付文件应来自：
-
-```text
-vivado/system/snn_system_project_bitstream/snn_replay_system.xsa
-vivado/system/snn_system_project_bitstream/snn_replay_system.bit
-```
-
-当前会话已经准备好 standalone 源码和 golden header；Vitis application 的正式 ELF 构建需要在可用的 Vitis platform/BSP 上执行。没有开发板时，不把源代码准备、Vitis 编译或 XSA 生成写成板端运行成功。
-
-## 预期 UART 输出
+板端使用 UART1 MIO48/49，COM5，115200-8N-1。独立 UART smoke test 已确认串口路径；SNN ELF 当前在首次 AXI 读 `VERSION` 时阻塞，以下 PASS 文本是软件/RTL 预期格式，不是本轮板端已确认结果：
 
 ```text
 SNN standalone replay start
-BASE=0x43c00000 VERSION=0x00010001 JSON_SHA256=<sha256>
-VECTOR=threshold_edge PASS checksum=0x........ status=0x00000013
-VECTOR=signed_currents PASS checksum=0x........ status=0x00000013
-VECTOR=rounding_and_reset PASS checksum=0x........ status=0x00000013
+BASE=0x43C00000 VERSION=0x00010001 JSON_SHA256=8f73683b4448f8315af76151e36dacff494197c0caf8bcf2e8ace01ad301604a
+VECTOR=threshold_edge PASS checksum=0x00000FB5 status=0x00000003
+VECTOR=signed_currents PASS checksum=0x00000130 status=0x00000003
+VECTOR=rounding_and_reset PASS checksum=0x00000E50 status=0x00000003
 SNN standalone replay PASS cases=3
 ```
 
-实际板端输出必须另存 UART log，并同时记录 bitstream/XSA、输入 JSON SHA-256、Vitis ELF 和开发板型号；当前没有板端运行证据。
+构建和板端证据见 [`../../reports/HLS5B_BOARD_RESULTS.md`](../../reports/HLS5B_BOARD_RESULTS.md)。
