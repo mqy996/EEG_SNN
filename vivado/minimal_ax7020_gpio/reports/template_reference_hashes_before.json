@@ -1,0 +1,20 @@
+[
+  {
+    "path": "D:\\ZYNQ7020_study\\ZYNQ_project\\project_AX7020_template\\project_AX7020_template.xpr",
+    "exists": true,
+    "sha256": "41b568336145112e789d425db7247c990f5d4ff18d87a5e7486bb84881d1f446",
+    "size": 14711
+  },
+  {
+    "path": "D:\\ZYNQ7020_study\\ZYNQ_project\\project_AX7020_template\\project_AX7020_template.gen\\sources_1\\bd\\design_1\\hw_handoff\\design_1.hwh",
+    "exists": true,
+    "sha256": "3b520e59b5b31c3945cde59c0a6bcdf67c036d9cd5b72c408f857645b2a5b997",
+    "size": 84278
+  },
+  {
+    "path": "D:\\ZYNQ7020_study\\ZYNQ_project\\project_AX7020_template\\project_AX7020_template.gen\\sources_1\\bd\\design_1\\ip\\design_1_processing_system7_0_0_1\\ps7_parameters.xml",
+    "exists": true,
+    "sha256": "bcef3362b3d8acd6d8bfc086055aa82f0a2b1843b7a2c0bade7e914a0df7b3fc",
+    "size": 40967
+  }
+]
