@@ -41,14 +41,24 @@ apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 -config {make_ex
 update_compile_order -fileset sources_1
 set axi [create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 axi_interconnect_0]
 set_property CONFIG.NUM_SI {1} $axi
-set_property CONFIG.NUM_MI {1} $axi
+set_property CONFIG.NUM_MI {2} $axi
 set snn [create_bd_cell -type module -reference snn_axi_memory_window snn_axi_memory_window_0]
+set gpio [create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0]
+set_property -dict [list \
+    CONFIG.C_GPIO_WIDTH {32} \
+    CONFIG.C_ALL_INPUTS {0} CONFIG.C_ALL_OUTPUTS {1} \
+    CONFIG.C_IS_DUAL {0} CONFIG.C_INTERRUPT_PRESENT {0} \
+] $gpio
 connect_bd_intf_net [get_bd_intf_pins $ps/M_AXI_GP0] [get_bd_intf_pins $axi/S00_AXI]
 connect_bd_intf_net [get_bd_intf_pins $axi/M00_AXI] [get_bd_intf_pins $snn/S_AXI]
+connect_bd_intf_net [get_bd_intf_pins $axi/M01_AXI] [get_bd_intf_pins $gpio/S_AXI]
 connect_bd_net [get_bd_pins $ps/FCLK_CLK0] [get_bd_pins $ps/M_AXI_GP0_ACLK]
-connect_bd_net [get_bd_pins $ps/FCLK_CLK0] [get_bd_pins $axi/ACLK] [get_bd_pins $axi/S00_ACLK] [get_bd_pins $axi/M00_ACLK] [get_bd_pins $snn/s_axi_aclk]
-connect_bd_net [get_bd_pins $ps/FCLK_RESET0_N] [get_bd_pins $axi/ARESETN] [get_bd_pins $axi/S00_ARESETN] [get_bd_pins $axi/M00_ARESETN] [get_bd_pins $snn/s_axi_aresetn]
+connect_bd_net [get_bd_pins $ps/FCLK_CLK0] [get_bd_pins $axi/ACLK] [get_bd_pins $axi/S00_ACLK] [get_bd_pins $axi/M00_ACLK] [get_bd_pins $axi/M01_ACLK] [get_bd_pins $snn/s_axi_aclk] [get_bd_pins $gpio/s_axi_aclk]
+connect_bd_net [get_bd_pins $ps/FCLK_RESET0_N] [get_bd_pins $axi/ARESETN] [get_bd_pins $axi/S00_ARESETN] [get_bd_pins $axi/M00_ARESETN] [get_bd_pins $axi/M01_ARESETN] [get_bd_pins $snn/s_axi_aresetn] [get_bd_pins $gpio/s_axi_aresetn]
 assign_bd_address
+set gpio_segs [get_bd_addr_segs -quiet $gpio/S_AXI/*]
+if {[llength $gpio_segs] == 0} { error "AXI GPIO address segment was not inferred" }
+assign_bd_address -offset 0x41200000 -range 0x00010000 [lindex $gpio_segs 0]
 set segs [get_bd_addr_segs -quiet $snn/S_AXI/*]
 if {[llength $segs] == 0} { error "SNN AXI address segment was not inferred" }
 assign_bd_address -offset 0x43C00000 -range 0x00010000 [lindex $segs 0]

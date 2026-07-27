@@ -35,7 +35,7 @@
 3. AXI-Lite memory-window wrapper 三组 golden case 的 RTL 验证。
 4. Zynq PS7 + SmartConnect + 50 MHz FCLK0 + reset 的 Vivado project-mode 实现。
 5. Vitis standalone platform/BSP/FSBL 和 Cortex-A9 ELF 构建。
-6. 真实开发板 bitstream 下载、Vitis ELF 构建和 UART smoke test；AXI/板端回放问题已定位到下一轮调试。
+6. 真实开发板 bitstream 下载、Vitis ELF 构建和 UART smoke test；AXI/板端回放问题已通过 AXI GPIO 隔离实验确认属于系统级 AXI 访问链路。
 
 ## 关键文档
 
