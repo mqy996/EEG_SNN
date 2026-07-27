@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Jul 26 12:16:14 2026" VIVADOVERSION="2025.1">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Jul 27 11:14:23 2026" VIVADOVERSION="2025.1">
 
   <SYSTEMINFO ARCH="zynq" DEVICE="7z020" NAME="snn_replay_system" PACKAGE="clg400" SPEEDGRADE="-1"/>
 
@@ -969,7 +969,7 @@
         <PARAMETER NAME="PCW_ACT_TTC1_CLK1_PERIPHERAL_FREQMHZ" VALUE="111.111115"/>
         <PARAMETER NAME="PCW_ACT_TTC1_CLK2_PERIPHERAL_FREQMHZ" VALUE="111.111115"/>
         <PARAMETER NAME="PCW_ACT_TTC_PERIPHERAL_FREQMHZ" VALUE="50"/>
-        <PARAMETER NAME="PCW_ACT_UART_PERIPHERAL_FREQMHZ" VALUE="10.000000"/>
+        <PARAMETER NAME="PCW_ACT_UART_PERIPHERAL_FREQMHZ" VALUE="100.000000"/>
         <PARAMETER NAME="PCW_ACT_USB0_PERIPHERAL_FREQMHZ" VALUE="60"/>
         <PARAMETER NAME="PCW_ACT_USB1_PERIPHERAL_FREQMHZ" VALUE="60"/>
         <PARAMETER NAME="PCW_ACT_WDT_PERIPHERAL_FREQMHZ" VALUE="111.111115"/>
@@ -1374,12 +1374,12 @@
         <PARAMETER NAME="PCW_MIO_47_IOTYPE" VALUE="&lt;Select>"/>
         <PARAMETER NAME="PCW_MIO_47_PULLUP" VALUE="&lt;Select>"/>
         <PARAMETER NAME="PCW_MIO_47_SLEW" VALUE="&lt;Select>"/>
-        <PARAMETER NAME="PCW_MIO_48_DIRECTION" VALUE="&lt;Select>"/>
-        <PARAMETER NAME="PCW_MIO_48_IOTYPE" VALUE="LVCMOS 1.8V"/>
+        <PARAMETER NAME="PCW_MIO_48_DIRECTION" VALUE="out"/>
+        <PARAMETER NAME="PCW_MIO_48_IOTYPE" VALUE="LVCMOS 3.3V"/>
         <PARAMETER NAME="PCW_MIO_48_PULLUP" VALUE="enabled"/>
         <PARAMETER NAME="PCW_MIO_48_SLEW" VALUE="slow"/>
-        <PARAMETER NAME="PCW_MIO_49_DIRECTION" VALUE="&lt;Select>"/>
-        <PARAMETER NAME="PCW_MIO_49_IOTYPE" VALUE="LVCMOS 1.8V"/>
+        <PARAMETER NAME="PCW_MIO_49_DIRECTION" VALUE="in"/>
+        <PARAMETER NAME="PCW_MIO_49_IOTYPE" VALUE="LVCMOS 3.3V"/>
         <PARAMETER NAME="PCW_MIO_49_PULLUP" VALUE="enabled"/>
         <PARAMETER NAME="PCW_MIO_49_SLEW" VALUE="slow"/>
         <PARAMETER NAME="PCW_MIO_4_DIRECTION" VALUE="&lt;Select>"/>
@@ -1423,8 +1423,8 @@
         <PARAMETER NAME="PCW_MIO_9_PULLUP" VALUE="&lt;Select>"/>
         <PARAMETER NAME="PCW_MIO_9_SLEW" VALUE="&lt;Select>"/>
         <PARAMETER NAME="PCW_MIO_PRIMITIVE" VALUE="54"/>
-        <PARAMETER NAME="PCW_MIO_TREE_PERIPHERALS" VALUE="unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned"/>
-        <PARAMETER NAME="PCW_MIO_TREE_SIGNALS" VALUE="unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned"/>
+        <PARAMETER NAME="PCW_MIO_TREE_PERIPHERALS" VALUE="unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#UART 1#UART 1#unassigned#unassigned#unassigned#unassigned"/>
+        <PARAMETER NAME="PCW_MIO_TREE_SIGNALS" VALUE="unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#tx#rx#unassigned#unassigned#unassigned#unassigned"/>
         <PARAMETER NAME="PCW_M_AXI_GP0_ENABLE_STATIC_REMAP" VALUE="0"/>
         <PARAMETER NAME="PCW_M_AXI_GP0_FREQMHZ" VALUE="50"/>
         <PARAMETER NAME="PCW_M_AXI_GP0_ID_WIDTH" VALUE="12"/>
@@ -1688,12 +1688,12 @@
         <PARAMETER NAME="PCW_UART1_GRP_FULL_ENABLE" VALUE="0"/>
         <PARAMETER NAME="PCW_UART1_GRP_FULL_IO" VALUE="&lt;Select>"/>
         <PARAMETER NAME="PCW_UART1_HIGHADDR" VALUE="0xE0001FFF"/>
-        <PARAMETER NAME="PCW_UART1_PERIPHERAL_ENABLE" VALUE="0"/>
-        <PARAMETER NAME="PCW_UART1_UART1_IO" VALUE="&lt;Select>"/>
+        <PARAMETER NAME="PCW_UART1_PERIPHERAL_ENABLE" VALUE="1"/>
+        <PARAMETER NAME="PCW_UART1_UART1_IO" VALUE="MIO 48 .. 49"/>
         <PARAMETER NAME="PCW_UART_PERIPHERAL_CLKSRC" VALUE="IO PLL"/>
-        <PARAMETER NAME="PCW_UART_PERIPHERAL_DIVISOR0" VALUE="1"/>
+        <PARAMETER NAME="PCW_UART_PERIPHERAL_DIVISOR0" VALUE="16"/>
         <PARAMETER NAME="PCW_UART_PERIPHERAL_FREQMHZ" VALUE="100"/>
-        <PARAMETER NAME="PCW_UART_PERIPHERAL_VALID" VALUE="0"/>
+        <PARAMETER NAME="PCW_UART_PERIPHERAL_VALID" VALUE="1"/>
         <PARAMETER NAME="PCW_UIPARAM_ACT_DDR_FREQ_MHZ" VALUE="533.333374"/>
         <PARAMETER NAME="PCW_UIPARAM_DDR_ADV_ENABLE" VALUE="0"/>
         <PARAMETER NAME="PCW_UIPARAM_DDR_AL" VALUE="0"/>

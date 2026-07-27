@@ -67,3 +67,20 @@ SNN replay system PASS: project_bitstream
 2. bitstream 在 PYNQ-Z2 实物上成功启动；
 3. Vitis ELF 已在板端执行并完成三组向量回放；
 4. 完整 CNN-SNN 在线输入、准确率、功耗或端到端时延。
+
+
+## UART1 修正记录（2026-07-27）
+
+首次脚本只设置了 `PCW_EN_UART1=1`，但没有同时设置 `PCW_UART1_PERIPHERAL_ENABLE=1` 和 `PCW_UART1_UART1_IO=MIO 48 .. 49`。因此旧 XPR 的 PS GUI 中 UART1 实际未完成 MIO 路由；此前“UART1 已选定”的表述不准确。
+
+现已修正 Tcl，并重新生成 BD、XSA 和 bitstream。新 HWH 中已验证：
+
+```text
+PCW_EN_UART1=1
+PCW_UART1_PERIPHERAL_ENABLE=1
+PCW_UART1_UART1_IO=MIO 48 .. 49
+PCW_MIO_48_DIRECTION=out
+PCW_MIO_49_DIRECTION=in
+```
+
+修正后的可查看 XPR 位于本地生成目录 `vivado/system/snn_system_project_bitstream_uart1/project/snn_replay_system.xpr`；稳定交付的 XSA/bitstream 位于 `vivado/system/artifacts/`。

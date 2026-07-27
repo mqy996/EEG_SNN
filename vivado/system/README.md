@@ -87,3 +87,19 @@ powershell -NoProfile -ExecutionPolicy Bypass `
 ## HLS-5A.4：Vitis standalone 回放程序
 
 `vitis/snn_replay_standalone/` 提供寄存器协议、三组 golden case C header、自动生成脚本和 `main.c`。当前已完成源代码与 standalone BSP 语法检查；正式 ELF 和板端 UART 回放尚未宣称完成。详见 [HLS5A4_VITIS_STANDALONE_RESULTS.md](reports/HLS5A4_VITIS_STANDALONE_RESULTS.md)。
+
+
+### UART1 配置说明
+
+PS7 的 UART1 需要同时设置外围设备使能和 MIO 路由，不能只设置 `PCW_EN_UART1`：
+
+```text
+PCW_UART1_PERIPHERAL_ENABLE=1
+PCW_UART1_UART1_IO=MIO 48 .. 49
+```
+
+旧生成的 `snn_system_project_bitstream/project/snn_replay_system.xpr` 是修正前的工作副本；修正后的可查看工程为 `snn_system_project_bitstream_uart1/project/snn_replay_system.xpr`。最终 XSA/bitstream 已覆盖更新到 `artifacts/`。
+
+### AXI Interconnect 与 SmartConnect
+
+当前 Tcl 明确创建的是 `xilinx.com:ip:axi_interconnect:2.1`，不是 SmartConnect。Vivado 标记 `discontinued` 表示该 IP 已不推荐用于新设计，但在当前 Vivado 2025.1 中仍能生成、综合、实现和打包 XSA。当前拓扑只有 PS M_AXI_GP0 到一个 AXI-Lite S_AXI，功能上没有立即影响；后续若迁移到 SmartConnect，必须重新生成 BD、重新验证地址映射、时序、资源和 XSA。
