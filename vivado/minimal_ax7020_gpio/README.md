@@ -83,4 +83,4 @@ vivado/minimal_ax7020_gpio/scripts/create_vitis_gpio_smoke.py
 vivado/minimal_ax7020_gpio/reports/AX7020_MINIMAL_GPIO_RESULTS.md
 ```
 
-当前已证明首次 AXI 写入和写入后的 DATA 读取可以完成；启动后的第一次 AXI 读事务仍需单独解释。
+当前已完成模板对齐、bitstream/XSA/ELF生成和板端启动验证；启动后的第一个 AXI 事务仍然阻塞，不能宣称AXI数据通路已完全通过。

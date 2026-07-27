@@ -1,5 +1,6 @@
 #include "xil_io.h"
 #include "xil_printf.h"
+#include "sleep.h"
 
 #define AXI_GPIO_BASEADDR 0x41200000U
 #define AXI_GPIO_DATA 0x00U
@@ -10,6 +11,9 @@ int main(void) {
     xil_printf("BOOT_DATA_FIRST_RESETFIX\r\n");
     xil_printf("UART_OK\r\n");
     xil_printf("GPIO_BASE=0x%08x\r\n", AXI_GPIO_BASEADDR);
+    xil_printf("DELAY_100MS_BEGIN\r\n");
+    usleep(100000);
+    xil_printf("DELAY_100MS_DONE\r\n");
     xil_printf("GPIO_WRITE_BEGIN\r\n");
     Xil_Out32(AXI_GPIO_BASEADDR + AXI_GPIO_DATA, 0x12345678U);
     xil_printf("GPIO_WRITE_DONE\r\n");

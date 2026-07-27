@@ -130,27 +130,34 @@ GPIO_TRI_READ_BEGIN
 
 ### 5.2 修复复位方向后
 
-采用直接低有效复位连接后，数据优先测试能够完成：
+采用直接低有效复位连接后，PS7、UART、JTAG 下载流程均可正常工作。但使用带有唯一启动标记的当前 ELF 复测时，第一次 AXI 访问仍然阻塞：
 
 ```text
-BOOT
+BOOT_DATA_FIRST_RESETFIX
 UART_OK
 GPIO_BASE=0x41200000
 GPIO_WRITE_BEGIN
-GPIO_WRITE_DONE
-GPIO_DATA_READ=0x12345678
-GPIO_TRI_READ=0xFFFFFFFF
-RESULT=TRI_NONZERO
-DONE
 ```
 
-这证明：
+在 `GPIO_WRITE_BEGIN` 之后没有出现 `GPIO_WRITE_DONE`。
+
+另一个“先读 DATA”的程序同样停在：
+
+```text
+BOOT_DATA_READ_FIRST
+UART_OK
+GPIO_BASE=0x41200000
+GPIO_DATA_READ_BEGIN
+```
+
+之前 UART 捕获中出现过的 `GPIO_WRITE_DONE`、`GPIO_DATA_READ` 和 `DONE` 字符串来自串口缓冲中的前一轮程序输出，不能作为当前 ELF 已通过的证据。后续报告必须使用唯一启动标记区分当前回放与残留串口数据。
+
+因此本轮已经确认：
 
 1. PS7 可以正常启动；
 2. UART1 配置正确；
-3. GP0 到 AXI Interconnect 的写事务可以完成；
-4. AXI GPIO DATA 寄存器写入和读取可以完成；
-5. bitstream、XSA 和 Vitis standalone ELF 之间的地址契约一致。
+3. bitstream、XSA、Vitis standalone ELF 的地址契约一致；
+4. 复位反相错误已修复，但第一次 AXI 事务仍未完成。
 
 ### 5.3 当前仍可复现的现象
 
@@ -170,19 +177,22 @@ GPIO_TRI_READ_BEGIN
 
 因此当前最小验证的结论不是“所有 AXI 访问已经完全正常”，而是：
 
-> 首次 AXI 写事务可以完成；先完成一次写事务后，AXI GPIO DATA 读写可以完成；但程序启动后的第一次 AXI 读事务仍然会阻塞。
+> 在当前可辨识的最新回放中，程序启动后的第一次 AXI 写事务和第一次 AXI 读事务都可能阻塞；串口残留输出曾经造成“后续读写成功”的假象，必须用唯一启动标记重新采集。
 
 `GPIO_TRI_READ=0xFFFFFFFF` 是当前输出型 AXI GPIO 的观测值，不能直接当作方向寄存器正确性的充分证明，后续应使用官方 `XGpio` 驱动或进一步读取/写入验证。
 
 ## 6. 对 SmartConnect 和 PS7配置的结论
 
-### SmartConnect不是当前主要根因
+### 目前不能把问题归因于 SmartConnect，也不能排除它
 
-本次模板对齐工程使用的是传统 AXI Interconnect，而不是 SmartConnect。复位修正后，AXI GPIO 的写入和后续读取可以成功。因此：
+本次模板对齐工程使用的是传统 AXI Interconnect。复位方向修正后，首次 AXI 事务仍然阻塞，因此当前证据只能说明：
 
-- AXI Interconnect 本身可以完成 GP0 到 AXI GPIO 的数据通路；
-- 当前现象不是“只能使用 SmartConnect”；
-- 之前 SmartConnect 版本的首次读取失败，不能单独证明 SmartConnect 是根因。
+- PS7 模板差异不是唯一根因；
+- 复位反相是一个真实错误，但修复后问题仍存在；
+- AXI Interconnect 版本目前没有通过“首次事务”验证；
+- 之前 SmartConnect 版本的首次读取失败，不能单独证明 SmartConnect 是根因，也不能据此排除 SmartConnect。
+
+下一轮应使用同一套模板对齐 PS7 和同一套软件，单独替换 Interconnect/SmartConnect，避免同时改变多个变量。
 
 ### PS7配置差异确实存在，但不是全部原因
 
@@ -211,4 +221,4 @@ GPIO_TRI_READ_BEGIN
 4. 若仍存在首读阻塞，再用 ILA 观察 GP0/Interconnect 的 `ARVALID/ARREADY/RVALID/RREADY`；
 5. 只有确认最小 AXI 访问协议稳定后，才接回 SNN AXI wrapper。
 
-当前最小工程已经完成了“模板对齐、复位纠正、bitstream/XSA/ELF生成和板端数据通路验证”，但“启动后的第一次 AXI 读事务”仍需单独解释，不能把它误写成板端完全通过。
+当前最小工程已经完成了“模板对齐、复位纠正、bitstream/XSA/ELF生成和板端启动验证”，但 AXI 第一个事务仍未通过，不能把它写成板端 AXI 数据通路完全通过。
