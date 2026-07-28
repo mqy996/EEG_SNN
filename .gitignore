@@ -106,3 +106,6 @@ vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/program_smartconnect_ab.log
 vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/run_smartconnect_ab.xsdb.tcl
 
 hls/hybrid_lif_head/board_target_50mhz_work/
+
+# Curated HLS-6B wrapper simulation evidence
+!vivado/system/reports/hls6b_wrapper_sim_console.log

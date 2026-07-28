@@ -1,0 +1,14 @@
+Property                   Type     Read-only  Value
+ALLOWED_SIM_MODELS         string*  true       rtl
+CLASS                      string   true       bd_cell
+CONFIG.C_S_AXI_ADDR_WIDTH  string   false      6
+CONFIG.C_S_AXI_DATA_WIDTH  string   false      32
+CONFIG.Component_Name      string   true       ax7020_ps7_base_snn_axi_memory_window_0_0
+LOCATION                   string   false      
+LOCK_UPGRADE               bool     false      0
+NAME                       string   false      snn_axi_memory_window_0
+PATH                       string   true       /snn_axi_memory_window_0
+SCREENSIZE                 string   false      
+SELECTED_SIM_MODEL         enum     false      rtl
+TYPE                       string   true       ip
+VLNV                       string   true       xilinx.com:module_ref:snn_axi_memory_window_hls6a:1.0
