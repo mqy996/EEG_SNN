@@ -1,144 +1,150 @@
 # HLS-6C Vitis standalone / AXI-Lite board replay report
 
-**Result: BLOCKED at Vitis platform/BSP build gate — no board replay was attempted.**
+**当前结果：Vitis platform/domain、ELF 和 bitstream 下载通过；首个 AXI-Lite VERSION 读取在板端阻塞。**
 
-Date: **2026-07-28**
+日期：2026-07-28
+工具：Vitis 2025.1，SW Build 6137779
+范围：HLS-6B SmartConnect SNN wrapper，不修改 HLS-6B 硬件产物。
 
-Tool environment: **Vitis 2025.1, SW Build 6137779 (2025-05-21-18:10:19)**
+## 1. 证据等级
 
-Scope: HLS-6B SmartConnect SNN wrapper only; HLS-6B artifacts were not modified.
-
-## 1. Evidence ladder and claim boundary
-
-| Level | Result | Evidence |
+| 等级 | 结果 | 证据 |
 |---|---|---|
-| HLS-6B implementation input | AVAILABLE | XSA/bitstream/HWH under `vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/` |
-| Vitis platform/domain | **BLOCKED** | Two fresh platform workspaces ended with `export=ERROR`; no `.xpfm` |
-| Standalone application / ELF | NOT REACHED | Platform stop gate; no application build started successfully |
-| Bitstream download | NOT ATTEMPTED | No valid HLS-6C platform/ELF evidence |
-| UART smoke / AXI first transaction | NOT ATTEMPTED | No ELF to run |
-| Three-case board replay | NOT ATTEMPTED | No board claim is made |
+| HLS-6B XSA/bitstream/HWH | AVAILABLE | `vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/` |
+| Vitis platform/domain | **PASS** | `D:/v6c_hls6c_20260728/p6c/export/.buildstatus` 为 `export=SUCCESS`，存在 `p6c.xpfm` |
+| standalone application / ELF | **PASS** | `D:/v6c_hls6c_20260728/a6c/build/.buildstatus` 为 `hw=SUCCESS`，存在 `a6c.elf` |
+| bitstream 下载 | **PASS** | Vivado Hardware Manager `PROGRAM_RESULT=PASS` |
+| UART smoke / AXI 首次事务 | **BLOCKED** | UART 到达 `VERSION_BEGIN`，未返回 VERSION |
+| 三组板端 replay | NOT ATTEMPTED | 首次 AXI 事务停止门，当前不宣称 board PASS |
 
-A successful HLS-6B Vivado implementation, a Vitis process exit code, or source-code PASS strings are not treated as board evidence.
+只有 platform 状态文件、真实 XPFM 和真实 ELF 同时存在，才把软件构建标记为 PASS；Vitis 进程退出码不单独作为证据。
 
-## 2. HLS-6B input identity
+## 2. 输入硬件身份
 
-| Artifact | Path | SHA-256 |
-|---|---|---|
-| XSA | `vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/smartconnect_snn_wrapper_50mhz.xsa` | `373543b2a9a283339f3d48bcd20cb38cc299a0f416faae84ba3b0dcc303ba98b` |
-| bitstream | `vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/smartconnect_snn_wrapper_50mhz.bit` | `d5e90c144c02dddf4af94ec85208dfd285b2f672ee13bb18ca7c18b4950bab8d` |
-| HWH | `vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/smartconnect_snn_wrapper_50mhz.hwh` | `8c5f1d0c93dc8141e1d985c8f4d42f6dc5bda2ab69d871b31ff3d3566b9c521d` |
+| Artifact | SHA-256 |
+|---|---|
+| HLS-6B XSA | `373543b2a9a283339f3d48bcd20cb38cc299a0f416faae84ba3b0dcc303ba98b` |
+| HLS-6B bitstream | `d5e90c144c02dddf4af94ec85208dfd285b2f672ee13bb18ca7c18b4950bab8d` |
+| HLS-6B HWH | `8c5f1d0c93dc8141e1d985c8f4d42f6dc5bda2ab69d871b31ff3d3566b9c521d` |
 
-The XSA `sysdef.xml` identifies `xc7z020clg400-2`. The packaged HWH/XSA metadata was checked for the documented PS7 contract: FCLK0/GP0 at 50 MHz, UART1 at 115200 on MIO48/49, DDR `MT41J256M16 RE-125`, SNN wrapper `0x43C00000`, and AXI GPIO `0x41200000`.
-
-Golden input identity:
-
-- manifest: `vivado/system/vitis/snn_replay_standalone/include/golden_vectors_manifest.json`
-- SHA-256: `8f73683b4448f8315af76151e36dacff494197c0caf8bcf2e8ace01ad301604a`
-- cases: `threshold_edge, signed_currents, rounding_and_reset`
-- schema: `hls-q12.6-golden-v1`
-- generated header: `include/golden_vectors_q12_6.h`
-
-The checked golden JSON hash matches the manifest/header contract. No golden vectors or HLS-6B artifacts were changed.
-
-## 3. Source/script changes made before the stop gate
-
-- `src/main.c`
-  - emits `SNN standalone replay start` before the first AXI read;
-  - emits a `VERSION_BEGIN` marker before reading `VERSION`;
-  - preserves the required sequence VERSION → soft reset → indexed feature/weight/bias writes → checksum → START → DONE polling → error/status/output comparison;
-  - logs reset status, first feature write, checksum, poll count, error status, clear-done marker, both logits, and all 32 counts with actual/expected values;
-  - explicitly sends `CLEAR_DONE` after each case and retains the reset boundary between cases.
-- `scripts/create_vitis_standalone_app.py`
-  - uses Vitis 2025.1 `empty_application` and explicit `ps7_cortexa9_0` / `standalone_a9_0`;
-  - does not pre-create the workspace directory, avoiding Vitis' “workspace version” error for an empty pre-created directory;
-  - prints the XSA and ELF SHA-256 values;
-  - validates the XSA/source file paths before invoking Vitis;
-  - checks platform/application `.buildstatus` files and requires a real `.xpfm` and `.elf`, so Vitis process exit code cannot masquerade as an artifact.
-- `scripts/export_golden_to_c.py`
-  - retains the frozen golden JSON SHA-256 when generating the C header and manifest;
-  - was lint-cleaned without changing the generated data contract.
-- `include/snn_replay_regs.h` and `scripts/create_standalone_platform.tcl`
-  - had UTF-8 BOM markers removed; their register/Tcl content is otherwise unchanged.
-- `README.md`
-  - now documents the HLS-6C input path, current blocked state, fresh-workspace rule, and evidence markers.
-
-## 4. Vitis build attempts
-
-### Attempt A — long workspace, first run
-
-Workspace: `vivado/system/vitis_standalone_build_hls6c_20260728`  Platform: `snn_replay_platform_hls6c_20260728`  Application: `snn_replay_app_hls6c_20260728`
-
-The Vitis invocation exceeded the 124-second shell limit while generating the platform. The retained status is:
+注意：XSA 正确 SHA-256 为：
 
 ```text
-#Tue Jul 28 16:58:47 CST 2026
+373543b2a9a283339f3d48bcd20cb38cc299a0f416faae84ba3b0dcc303ba98b
+```
+
+bitstream 和 HWH 正确 SHA-256 为：
+
+```text
+d5e90c144c02dddf4af94ec85208dfd285b2f672ee13bb18ca7c18b4950bab8d
+8c5f1d0c93dc8141e1d985c8f4d42f6dc5bda2ab69d871b31ff3d3566b9c521d
+```
+
+Golden manifest SHA-256：
+
+```text
+8f73683b4448f8315af76151e36dacff494197c0caf8bcf2e8ace01ad301604a
+```
+
+## 3. 创建流程修正
+
+本次成功流程相对于之前失败流程做了三项关键修正：
+
+1. 删除 standalone platform/domain 创建中的 `generate_dtb=True`；
+2. 使用短路径和短名称：
+   ```text
+   Workspace: D:\v6c_hls6c_20260728
+   Platform:  p6c
+   App:       a6c
+   ```
+3. 启动 Vitis 前显式加载：
+   ```text
+   D:\vitis\2025.1\Vivado\.settings64-Vivado.bat
+   D:\vitis\2025.1\Vitis\.settings64-Vitis.bat
+   ```
+
+同时，platform 构建后使用 `client.find_platform_in_repos()` 获取 platform 引用，再创建应用。
+
+## 4. 成功构建结果
+
+```text
+PLATFORM_BUILD_RETURN=0
+export=SUCCESS
+PLATFORM_XPFM=D:\v6c_hls6c_20260728\p6c\export\p6c\p6c.xpfm
+APP_BUILD_RETURN=0
+hw=SUCCESS
+ELF=D:\v6c_hls6c_20260728\a6c\build\a6c.elf
+```
+
+Curated artifacts：
+
+```text
+vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6c_vitis_standalone/p6c.xpfm
+vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6c_vitis_standalone/a6c.elf
+vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6c_vitis_standalone/fsbl.elf
+```
+
+文件 SHA-256：
+
+```text
+p6c.xpfm  44E06148A523700FD6B88619EF59CA3E4324FEBA0D240ECA9A7086AAB434E3E7
+a6c.elf   834EC82E9F30FE45232089E0528E84995551B769DF8D8D7FC334CDF4DCB8BD2B
+fsbl.elf  24778243FF6CDB7DEC0B2A2B50CE5EE2AA7F6E854B93EC4F1ABBAE4221355DA4
+```
+
+## 5. 对之前失败的解释
+
+之前两个长路径 workspace 的结果仍然保留：
+
+```text
 export=ERROR
 ```
 
-No `.xpfm` or `.elf` exists in that workspace. The generated workspace is ignored by `snn_hybrid_eeg/.gitignore` and was retained as failure evidence.
+其日志出现 CMake 编译器识别依赖文件缺失和 `CMAKE_OBJECT_PATH_MAX` 路径警告。它们不是 XSA 硬件设计失败，而是 Vitis standalone 创建参数和 Windows 构建路径组合导致的 platform/BSP 构建失败。
 
-### Attempt B — fresh workspace
+成功的短路径流程说明：
 
-Workspace: `vivado/system/vitis_standalone_build_hls6c_20260728_run2`  Platform: `snn_replay_platform_hls6c_run2_20260728`  Application: `snn_replay_app_hls6c_run2_20260728`
+- `write_hw_platform -fixed` 不是问题；
+- `xc7z020clg400-2` 不是问题；
+- SmartConnect/AXI 地址不是问题；
+- standalone platform 创建、BSP、FSBL 和应用 ELF 均可成功生成。
 
-This run completed the Vitis command wrapper, but `platform.build()` returned `1`. The Vitis console reported platform creation and then failed while building the BSP:
+## 6. 板端最小回放结果（2026-07-28）
+
+### 下载与 CPU 入口
+
+- 目标：`xc7z020_1` / `xc7z020`
+- bitstream：`smartconnect_snn_wrapper_50mhz.bit`
+- Vivado Hardware Manager：`PROGRAM_RESULT=PASS`
+- XSCT：`FPGA_PROGRAMMED`、`ELF_DOWNLOADED=.../a6c.elf`、`CPU_RUN_WINDOW_COMPLETE`
+- UART：COM5，115200 8-N-1
+
+### UART 原始关键输出
 
 ```text
-Platform creation finished successfully.
-Platform Quick Build initiated.
-[ERROR]: Command 'cmake --build . --parallel 22 --verbose' returned non-zero exit status 1.
-[ERROR]: Failed to build the BSP
-Error in generating platform.
+SNN standalone replay start
+AXI_PROBE=VERSION_BEGIN base=0x43C00000
 ```
 
-The retained status is:
+在 `VERSION_BEGIN` 之后没有收到 `BASE=... VERSION=...` 或 `VERSION_PASS`。XSCT 返回码为 0，但这只能证明 FPGA/ELF 下载流程完成，不能证明 AXI-Lite 事务完成。
+
+### 结论
 
 ```text
-#Tue Jul 28 17:06:06 CST 2026
-export=ERROR
+bitstream download PASS
+  -> ELF download PASS
+  -> CPU enters main PASS
+  -> first SNN wrapper AXI-Lite read at 0x43C00000 BLOCKED
 ```
 
-The workspace contains `CMakeError.log` compiler-identification dependency failures and Vitis emitted `CMAKE_OBJECT_PATH_MAX` warnings for generated paths close to the 250-character limit. These are recorded as contributing diagnostics, not as a proven single root cause because the leaf compiler diagnostic was not retained by Vitis. No `.xpfm` or `.elf` exists.
+因此没有继续写入 feature/weight/bias，也没有执行 START、DONE、logits/counts 或三组 golden replay。HLS-6B XSim 和 Vivado implementation 结果保持有效，但尚不能宣称板端 SNN wrapper PASS。
 
-### Attempt C — short-path probe
+剩余问题已经从 Vitis platform/ELF 创建阶段推进到板端 PS7 GP0 → SmartConnect → SNN wrapper 的首次 AXI-Lite 访问。AXI GPIO SmartConnect 对照实验曾经通过，因此下一步应做针对 SNN wrapper 分支的最小硬件诊断，不应继续重复完整 vector 回放。
 
-Workspace: `D:\v6c_20260728`. The user interrupted this bounded retry before platform creation completed. Only Vitis metadata exists; there is no `.buildstatus`, `.xpfm`, or `.elf`. This run is not counted as validation.
+## 7. 证据文件
 
-The exact condensed evidence is retained in `vivado/system/reports/HLS6C_VITIS_PLATFORM_BUILD_EVIDENCE.txt`.
-
-## 5. Board gate decision
-
-Per the reviewed execution plan, the platform/domain/ELF stop gate applies. Therefore:
-
-- HLS-6B bitstream was **not** downloaded by this HLS-6C execution;
-- no UART1/COM capture was produced;
-- no VERSION or first AXI-Lite transaction was observed on hardware;
-- no checksum/status/logit/count comparison was made against the board;
-- `board replay PASS` is **not** reported.
-
-The next bounded action is to reproduce the platform BSP failure in a genuinely short workspace while capturing the leaf CMake/Ninja diagnostic, then rerun the same source/script. That action is outside this stopped execution because the user requested no further long-running Vitis process after the platform error.
-
-## 6. Validation performed
-
-- Golden JSON SHA-256 recomputed and matched `8f73683b4448f8315af76151e36dacff494197c0caf8bcf2e8ace01ad301604a`.
-- XSA ZIP metadata inspected; target part and address segments were consistent with the HLS-6B contract.
-- `python -m py_compile vivado/system/vitis/snn_replay_standalone/scripts/create_vitis_standalone_app.py` and `export_golden_to_c.py` passed.
-- `python -m ruff check vivado/system/vitis/snn_replay_standalone/scripts` passed.
-- Curated HLS-6C source, script, README, and report files were checked as UTF-8 without BOM and without trailing whitespace.
-- `gcc -std=c11 -Wall -Wextra -Werror -fsyntax-only` passed for `src/main.c` with minimal Xilinx I/O stubs; this is a host syntax check, not an ARM/Vitis build.
-- `git diff --check -- vivado/system/vitis/snn_replay_standalone` passed.
-- No Vitis server/compiler helper processes from this execution remain. The pre-existing Vivado `hw_server` was left running.
-
-## 7. Curated changed files
-
-- `vivado/system/vitis/snn_replay_standalone/src/main.c`
-- `vivado/system/vitis/snn_replay_standalone/scripts/create_vitis_standalone_app.py`
-- `vivado/system/vitis/snn_replay_standalone/scripts/export_golden_to_c.py`
-- `vivado/system/vitis/snn_replay_standalone/include/snn_replay_regs.h`
-- `vivado/system/vitis/snn_replay_standalone/scripts/create_standalone_platform.tcl`
-- `vivado/system/vitis/snn_replay_standalone/README.md`
+- `vivado/system/reports/HLS6C_SHORT_PLATFORM_BUILD.log`
+- `vivado/system/reports/HLS6C_BITSTREAM_PROGRAM.log`
+- `vivado/system/reports/HLS6C_BOARD_REPLAY.log`
 - `vivado/system/reports/HLS6C_VITIS_PLATFORM_BUILD_EVIDENCE.txt`
 - `vivado/system/reports/HLS6C_VITIS_BOARD_REPLAY.md`
-
-No commit or push was performed.

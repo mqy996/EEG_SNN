@@ -70,13 +70,11 @@ try:
     platform = client.create_platform_component(
         name=platform_name,
         hw_design=str(xsa),
-        generate_dtb=True,
     )
     platform.add_domain(
         name="standalone_a9_0",
         cpu="ps7_cortexa9_0",
         os="standalone",
-        generate_dtb=True,
     )
     platform_status = platform.build()
     print(f"PLATFORM_BUILD_RETURN={platform_status}")
@@ -84,10 +82,13 @@ try:
     if not platform_xpfm.exists():
         raise RuntimeError(f"Platform XPFM is missing: {platform_xpfm}")
     print(f"PLATFORM_XPFM={platform_xpfm}")
+    platform_ref = client.find_platform_in_repos(platform_name)
+    if platform_ref is None:
+        raise RuntimeError(f"Vitis platform repository lookup failed: {platform_name}")
 
     app = client.create_app_component(
         name=app_name,
-        platform=str(platform_xpfm),
+        platform=platform_ref,
         domain="standalone_a9_0",
         template="empty_application",
     )

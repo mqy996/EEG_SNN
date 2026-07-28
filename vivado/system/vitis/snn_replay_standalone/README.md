@@ -20,7 +20,9 @@
 
 ```powershell
 $env:SNN_REPLAY_XSA = (Resolve-Path vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/smartconnect_snn_wrapper_50mhz.xsa).Path
-$env:SNN_REPLAY_WORKSPACE = 'D:/vitis_hls6c_board_replay_20260728'
+$env:SNN_REPLAY_WORKSPACE = 'D:/v6c_hls6c_20260728'
+$env:SNN_REPLAY_PLATFORM = 'p6c'
+$env:SNN_REPLAY_APP = 'a6c'
 $env:SNN_REPLAY_SOURCE = (Resolve-Path vivado/system/vitis/snn_replay_standalone).Path
 $env:SNN_REPLAY_PLATFORM = 'snn_replay_platform_hls6c_20260728'
 $env:SNN_REPLAY_APP = 'snn_replay_app_hls6c_20260728'

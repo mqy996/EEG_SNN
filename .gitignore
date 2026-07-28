@@ -109,3 +109,7 @@ hls/hybrid_lif_head/board_target_50mhz_work/
 
 # Curated HLS-6B wrapper simulation evidence
 !vivado/system/reports/hls6b_wrapper_sim_console.log
+# Curated HLS-6C build and board evidence
+!vivado/system/reports/HLS6C_SHORT_PLATFORM_BUILD.log
+!vivado/system/reports/HLS6C_BITSTREAM_PROGRAM.log
+!vivado/system/reports/HLS6C_BOARD_REPLAY.log

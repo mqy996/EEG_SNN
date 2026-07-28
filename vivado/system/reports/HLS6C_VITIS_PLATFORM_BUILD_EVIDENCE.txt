@@ -35,3 +35,38 @@ Artifacts not produced:
   ELF=none
   UART log=none
   board programming=not attempted (platform/domain/ELF stop gate)
+
+
+Corrected flow (Attempt 4):
+Workspace: D:\v6c_hls6c_20260728
+   Environment: Vitis 2025.1 settings wrappers loaded before vitis.bat.
+   Platform: p6c
+   Application: a6c
+   Result: PLATFORM_BUILD_RETURN=0; export/.buildstatus = export=SUCCESS.
+   Platform artifact: D:\v6c_hls6c_20260728\p6c\export\p6c\p6c.xpfm
+   Application result: APP_BUILD_RETURN=0; hw/.buildstatus = hw=SUCCESS.
+   ELF artifact: D:\v6c_hls6c_20260728\a6c\build\a6c.elf
+   FSBL artifact: D:\v6c_hls6c_20260728\p6c\export\p6c\sw\boot\fsbl.elf
+   XPFM SHA256: 44e06148a523700fd6b88619ef59ca3e4324feba0d240eca9a7086aab434e3e7
+   ELF SHA256: 834ec82e9f30fe45232089e0528e84995551b769df8d8d7fc334cdf4dcbb8bd2b
+   FSBL SHA256: 24778243ff6cdb7dec0b2a2b50ce5ee2aa7f6e854b93ec4f1abbae4221355da4
+
+Curated teacher-repository artifacts:
+  vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6c_vitis_standalone/p6c.xpfm
+  vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6c_vitis_standalone/a6c.elf
+  vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6c_vitis_standalone/fsbl.elf
+  vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6c_vitis_standalone/ps7_init.tcl
+
+Board smoke result:
+  Bitstream programming: PASS (HLS-6B SmartConnect bitstream; PROGRAM_RESULT=PASS).
+  ELF download: PASS (a6c.elf downloaded through XSCT).
+  UART application entry: PASS ("SNN standalone replay start").
+  First SNN wrapper AXI-Lite read: BLOCKED after marker AXI_PROBE=VERSION_BEGIN base=0x43C00000.
+  No VERSION response, feature/weight/bias writes, START/DONE, logits, or count output was observed.
+  Full vector replay was not attempted after the first AXI-Lite transaction blocked.
+
+Current evidence boundary:
+  Vitis platform and standalone application generation are validated.
+  Board programming and ELF download are validated.
+  The remaining blocker is the first PS7 GP0 -> SmartConnect -> SNN wrapper AXI-Lite transaction.
+  This is not evidence of a Vitis platform-generation failure or a complete board replay PASS.
