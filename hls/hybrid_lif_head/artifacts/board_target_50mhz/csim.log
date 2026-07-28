@@ -1,0 +1,71 @@
+
+****** vitis-run v2025.1 (64-bit)
+  **** SW Build 6137779 on 2025-05-21-18:10:16
+  **** Start of session at: Tue Jul 28 11:58:13 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+  **** HLS Build v2025.1 6135595
+INFO: [HLS 200-2005] Using work_dir D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/csim 
+INFO: [HLS 200-2006] Changing directory to D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work
+INFO: [HLS 200-2176] Writing Vitis IDE component file D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/csim/vitis-comp.json
+INFO: [HLS 200-10] Creating and opening component 'D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/csim'.
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2025.1%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-2174] Applying component config ini file D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_csim.cfg
+INFO: [HLS 200-1465] Applying config ini 'syn.file=../src/hybrid_lif_head.cpp' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_csim.cfg(6)
+INFO: [HLS 200-10] Adding design file 'D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/src/hybrid_lif_head.cpp' to the project
+INFO: [HLS 200-1465] Applying config ini 'tb.file=../tb/tb_hybrid_lif_head.cpp' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_csim.cfg(7)
+INFO: [HLS 200-10] Adding test bench file 'D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/tb/tb_hybrid_lif_head.cpp' to the project
+INFO: [HLS 200-1465] Applying config ini 'syn.top=hybrid_lif_head_q12_6' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_csim.cfg(5)
+INFO: [HLS 200-1465] Applying config ini 'flow_target=vivado' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_csim.cfg(2)
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2025.1%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1465] Applying config ini 'part=xc7z020clg400-2' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_csim.cfg(3)
+INFO: [HLS 200-1611] Setting target device to 'xc7z020-clg400-2'
+INFO: [HLS 200-1465] Applying config ini 'clock=20ns' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_csim.cfg(4)
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 20ns.
+INFO: [HLS 200-2176] Writing Vitis IDE component file D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/csim/vitis-comp.json
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [SIM 211-4] CSIM will launch CLANG as the compiler.
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+   Compiling ../../../../../tb/tb_hybrid_lif_head.cpp in debug mode
+   Compiling ../../../../../src/hybrid_lif_head.cpp in debug mode
+   Generating csim.exe
+In file included from ../../../../../tb/tb_hybrid_lif_head.cpp:3:
+In file included from ../../../../../tb/../src/hybrid_lif_head.hpp:4:
+In file included from D:/vitis/2025.1/Vitis/include/ap_int.h:10:
+In file included from D:/vitis/2025.1/Vitis/include/etc/ap_common.h:677:
+In file included from D:/vitis/2025.1/Vitis/include/etc/ap_private.h:68:
+In file included from D:/vitis/2025.1/Vitis/include/hls_half.h:26:
+In file included from D:/vitis/2025.1/Vitis/include/etc/hls_half_fpo.h:19:
+In file included from D:/vitis/2025.1/Vitis/include/hls_fpo.h:140:
+In file included from D:/vitis/2025.1/Vitis/include/floating_point_v7_1_bitacc_cmodel.h:150:
+D:/vitis/2025.1/Vitis/include/gmp.h:58:9: warning: '__GMP_LIBGMP_DLL' macro redefined [-Wmacro-redefined]
+#define __GMP_LIBGMP_DLL  0
+        ^
+D:/vitis/2025.1/Vitis/include/floating_point_v7_1_bitacc_cmodel.h:142:9: note: previous definition is here
+#define __GMP_LIBGMP_DLL 1
+        ^
+1 warning generated.
+In file included from ../../../../../src/hybrid_lif_head.cpp:1:
+In file included from ../../../../../src/hybrid_lif_head.hpp:4:
+In file included from D:/vitis/2025.1/Vitis/include/ap_int.h:10:
+In file included from D:/vitis/2025.1/Vitis/include/etc/ap_common.h:677:
+In file included from D:/vitis/2025.1/Vitis/include/etc/ap_private.h:68:
+In file included from D:/vitis/2025.1/Vitis/include/hls_half.h:26:
+In file included from D:/vitis/2025.1/Vitis/include/etc/hls_half_fpo.h:19:
+In file included from D:/vitis/2025.1/Vitis/include/hls_fpo.h:140:
+In file included from D:/vitis/2025.1/Vitis/include/floating_point_v7_1_bitacc_cmodel.h:150:
+D:/vitis/2025.1/Vitis/include/gmp.h:58:9: warning: '__GMP_LIBGMP_DLL' macro redefined [-Wmacro-redefined]
+#define __GMP_LIBGMP_DLL  0
+        ^
+D:/vitis/2025.1/Vitis/include/floating_point_v7_1_bitacc_cmodel.h:142:9: note: previous definition is here
+#define __GMP_LIBGMP_DLL 1
+        ^
+1 warning generated.
+HLS-2 C simulation PASS cases=3
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-112] Total CPU user time: 1 seconds. Total CPU system time: 8 seconds. Total elapsed time: 21.017 seconds; peak allocated memory: 162.762 MB.
+INFO: [vitis-run 60-791] Total elapsed time: 0h 0m 29s

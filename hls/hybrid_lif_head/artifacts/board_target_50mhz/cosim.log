@@ -1,0 +1,291 @@
+
+****** vitis-run v2025.1 (64-bit)
+  **** SW Build 6137779 on 2025-05-21-18:10:16
+  **** Start of session at: Tue Jul 28 12:00:09 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+  **** HLS Build v2025.1 6135595
+INFO: [HLS 200-2005] Using work_dir D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim 
+INFO: [HLS 200-2006] Changing directory to D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work
+INFO: [HLS 200-2176] Writing Vitis IDE component file D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/vitis-comp.json
+INFO: [HLS 200-10] Creating and opening component 'D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim'.
+INFO: [HLS 200-1611] Setting target device to 'xc7z020-clg400-2'
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2025.1%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-2174] Applying component config ini file D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg
+INFO: [HLS 200-1465] Applying config ini 'syn.file=../src/hybrid_lif_head.cpp' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(6)
+INFO: [HLS 200-10] Adding design file 'D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/src/hybrid_lif_head.cpp' to the project
+INFO: [HLS 200-1465] Applying config ini 'tb.file=../tb/tb_hybrid_lif_head_cosim.cpp' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(7)
+INFO: [HLS 200-10] Adding test bench file 'D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/tb/tb_hybrid_lif_head_cosim.cpp' to the project
+INFO: [HLS 200-1465] Applying config ini 'syn.top=hybrid_lif_head_q12_6' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(5)
+INFO: [HLS 200-1465] Applying config ini 'flow_target=vivado' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(2)
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2025.1%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1465] Applying config ini 'part=xc7z020clg400-2' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(3)
+INFO: [HLS 200-1465] Applying config ini 'clock=20ns' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(4)
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 20ns.
+INFO: [HLS 200-1465] Applying config ini 'cosim.rtl=verilog' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(8)
+INFO: [HLS 200-1465] Applying config ini 'cosim.tool=xsim' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(9)
+INFO: [HLS 200-1465] Applying config ini 'cosim.trace_level=port' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(10)
+INFO: [HLS 200-1465] Applying config ini 'cosim.wave_debug=false' from D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/config/hls_board_50mhz_cosim.cfg(11)
+INFO: [HLS 200-2176] Writing Vitis IDE component file D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/vitis-comp.json
+INFO: [COSIM 212-47] Using XSIM for RTL simulation.
+INFO: [COSIM 212-14] Instrumenting C test bench ...
+   Build using "D:/vitis/2025.1/Vitis/win64/tools/vcxx/libexec/clang++"
+   Compiling apatb_hybrid_lif_head_q12_6.cpp
+   Compiling tb_hybrid_lif_head_cosim.cpp_pre.cpp.tb.cpp
+   Compiling hybrid_lif_head.cpp_pre.cpp.tb.cpp
+   Compiling apatb_hybrid_lif_head_q12_6_ir.ll
+   Generating cosim.tv.exe
+INFO: [COSIM 212-302] Starting C TB testing ... 
+HLS-4 C/RTL co-simulation PASS cases=3
+INFO: [COSIM 212-333] Generating C post check test bench ...
+INFO: [COSIM 212-12] Generating RTL test bench ...
+pdir_merged readonly
+pdir_merged readonly
+pdir_merged readonly
+pdir_merged writeonly
+pdir_merged readwrite
+INFO: [COSIM 212-1] *** C/RTL co-simulation file generation completed. ***
+INFO: [COSIM 212-323] Starting verilog simulation. 
+INFO: [COSIM 212-15] Starting XSIM ...
+
+D:\eeg_fpga\snn_hybrid_eeg\hls\hybrid_lif_head\board_target_50mhz_work\cosim\hls\sim\verilog>set PATH= 
+
+D:\eeg_fpga\snn_hybrid_eeg\hls\hybrid_lif_head\board_target_50mhz_work\cosim\hls\sim\verilog>call D:/vitis/2025.1/Vivado/bin/xelab xil_defaultlib.apatb_hybrid_lif_head_q12_6_top xil_defaultlib.glbl -Oenable_linking_all_libraries -prj hybrid_lif_head_q12_6.prj -L smartconnect_v1_0 -L axi_protocol_checker_v1_1_12 -L axi_protocol_checker_v1_1_13 -L axis_protocol_checker_v1_1_11 -L axis_protocol_checker_v1_1_12 -L xil_defaultlib -L unisims_ver -L xpm  -L floating_point_v7_1_20 -L floating_point_v7_0_25 --lib "ieee_proposed=./ieee_proposed" -L uvm -relax -i ./svr -i ./axivip -i ./svtb -i ./file_agent -i ./hybrid_lif_head_q12_6_subsystem  -s hybrid_lif_head_q12_6 -debug all 
+Vivado Simulator v2025.1.0
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: D:/vitis/2025.1/Vivado/bin/unwrapped/win64.o/xelab.exe xil_defaultlib.apatb_hybrid_lif_head_q12_6_top xil_defaultlib.glbl -Oenable_linking_all_libraries -prj hybrid_lif_head_q12_6.prj -L smartconnect_v1_0 -L axi_protocol_checker_v1_1_12 -L axi_protocol_checker_v1_1_13 -L axis_protocol_checker_v1_1_11 -L axis_protocol_checker_v1_1_12 -L xil_defaultlib -L unisims_ver -L xpm -L floating_point_v7_1_20 -L floating_point_v7_0_25 --lib ieee_proposed=./ieee_proposed -L uvm -relax -i ./svr -i ./axivip -i ./svtb -i ./file_agent -i ./hybrid_lif_head_q12_6_subsystem -s hybrid_lif_head_q12_6 -debug all 
+Multi-threading is on. Using 14 slave threads.
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/AESL_automem_bias_q.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_automem_bias_q
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/AESL_automem_feature_current_q.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_automem_feature_current_q
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/AESL_automem_logits_q.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_automem_logits_q
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/AESL_automem_spike_count_q.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_automem_spike_count_q
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/AESL_automem_weight_q.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module AESL_automem_weight_q
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6.autotb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module apatb_hybrid_lif_head_q12_6_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_flow_control_loop_pipe_sequential_init.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_flow_control_loop_pipe_sequential_init
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_mac_muladd_12s_7ns_18s_19_4_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_mac_muladd_12s_7ns_18s_19_4_1_DSP48_0
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_mac_muladd_12s_7ns_18s_19_4_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_mul_12s_7ns_18_1_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_mul_12s_7ns_18_1_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_mul_16s_7ns_22_1_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_mul_16s_7ns_22_1_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_mul_8ns_10ns_17_1_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_mul_8ns_10ns_17_1_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_run_hybrid_lif_head.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_run_hybrid_lif_head
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_run_hybrid_lif_head_membrane_RAM_AUTO_1R1W.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_run_hybrid_lif_head_membrane_RAM_AUTO_1R1W
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_run_hybrid_lif_head_Pipeline_VITIS_LOOP_31_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_run_hybrid_lif_head_Pipeline_VITIS_LOOP_31_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_run_hybrid_lif_head_Pipeline_VITIS_LOOP_36_2_VITIS_LOOP_37_3.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_run_hybrid_lif_head_Pipeline_VITIS_LOOP_36_2_VITIS_LOOP_37_3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_run_hybrid_lif_head_Pipeline_VITIS_LOOP_59_4.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_run_hybrid_lif_head_Pipeline_VITIS_LOOP_59_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_run_hybrid_lif_head_Pipeline_VITIS_LOOP_66_5.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_run_hybrid_lif_head_Pipeline_VITIS_LOOP_66_5
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_run_hybrid_lif_head_rate_q_RAM_AUTO_1R1W.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_run_hybrid_lif_head_rate_q_RAM_AUTO_1R1W
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_urem_8ns_3ns_2_12_1.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_urem_8ns_3ns_2_12_1_divider
+INFO: [VRFC 10-311] analyzing module hybrid_lif_head_q12_6_urem_8ns_3ns_2_12_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/dataflow_monitor.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dataflow_monitor
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/file_agent/file_agent_pkg.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/hybrid_lif_head_q12_6_subsystem/hybrid_lif_head_q12_6_subsystem_pkg.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/svtb/misc_interface.sv" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "D:/eeg_fpga/snn_hybrid_eeg/hls/hybrid_lif_head/board_target_50mhz_work/cosim/hls/sim/verilog/svtb/sv_module_top.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sv_module_top
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "/proj/primebuilds/9999.0_PRIME_0428_0031/installs/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv" Line 4356. Module uvm_pkg doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/proj/primebuilds/9999.0_PRIME_0428_0031/installs/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv" Line 4356. Module uvm_pkg doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4468] File : /proj/primebuilds/9999.0_PRIME_0428_0031/installs/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv, Line : 25994, RANDC variable size more than 8 bits. This will be treated as a RAND variable instead.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package xil_defaultlib.$unit_sv_module_top_sv
+Compiling package uvm.uvm_pkg
+Compiling package std.std
+Compiling package xil_defaultlib.hybrid_lif_head_q12_6_subsystem_...
+Compiling package xil_defaultlib.file_agent_pkg
+Compiling package xil_defaultlib.$unit_dataflow_monitor_sv
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_run_hybrid...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_run_hybrid...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_flow_contr...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_run_hybrid...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_mul_16s_7n...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_run_hybrid...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_urem_8ns_3...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_urem_8ns_3...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_mul_8ns_10...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_run_hybrid...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_mul_12s_7n...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_mac_muladd...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_mac_muladd...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_run_hybrid...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6_run_hybrid...
+Compiling module xil_defaultlib.hybrid_lif_head_q12_6
+Compiling module xil_defaultlib.misc_interface_default
+Compiling module xil_defaultlib.sv_module_top
+Compiling module xil_defaultlib.AESL_automem_feature_current_q
+Compiling module xil_defaultlib.AESL_automem_weight_q
+Compiling module xil_defaultlib.AESL_automem_bias_q
+Compiling module xil_defaultlib.AESL_automem_logits_q
+Compiling module xil_defaultlib.AESL_automem_spike_count_q
+Compiling module xil_defaultlib.nodf_module_intf_default
+Compiling module xil_defaultlib.upc_loop_intf(FSM_WIDTH=1)
+Compiling module xil_defaultlib.upc_loop_intf(FSM_WIDTH=16)
+Compiling module xil_defaultlib.dataflow_monitor_1
+Compiling module xil_defaultlib.apatb_hybrid_lif_head_q12_6_top
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot hybrid_lif_head_q12_6
+
+****** xsim v2025.1 (64-bit)
+  **** SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Tue Jul 28 12:02:52 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/hybrid_lif_head_q12_6/xsim_script.tcl
+# xsim {hybrid_lif_head_q12_6} -testplusarg UVM_VERBOSITY=UVM_NONE -testplusarg UVM_TESTNAME=hybrid_lif_head_q12_6_test_lib -testplusarg UVM_TIMEOUT=20000000000000 -view {{hybrid_lif_head_q12_6_dataflow_ana.wcfg}} -tclbatch {hybrid_lif_head_q12_6.tcl} -protoinst {hybrid_lif_head_q12_6.protoinst}
+INFO: [Wavedata 42-565] Reading protoinst file hybrid_lif_head_q12_6.protoinst
+INFO: [Wavedata 42-564]   Found protocol instance at /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6//AESL_inst_hybrid_lif_head_q12_6_activity
+INFO: [Wavedata 42-564]   Found protocol instance at /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/grp_run_hybrid_lif_head_fu_28/grp_run_hybrid_lif_head_Pipeline_VITIS_LOOP_31_1_fu_365/grp_run_hybrid_lif_head_Pipeline_VITIS_LOOP_31_1_fu_365_activity
+INFO: [Wavedata 42-564]   Found protocol instance at /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/grp_run_hybrid_lif_head_fu_28/grp_run_hybrid_lif_head_Pipeline_VITIS_LOOP_36_2_VITIS_LOOP_37_3_fu_373/grp_run_hybrid_lif_head_Pipeline_VITIS_LOOP_36_2_VITIS_LOOP_37_3_fu_373_activity
+INFO: [Wavedata 42-564]   Found protocol instance at /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/grp_run_hybrid_lif_head_fu_28/grp_run_hybrid_lif_head_Pipeline_VITIS_LOOP_59_4_fu_382/grp_run_hybrid_lif_head_Pipeline_VITIS_LOOP_59_4_fu_382_activity
+INFO: [Wavedata 42-564]   Found protocol instance at /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/grp_run_hybrid_lif_head_fu_28/grp_run_hybrid_lif_head_Pipeline_VITIS_LOOP_66_5_fu_389/grp_run_hybrid_lif_head_Pipeline_VITIS_LOOP_66_5_fu_389_activity
+INFO: [Wavedata 42-564]   Found protocol instance at /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/grp_run_hybrid_lif_head_fu_28/grp_run_hybrid_lif_head_fu_28_activity
+Time resolution is 1 ps
+open_wave_config hybrid_lif_head_q12_6_dataflow_ana.wcfg
+source hybrid_lif_head_q12_6.tcl
+## log_wave [get_objects -filter {type == in_port || type == out_port || type == inout_port || type == port} /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/*]
+## set designtopgroup [add_wave_group "Design Top Signals"]
+## set cinoutgroup [add_wave_group "C InOuts" -into $designtopgroup]
+## set return_group [add_wave_group return(memory) -into $cinoutgroup]
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/spike_count_q_q1 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/spike_count_q_ce1 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/spike_count_q_address1 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/spike_count_q_q0 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/spike_count_q_d0 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/spike_count_q_we0 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/spike_count_q_ce0 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/spike_count_q_address0 -into $return_group -radix hex
+## set coutputgroup [add_wave_group "C Outputs" -into $designtopgroup]
+## set return_group [add_wave_group return(memory) -into $coutputgroup]
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/logits_q_d0 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/logits_q_we0 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/logits_q_ce0 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/logits_q_address0 -into $return_group -radix hex
+## set cinputgroup [add_wave_group "C Inputs" -into $designtopgroup]
+## set return_group [add_wave_group return(memory) -into $cinputgroup]
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/bias_q_q0 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/bias_q_ce0 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/bias_q_address0 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/weight_q_q1 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/weight_q_ce1 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/weight_q_address1 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/weight_q_q0 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/weight_q_ce0 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/weight_q_address0 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/feature_current_q_q0 -into $return_group -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/feature_current_q_ce0 -into $return_group -color #ffff00 -radix hex
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/feature_current_q_address0 -into $return_group -radix hex
+## set blocksiggroup [add_wave_group "Block-level IO Handshake" -into $designtopgroup]
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/ap_start -into $blocksiggroup
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/ap_done -into $blocksiggroup
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/ap_idle -into $blocksiggroup
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/ap_ready -into $blocksiggroup
+## set resetgroup [add_wave_group "Reset" -into $designtopgroup]
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/ap_rst -into $resetgroup
+## set clockgroup [add_wave_group "Clock" -into $designtopgroup]
+## add_wave /apatb_hybrid_lif_head_q12_6_top/AESL_inst_hybrid_lif_head_q12_6/ap_clk -into $clockgroup
+## save_wave_config hybrid_lif_head_q12_6.wcfg
+## run all
+UVM_INFO D:itÿÿ‚5.1Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv(18601) @ 0: reporter [UVM/RELNOTES] 
+----------------------------------------------------------------
+UVM-1.2
+(C) 2007-2014 Mentor Graphics Corporation
+(C) 2007-2014 Cadence Design Systems, Inc.
+(C) 2006-2014 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+(C) 2013-2014 NVIDIA Corporation
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_DO_NOT_NEED_CONSTRUCTOR undefined.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO D:itÿÿ‚5.1Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv(18648) @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
+UVM_INFO D:itÿÿ‚5.1Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv(18752) @ 0: reporter [UVMTOP] UVM testbench topology:
+-------------------------------------------------------------------------------------------
+Name                                   Type                                     Size  Value
+-------------------------------------------------------------------------------------------
+uvm_test_top                           hybrid_lif_head_q12_6_test_lib           -     @342 
+  top_env                              hybrid_lif_head_q12_6_env                -     @353 
+    hybrid_lif_head_q12_6_virtual_sqr  hybrid_lif_head_q12_6_virtual_sequencer  -     @390 
+      rsp_export                       uvm_analysis_export                      -     @399 
+      seq_item_export                  uvm_seq_item_pull_imp                    -     @517 
+      arbitration_queue                array                                    0     -    
+      lock_queue                       array                                    0     -    
+      num_last_reqs                    integral                                 32    'd1  
+      num_last_rsps                    integral                                 32    'd1  
+    refm                               hybrid_lif_head_q12_6_reference_model    -     @368 
+      trans_num_idx                    integral                                 32    'h0  
+    subsys_mon                         hybrid_lif_head_q12_6_subsystem_monitor  -     @381 
+      scbd                             hybrid_lif_head_q12_6_scoreboard         -     @537 
+        refm                           hybrid_lif_head_q12_6_reference_model    -     @368 
+          trans_num_idx                integral                                 32    'h0  
+    refm                               hybrid_lif_head_q12_6_reference_model    -     @368 
+    hybrid_lif_head_q12_6_virtual_sqr  hybrid_lif_head_q12_6_virtual_sequencer  -     @390 
+    hybrid_lif_head_q12_6_cfg          hybrid_lif_head_q12_6_config             -     @367 
+      check_ena                        integral                                 32    'h0  
+      cover_ena                        integral                                 32    'h0  
+-------------------------------------------------------------------------------------------
+
+UVM_INFO D:itÿÿ‚5.1Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv(20867) @ 0: reporter [UVM/COMP/NAMECHECK] This implementation of the component name checks requires DPI to be enabled
+////////////////////////////////////////////////////////////////////////////////////
+// Inter-Transaction Progress: Completed Transaction / Total Transaction
+// Intra-Transaction Progress: Measured Latency / Latency Estimation * 100%
+//
+// RTL Simulation : "Inter-Transaction Progress" ["Intra-Transaction Progress"] @ "Simulation Time"
+////////////////////////////////////////////////////////////////////////////////////
+// RTL Simulation : 0 / 6 [0.00%] @ "150000"
+// RTL Simulation : 1 / 6 [100.00%] @ "33810000"
+// RTL Simulation : 2 / 6 [100.00%] @ "67410000"
+// RTL Simulation : 3 / 6 [100.00%] @ "101010000"
+// RTL Simulation : 4 / 6 [100.00%] @ "134610000"
+// RTL Simulation : 5 / 6 [100.00%] @ "168210000"
+// RTL Simulation : 6 / 6 [100.00%] @ "201810000"
+////////////////////////////////////////////////////////////////////////////////////
+$finish called at time : 201910 ns : File "D:\vitis\2025.1\Vivado/data/system_verilog/uvm_1.2/xlnx_uvm_package.sv" Line 18699
+## quit
+INFO: [Common 17-206] Exiting xsim at Tue Jul 28 12:02:56 2026...
+INFO: [COSIM 212-316] Starting C post checking ...
+HLS-4 C/RTL co-simulation PASS cases=3
+INFO: [COSIM 212-1000] *** C/RTL co-simulation finished: PASS ***
+INFO: [HLS 200-112] Total CPU user time: 2 seconds. Total CPU system time: 10 seconds. Total elapsed time: 161.961 seconds; peak allocated memory: 234.531 MB.
+INFO: [vitis-run 60-791] Total elapsed time: 0h 2m 49s

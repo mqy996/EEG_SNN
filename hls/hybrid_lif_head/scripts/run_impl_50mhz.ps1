@@ -18,7 +18,7 @@ $source = Join-Path $headDir "src\hybrid_lif_head.cpp"
 $logDir = Join-Path $headDir "logs"
 $compileLog = Join-Path $logDir "hls_run_impl_50mhz_compile.log"
 $implLog = Join-Path $logDir "hls_run_impl_50mhz.log"
-$part = "xc7z020clg400-1"
+$part = "xc7z020clg400-2"
 
 foreach ($path in @($vivadoSettings, $vitisSettings, $vitisCompiler, $vitisRun, $config, $source)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {

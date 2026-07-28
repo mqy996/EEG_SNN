@@ -11,7 +11,7 @@ $config = Join-Path $headDir "config\hls_config.cfg"
 $source = Join-Path $headDir "src\hybrid_lif_head.cpp"
 $logDir = Join-Path $headDir "logs"
 $logPath = Join-Path $logDir "hls_run_csynth.log"
-$part = "xc7z020clg400-1"
+$part = "xc7z020clg400-2"
 
 foreach ($path in @($vivadoSettings, $vitisSettings, $vitisCompiler, $config, $source)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {

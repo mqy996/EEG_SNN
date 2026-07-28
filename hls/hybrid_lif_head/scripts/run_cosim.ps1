@@ -15,7 +15,7 @@ $logDir = Join-Path $headDir "logs"
 $compileLog = Join-Path $logDir "hls_run_cosim_compile.log"
 $runStamp = Get-Date -Format "yyyyMMdd_HHmmss"
 $consoleLog = Join-Path $logDir ("run_cosim_console_{0}.log" -f $runStamp)
-$part = "xc7z020clg400-1"
+$part = "xc7z020clg400-2"
 
 foreach ($path in @($vivadoSettings, $vitisSettings, $vitisCompiler, $vitisRun, $config, $source)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
