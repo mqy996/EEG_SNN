@@ -1,0 +1,15 @@
+
+****** Software Commandline Tool (XSCT) v2025.1.0
+  **** SW Build 6140146 on Wed May 21 17:48:38 MDT 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+Warning: XSCT is deprecated and will be removed in future releases.
+We recommend using the new Python command-line tool for project management and debugging:
+- Run "vitis -i" for interactive mode.
+- Run "vitis -s <script>" for script mode.
+HLS6D_DOW_START
+HLS6D_DOW_FPGA_PROGRAMMED
+HLS6D_DOW_PS7_READY
+HLS6D_DOW_ELF_DOWNLOADED=D:/eeg_fpga/snn_hybrid_eeg/vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6d_board_diag/hls6d_diag_app_20260728.elf

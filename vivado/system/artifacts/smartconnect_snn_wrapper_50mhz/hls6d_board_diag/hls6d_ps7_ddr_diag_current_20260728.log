@@ -1,0 +1,50 @@
+
+****** Software Commandline Tool (XSCT) v2025.1.0
+  **** SW Build 6140146 on Wed May 21 17:48:38 MDT 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+Warning: XSCT is deprecated and will be removed in future releases.
+We recommend using the new Python command-line tool for project management and debugging:
+- Run "vitis -i" for interactive mode.
+- Run "vitis -s <script>" for script mode.
+HLS6D_DDR_DIAG_START label=current
+HLS6D_DDR_BITSTREAM=D:/eeg_fpga/snn_hybrid_eeg/vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/smartconnect_snn_wrapper_50mhz.bit
+HLS6D_DDR_PS7_INIT=D:/eeg_fpga/snn_hybrid_eeg/vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6c_vitis_standalone/ps7_init.tcl
+HLS6D_DDR_FPGA_PROGRAMMED
+HLS6D_DDR_READ_BEGIN name=pss_rst_ctrl_before addr=0xF8000008
+HLS6D_DDR_READ_RESULT name=pss_rst_ctrl_before result=F8000008:   00000000
+
+HLS6D_DDR_READ_BEGIN name=slcr_lock addr=0xF8000004
+HLS6D_DDR_READ_RESULT name=slcr_lock result=F8000004:   00000000
+
+HLS6D_DDR_READ_BEGIN name=ddr_dci_status_before addr=0xF8006054
+HLS6D_DDR_READ_RESULT name=ddr_dci_status_before result=F8006054:   00000000
+
+HLS6D_DDR_PS7_INIT_DONE
+HLS6D_DDR_PS7_POST_CONFIG_DONE
+HLS6D_DDR_READ_BEGIN name=pss_rst_ctrl_after addr=0xF8000008
+HLS6D_DDR_READ_RESULT name=pss_rst_ctrl_after result=F8000008:   00000000
+
+HLS6D_DDR_READ_BEGIN name=slcr_lock_after addr=0xF8000004
+HLS6D_DDR_READ_RESULT name=slcr_lock_after result=F8000004:   00000000
+
+HLS6D_DDR_READ_BEGIN name=ddr_ctrl addr=0xF8006000
+HLS6D_DDR_READ_RESULT name=ddr_ctrl result=F8006000:   00000081
+
+HLS6D_DDR_READ_BEGIN name=ddr_dci_status addr=0xF8006054
+HLS6D_DDR_READ_RESULT name=ddr_dci_status result=F8006054:   00000001
+
+HLS6D_DDR_READ_BEGIN name=ddr_phy_ctrl addr=0xF8006050
+HLS6D_DDR_READ_RESULT name=ddr_phy_ctrl result=F8006050:   77010800
+
+HLS6D_DDR_READ_BEGIN name=ddr_dram_param addr=0xF80061A0
+HLS6D_DDR_READ_ERROR name=ddr_dram_param error=Memory read error at 0xF80061A0. AHB AP transaction error, DAP status 0xF0000021
+HLS6D_DDR_READ_BEGIN name=ddr_ecc_ctrl addr=0xF80060A0
+HLS6D_DDR_READ_RESULT name=ddr_ecc_ctrl result=F80060A0:   00008000
+
+HLS6D_DDR_READ_BEGIN name=ddr_cmd_status addr=0xF8006058
+HLS6D_DDR_READ_RESULT name=ddr_cmd_status result=F8006058:   00000101
+
+HLS6D_DDR_DIAG_COMPLETE label=current

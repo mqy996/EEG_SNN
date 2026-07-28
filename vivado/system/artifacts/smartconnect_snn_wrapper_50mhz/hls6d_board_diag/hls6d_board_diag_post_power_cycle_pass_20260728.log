@@ -1,0 +1,32 @@
+HLS6D_BOARD_DIAG_CAPTURE=1
+STOP_REASON=missing marker after XSCT start: HLS6D_DIAG_START
+MARKERS_COMPLETED=0/8
+OBSERVED_MARKERS=
+XSCT_RETURN=1
+XSCT_STDOUT_BEGIN
+
+****** Software Commandline Tool (XSCT) v2025.1.0
+  **** SW Build 6140146 on Wed May 21 17:48:38 MDT 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+Warning: XSCT is deprecated and will be removed in future releases.
+We recommend using the new Python command-line tool for project management and debugging:
+- Run "vitis -i" for interactive mode.
+- Run "vitis -s <script>" for script mode.
+HLS6D_FPGA_PROGRAMMED=D:/eeg_fpga/snn_hybrid_eeg/vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/smartconnect_snn_wrapper_50mhz.bit
+HLS6D_ELF_DOWNLOADED=D:/eeg_fpga/snn_hybrid_eeg/vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6d_board_diag/hls6d_diag_app_20260728.elf
+HLS6D_CPU_CONTINUED
+HLS6D_CPU_RUN_WINDOW_COMPLETE
+
+XSCT_STDOUT_END
+XSCT_STDERR_BEGIN
+
+XSCT_STDERR_END
+SERIAL_COM5_BEGIN
+HLS6D_DIAG_START
+GPIO_READ_BEGIN addr=0x41200000
+
+SERIAL_COM5_END
+SERIAL_ERROR=none

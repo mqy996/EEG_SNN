@@ -22,6 +22,7 @@ MARKERS = (
 )
 MARKER_TIMEOUT_SECONDS = 10.0
 POST_PROCESS_DRAIN_SECONDS = 5.0
+MAX_CAPTURE_SECONDS = 90.0
 
 
 def main() -> int:
@@ -34,6 +35,7 @@ def main() -> int:
 
     serial_bytes = bytearray()
     serial_error: list[str] = []
+    serial_lock = threading.Lock()
     serial_stop = threading.Event()
     serial_ready = threading.Event()
 
@@ -45,7 +47,8 @@ def main() -> int:
                 while not serial_stop.is_set():
                     data = port.read(4096)
                     if data:
-                        serial_bytes.extend(data)
+                        with serial_lock:
+                            serial_bytes.extend(data)
         except Exception as exc:  # preserve hardware/driver evidence in the report
             serial_error.append(f"{type(exc).__name__}: {exc}")
             serial_ready.set()
@@ -58,20 +61,31 @@ def main() -> int:
     command = ["cmd.exe", "/d", "/c", "call", xsct, str(tcl), str(elf), str(ps7), str(bit)]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     observed: list[tuple[str, float]] = []
-    deadline = time.monotonic() + MARKER_TIMEOUT_SECONDS
+    started = time.monotonic()
+    deadline = started + MARKER_TIMEOUT_SECONDS
+    overall_deadline = started + MAX_CAPTURE_SECONDS
     marker_index = 0
+    search_offset = 0
     stop_reason = "completed"
     process_exit_time: float | None = None
 
     try:
         while marker_index < len(MARKERS):
             marker = MARKERS[marker_index]
-            if marker in serial_bytes:
+            with serial_lock:
+                serial_snapshot = bytes(serial_bytes)
+            marker_position = serial_snapshot.find(marker, search_offset)
+            if marker_position >= 0:
                 observed.append((marker.decode(), time.monotonic()))
                 marker_index += 1
+                search_offset = marker_position + len(marker)
                 deadline = time.monotonic() + MARKER_TIMEOUT_SECONDS
                 continue
-            if time.monotonic() >= deadline:
+            now = time.monotonic()
+            if now >= overall_deadline:
+                stop_reason = f"global timeout after {MAX_CAPTURE_SECONDS:.1f}s: {marker.decode()}"
+                break
+            if now >= deadline:
                 stop_reason = f"missing marker after {MARKERS[marker_index - 1].decode() if marker_index else 'XSCT start'}: {marker.decode()}"
                 break
             if process.poll() is not None:
@@ -92,7 +106,8 @@ def main() -> int:
         serial_stop.set()
         serial_thread.join(timeout=2)
 
-    serial_text = bytes(serial_bytes).decode("utf-8", errors="replace")
+    with serial_lock:
+        serial_text = bytes(serial_bytes).decode("utf-8", errors="replace")
     output = "\n".join(
         (
             "HLS6D_BOARD_DIAG_CAPTURE=1",

@@ -44,6 +44,7 @@ def sha256_file(path: Path) -> str:
 
 
 xsa = required_path("HLS6D_DIAG_XSA")
+bitstream = required_path("HLS6D_DIAG_BITSTREAM")
 source = required_path("HLS6D_DIAG_SOURCE")
 workspace_value = os.environ.get("HLS6D_DIAG_WORKSPACE")
 if not workspace_value:
@@ -66,6 +67,8 @@ artifact_dir.mkdir(parents=True, exist_ok=True)
 print("VITIS_VERSION_EXPECTED=2025.1")
 print(f"XSA={xsa}")
 print(f"XSA_SHA256={sha256_file(xsa)}")
+print(f"BITSTREAM={bitstream}")
+print(f"BITSTREAM_SHA256={sha256_file(bitstream)}")
 print(f"WORKSPACE={workspace}")
 print(f"SOURCE={source}")
 print(f"PLATFORM={platform_name}")
@@ -105,19 +108,25 @@ try:
     print(f"ELF={elf}")
     print(f"ELF_SHA256={sha256_file(elf)}")
 
-    shutil.copy2(platform_xpfm, artifact_dir / f"{platform_name}.xpfm")
-    shutil.copy2(elf, artifact_dir / f"{app_name}.elf")
+    curated_xpfm = artifact_dir / f"{platform_name}.xpfm"
+    curated_elf = artifact_dir / f"{app_name}.elf"
+    shutil.copy2(platform_xpfm, curated_xpfm)
+    curated_xpfm.write_bytes(curated_xpfm.read_bytes().replace(b"\r\n", b"\n"))
+    shutil.copy2(elf, curated_elf)
     manifest = artifact_dir / "hls6d_board_diag_build.txt"
     manifest.write_text(
         "\n".join(
             (
                 "HLS6D_BOARD_DIAG_BUILD=PASS",
                 "VITIS_VERSION_EXPECTED=2025.1",
+                f"XSA={xsa}",
                 f"XSA_SHA256={sha256_file(xsa)}",
-                f"PLATFORM_XPFM={platform_xpfm}",
-                f"PLATFORM_SHA256={sha256_file(platform_xpfm)}",
-                f"ELF={elf}",
-                f"ELF_SHA256={sha256_file(elf)}",
+                f"HLS6B_BITSTREAM={bitstream}",
+                f"HLS6B_BITSTREAM_SHA256={sha256_file(bitstream)}",
+                f"PLATFORM_XPFM={curated_xpfm}",
+                f"PLATFORM_SHA256={sha256_file(curated_xpfm)}",
+                f"ELF={curated_elf}",
+                f"ELF_SHA256={sha256_file(curated_elf)}",
                 "HLS6B_BITSTREAM_UNCHANGED=TRUE",
             )
         )
