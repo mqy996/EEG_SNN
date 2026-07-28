@@ -91,3 +91,16 @@ vivado/system/project_build*/
 .Xil/
 vivado/system/vitis_standalone_build*/
 vivado/system/artifacts/xsa_extract_*/
+
+# SmartConnect A/B local Vivado project
+vivado/minimal_ax7020_gpio/smartconnect_ab_build/
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/smartconnect_ab.bit
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/ps7_init.c
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/ps7_init.h
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/ps7_init.html
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/ps7_init.tcl
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/ps7_init_gpl.c
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/ps7_init_gpl.h
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/vitis_build.log
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/program_smartconnect_ab.log
+vivado/minimal_ax7020_gpio/artifacts/smartconnect_ab/run_smartconnect_ab.xsdb.tcl

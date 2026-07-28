@@ -1,0 +1,17 @@
+Property                    Type     Read-only  Value
+ALLOWED_SIM_MODELS          string*  true       tlm rtl
+CLASS                       string   true       bd_cell
+CONFIG.ADVANCED_PROPERTIES  string   false      0
+CONFIG.Component_Name       string   true       ax7020_ps7_base_axi_smc_0
+CONFIG.HAS_ARESETN          string   false      1
+CONFIG.NUM_CLKS             string   false      1
+CONFIG.NUM_MI               string   false      1
+CONFIG.NUM_SI               string   false      1
+LOCATION                    string   false      
+LOCK_UPGRADE                bool     false      0
+NAME                        string   false      axi_smc
+PATH                        string   true       /axi_smc
+SCREENSIZE                  string   false      
+SELECTED_SIM_MODEL          enum     false      rtl
+TYPE                        string   true       ip
+VLNV                        string   true       xilinx.com:ip:smartconnect:1.0
