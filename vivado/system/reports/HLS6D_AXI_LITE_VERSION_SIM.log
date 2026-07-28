@@ -1,0 +1,27 @@
+HLS-6D focused AXI4-Lite VERSION/STATUS simulation
+START=2026-07-28 18:27:59 +08:00
+WRAPPER=D:\eeg_fpga\snn_hybrid_eeg\vivado\system\src\snn_axi_memory_window_hls6a.v
+TESTBENCH=D:\eeg_fpga\snn_hybrid_eeg\vivado\system\tb\tb_snn_axi_version_read_hls6d.sv
+WORKDIR=D:\eeg_fpga\snn_hybrid_eeg\vivado\system\hls6d_axi_lite_version_sim_work
+SCOPE=wrapper AR/R channel only; generated HLS core is stubbed by the testbench
+EXPECTATION=AR handshake -> registered RVALID/RDATA within one clock; VERSION=0x00010001; RVALID stable until RREADY
+SIM_EXIT_CODE=0
+XSIM_LOG=D:\eeg_fpga\snn_hybrid_eeg\vivado\system\hls6d_axi_lite_version_sim_work\xsim.log
+--- XSIM EVIDENCE ---
+# Current directory  : D:/eeg_fpga/snn_hybrid_eeg/vivado/system/hls6d_axi_lite_version_sim_work
+# Command line       : xsim.exe -mode tcl -source {xsim.dir/hls6d_axi_version_sim/xsim_script.tcl}
+# Log file           : D:/eeg_fpga/snn_hybrid_eeg/vivado/system/hls6d_axi_lite_version_sim_work/xsim.log
+# Journal file       : D:/eeg_fpga/snn_hybrid_eeg/vivado/system/hls6d_axi_lite_version_sim_work\xsim.jou
+source xsim.dir/hls6d_axi_version_sim/xsim_script.tcl
+# xsim {hls6d_axi_version_sim} -autoloadwcfg -runall
+HLS6D_EVT=AR_HANDSHAKE name=VERSION cycle=6 addr=0x08
+HLS6D_EVT=RVALID_STALLED name=VERSION cycle=7 rdata=0x00010001 rresp=0x0
+HLS6D_EVT=R_HANDSHAKE name=VERSION cycle=9
+HLS6D_EVT=AR_HANDSHAKE name=STATUS cycle=11 addr=0x04
+HLS6D_EVT=RVALID_STALLED name=STATUS cycle=12 rdata=0x00000011 rresp=0x0
+HLS6D_EVT=R_HANDSHAKE name=STATUS cycle=14
+HLS6D_EVT=AR_HANDSHAKE name=VERSION_READY_HIGH cycle=16 addr=0x08
+HLS6D_EVT=RVALID_READY_HIGH cycle=17 rdata=0x00010001 rresp=0x0
+HLS6D_EVT=R_HANDSHAKE name=VERSION_READY_HIGH cycle=17
+HLS6D_AXI_VERSION_SIM_PASS cycles=18 version=0x00010001
+WAVEFORM=D:\eeg_fpga\snn_hybrid_eeg\vivado\system\hls6d_axi_lite_version_sim_work\hls6d_axi_lite_version.vcd

@@ -113,3 +113,7 @@ hls/hybrid_lif_head/board_target_50mhz_work/
 !vivado/system/reports/HLS6C_SHORT_PLATFORM_BUILD.log
 !vivado/system/reports/HLS6C_BITSTREAM_PROGRAM.log
 !vivado/system/reports/HLS6C_BOARD_REPLAY.log
+
+# Curated HLS-6D AXI-Lite diagnostic evidence
+!vivado/system/reports/HLS6D_AXI_LITE_VERSION_SIM.log
+!vivado/system/reports/HLS6D_FULL_WRAPPER_REGRESSION.log
