@@ -50,7 +50,7 @@ Artifacts:
 
 ## Regression evidence
 
-The existing full generated-HLS wrapper regression was rerun without RTL modification. It passed all three retained cases, including repeated runs and the wrapper's VERSION read:
+The existing full generated-HLS wrapper regression was rerun without RTL modification. It passed all three retained cases, including repeated runs and the wrapper's STATUS polling, AXI-Lite writes, and logits reads. The focused simulation above is the VERSION-specific assertion:
 
 ```text
 SNN AXI memory-window 3-case simulation PASS writes=9852 reads=3582
