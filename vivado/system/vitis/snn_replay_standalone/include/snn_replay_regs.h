@@ -1,4 +1,4 @@
-﻿#ifndef SNN_REPLAY_REGS_H
+#ifndef SNN_REPLAY_REGS_H
 #define SNN_REPLAY_REGS_H
 
 #include <stdint.h>

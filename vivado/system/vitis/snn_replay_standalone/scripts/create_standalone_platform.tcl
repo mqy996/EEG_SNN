@@ -1,4 +1,4 @@
-﻿# XSCT 2025.1 platform/BSP generation for the SNN replay system.
+# XSCT 2025.1 platform/BSP generation for the SNN replay system.
 # argv: <xsa> <work_dir>
 set xsa [file normalize [lindex $argv 0]]
 set work [file normalize [lindex $argv 1]]

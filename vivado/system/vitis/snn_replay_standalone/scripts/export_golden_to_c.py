@@ -1,7 +1,9 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Generate the standalone replay C header from the versioned HLS golden JSON."""
 from __future__ import annotations
-import argparse, hashlib, json
+import argparse
+import hashlib
+import json
 from pathlib import Path
 
 def c_array(values: list[int], indent: str = "    ") -> str:

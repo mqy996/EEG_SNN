@@ -1,0 +1,37 @@
+HLS-6C Vitis platform build evidence
+Date: 2026-07-28
+Tool: Vitis 2025.1 (SW Build 6137779, 2025-05-21-18:10:19)
+
+Input XSA:
+  D:\eeg_fpga\snn_hybrid_eeg\vivado\system\artifacts\smartconnect_snn_wrapper_50mhz\smartconnect_snn_wrapper_50mhz.xsa
+  SHA256: 373543b2a9a283339f3d48bcd20cb38cc299a0f416faae84ba3b0dcc303ba98b
+
+Attempts:
+1. Workspace: D:\eeg_fpga\snn_hybrid_eeg\vivado\system\vitis_standalone_build_hls6c_20260728
+   Result: export/.buildstatus = export=ERROR at 2026-07-28 16:58:47 CST.
+   Evidence: no platform XPFM and no ELF found.
+   The first shell invocation timed out after 124 seconds while Vitis was still active; the generated workspace was retained.
+
+2. Fresh workspace: D:\eeg_fpga\snn_hybrid_eeg\vivado\system\vitis_standalone_build_hls6c_20260728_run2
+   Result: platform.build() returned 1; export/.buildstatus = export=ERROR at 2026-07-28 17:06:06 CST.
+   Vitis console markers:
+     Platform creation finished successfully.
+     Platform Quick Build initiated.
+     [ERROR]: Command 'cmake --build . --parallel 22 --verbose' returned non-zero exit status 1.
+     [ERROR]: Failed to build the BSP
+     Error in generating platform.
+     Error in generating platform 'snn_replay_platform_hls6c_run2_20260728.'
+   Evidence: no platform XPFM and no ELF found.
+   The workspace contains CMakeError.log entries saying the compiler-identification dependency files could not be found. The console also emitted CMAKE_OBJECT_PATH_MAX warnings for paths near the 250-character limit. These are retained as contributing evidence, not asserted as the sole root cause because Vitis did not retain the failing leaf compiler diagnostic.
+
+3. Short-path probe: D:\v6c_20260728
+   Result: user interrupted the bounded retry before platform creation completed. Only Vitis workspace metadata exists; no .buildstatus, XPFM, or ELF. This attempt is not counted as a validation pass.
+
+Cleanup:
+  The Vitis server and its child compiler helper processes started by these attempts were stopped after the interrupted run. The pre-existing Vivado hw_server was not stopped.
+
+Artifacts not produced:
+  PLATFORM_XPFM=none
+  ELF=none
+  UART log=none
+  board programming=not attempted (platform/domain/ELF stop gate)
