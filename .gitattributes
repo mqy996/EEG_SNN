@@ -1,0 +1,3 @@
+# Generated tool reports retain their original bytes for reproducibility.
+vivado/evidence_rebuild/reports/*.rpt -diff -text
+vitis/evidence_rebuild/artifacts/snn_evidence_platform.xpfm -diff -text

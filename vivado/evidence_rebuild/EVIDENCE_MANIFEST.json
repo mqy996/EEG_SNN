@@ -1,0 +1,72 @@
+{
+  "date": "2026-07-31",
+  "status": "PASS",
+  "contract": {
+    "tool_version": "Vivado/Vitis 2025.1",
+    "part": "xc7z020clg400-2",
+    "ddr": "MT41J256M16 RE-125",
+    "fclk0_hz": 50000000,
+    "snn_axi_base": "0x43C00000",
+    "hls_top": "hybrid_lif_head_q12_6"
+  },
+  "artifacts": [
+    {
+      "path": "vivado/evidence_rebuild/artifacts/snn_evidence_system.bit",
+      "sha256": "12750C21C246C35B5142948EF9CE845C57514F54725848034EDDA9A8EAD777D0"
+    },
+    {
+      "path": "vivado/evidence_rebuild/artifacts/snn_evidence_system.xsa",
+      "sha256": "B07F9386871D330B2276A354C3F845BFE0223422FAE4561D616788DA3ACB8776"
+    },
+    {
+      "path": "vitis/evidence_rebuild/artifacts/snn_best_fold9_replay.elf",
+      "sha256": "9782A7402BD02EF8A9C3B1A719C6C48CEB00CB253D5F14EAD28EB81393F76DDF"
+    },
+    {
+      "path": "vitis/evidence_rebuild/artifacts/snn_latency_replay.elf",
+      "sha256": "77C423D0B20CF34C34F31A3788127FD08EB91598FC39EA4223E7CB422B6DC77B"
+    },
+    {
+      "path": "vitis/evidence_rebuild/artifacts/snn_evidence_platform.xpfm",
+      "sha256": "F0B4C016A2A948D1ADA5153BEB2033F457BC5B93B0A4C4E37251426F11318DEC"
+    },
+    {
+      "path": "vitis/evidence_rebuild/artifacts/snn_evidence_platform.zip",
+      "sha256": "A665F98FC88A0CA483F0FD1A7724F7EAB2F6952749A5F8FDD08C0EBE0FCADE1C"
+    },
+    {
+      "path": "vitis/evidence_rebuild/source/main.c",
+      "sha256": "E740FE32111476A953E338F889F6D8945F0A029D4D2C17A839FD6D5089C3436D"
+    },
+    {
+      "path": "vitis/evidence_rebuild/source/snn_multisample_vectors.h",
+      "sha256": "2E91D63D87BD7BCCF7C772480B1D96CC319B1095C350E5B4DB9274405900FA00"
+    },
+    {
+      "path": "vitis/evidence_rebuild/latency_source/main.c",
+      "sha256": "7C79F934EE0570F1F9334C0CF7C6A35F726F2724FA60871FD66BFA75725F02AD"
+    },
+    {
+      "path": "vivado/evidence_rebuild/reports/utilization_impl_hierarchical.rpt",
+      "sha256": "75CEEE87A9529A84EBF06DF775C7351AF1D47B25148B3AF5D1969EE31B414AA5"
+    },
+    {
+      "path": "vivado/evidence_rebuild/reports/timing_impl.rpt",
+      "sha256": "1F8FE8C6CCF5E4BCAC068A1ACF250FA063A9509E7BF2C7D7F9374A594F0FDA03"
+    },
+    {
+      "path": "vivado/evidence_rebuild/reports/power_impl.rpt",
+      "sha256": "56D694CE5A2AC125C4FD1CD1B2187C43D5BBE0A69CADE1EE86B932C36EEB72E2"
+    },
+    {
+      "path": "vivado/evidence_rebuild/reports/drc_impl.rpt",
+      "sha256": "E2F02DEEE640C667382C264A97FF066B0A2198FAAA7DBF058705327C5F214705"
+    },
+    {
+      "path": "vivado/evidence_rebuild/reports/route_status_impl.rpt",
+      "sha256": "B09072E916F92D0AE4F464B7A719A295BAA06E061E6BEEE3F9DDC61F0D1C9ECD"
+    }
+  ],
+  "power_claim": "Vivado vectorless/tool estimate only; not a board measurement",
+  "scope_note": "HLS OOC, integrated post-route hierarchy, PS-observed board timing, and model accuracy are separate scopes."
+}

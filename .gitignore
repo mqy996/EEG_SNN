@@ -120,3 +120,24 @@ hls/hybrid_lif_head/board_target_50mhz_work/
 !vivado/system/reports/HLS6D_BOARD_DIAG.log
 !vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/hls6d_board_diag/hls6d_program_hls6b_vivado.log
 !vivado/system/reports/HLS6D_BOARD_DIAG_RETRY.log
+
+# Current evidence-chain generated workspaces. Keep only curated scripts,
+# reports, release artifacts, and application sources under evidence_rebuild/.
+vivado/evidence_rebuild/run_*/
+vivado/evidence_rebuild/*.jou
+vivado/evidence_rebuild/*.log
+vivado/evidence_rebuild/.Xil/
+vitis/e1/
+vitis/evidence_rebuild/workspace_*/
+vitis/evidence_rebuild/artifacts/platform/
+vitis/evidence_rebuild/*.jou
+vitis/evidence_rebuild/*.log
+vitis/evidence_rebuild/.Xil/
+/vitis/dfx_runtime.txt
+/vitis/vitis_journal.py
+
+# Historic diagnostic workspaces are not part of the teacher-facing release.
+vivado/minimal_ax7020_gpio/smartconnect_ab_build - 副本/
+vivado/system/artifacts/old_axi_gpio_baseline_20260729/
+vivado/system/vitis/hls6d_snn_first_diag/
+vivado/system/vitis/old_axi_gpio_baseline/

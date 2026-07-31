@@ -2,18 +2,21 @@
 
 这是给导师查看和复现实验的精简仓库，当前主线是：**Direct-current（直流）编码 + Hybrid LIF（混合漏积分发放）读出头 + Zynq-7020 AXI-Lite 回放接口**。
 
-## 当前状态（2026-07-28）
+## 当前状态（2026-07-31）
 
-| 层级 | 状态 | 证据 |
+| 层级 | 状态 | 入口 |
 |---|---|---|
-| HLS-6A Hybrid LIF | 已通过 C Simulation、C/RTL 协同仿真和实现 | `hls/hybrid_lif_head/` |
-| HLS-6B wrapper RTL | **PASS**：`threshold_edge`、`signed_currents`、`rounding_and_reset` 三组 golden case，含两次重复运行、reset、busy/start/error | `vivado/system/reports/hls6b_wrapper_sim_console.log` |
-| Vivado 系统 | **PASS**：PS7 + SmartConnect + AXI GPIO + SNN wrapper，`xc7z020clg400-2`、50 MHz | `vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/` |
-| 综合/实现 | **PASS**：实现完成，DRC 0 errors，50 MHz 时序通过 | `vivado/system/reports/hls6b_*.rpt` |
-| bitstream/XSA/HWH | 已生成并保留 SHA-256 | 同上 artifacts 目录 |
-| 开发板 SNN 回放 | 尚未宣称 PASS | 需要 HLS-6C Vitis standalone 回放和 UART 输出 |
+| 软件模型选择 | PASS | `docs/direct_current_hls_baseline_summary.md` |
+| HLS CSim/CSynth/RTL | PASS | `hls/`、`vivado/system/` |
+| Vivado 系统 | PASS | `vivado/evidence_rebuild/` |
+| bitstream/XSA | PASS | `vivado/evidence_rebuild/artifacts/` |
+| Vitis platform/application | PASS | `vitis/evidence_rebuild/` |
+| 开发板 314 样本回放 | PASS | `vitis/evidence_rebuild/E3_RESULTS.md` |
+| 资源、时序、功耗估计 | PASS | `docs/performance_report.md` |
 
-> 重要边界：当前结果证明的是 **PS7 → SmartConnect → AXI-Lite wrapper → HLS Hybrid LIF → PS7** 的预板级系统和 RTL 行为，不等于完整 CNN/EEG 在线推理，也不等于已经完成板端 SNN 回放。
+核心板端证据为：314/314 个样本的 checksum、logit、spike count 与黄金值一致；分类正确 277/314，fold9 测试子集准确率 88.2166%。
+
+> 重要边界：当前结果证明的是 **软件前端特征 → PS7 AXI-Lite → FPGA Hybrid LIF 读出头 → PS7** 的协同回放，不等于完整 CNN/GroupNorm 前端已经在 FPGA 上运行，也不等于在线 EEG 流水线。
 
 ## 硬件地址与时钟
 
@@ -39,14 +42,18 @@ powershell -NoProfile -ExecutionPolicy Bypass `
 脚本会把 `vivado/system/vectors/*.mem` 复制到 XSim 工作目录，避免 `$readmemh` 因当前工作目录不同而找不到向量。
 
 ### 2. 重新生成 Vivado 系统
-
 ```powershell
-vivado -mode batch `
-  -source vivado/system/tcl/create_hls6b_smartconnect_snn.tcl `
-  -tclargs D:/eeg_fpga/snn_hybrid_eeg D:/eeg_fpga/hls6b_build project_bitstream
+$repo = 'D:\eeg_fpga\snn_hybrid_eeg'
+& 'D:\vitis\2025.1\Vivado\bin\vivado.bat' -mode batch `
+  -source "$repo\vivado\evidence_rebuild\scripts\create_evidence_system.tcl" `
+  -tclargs $repo "$repo\vivado\evidence_rebuild\run_20260731_attempt1" project_bitstream
 ```
 
-实际使用时应先加载 Vivado 2025.1 环境；Windows 环境见 `vivado-tcl` / Vitis 项目规范。脚本使用只读的 `minimal_ax7020_gpio/tcl/template_ps7_ax7020_reference.tcl`，不会修改用户的 `project_AX7020_template`。
+脚本使用只读的 `minimal_ax7020_gpio/tcl/template_ps7_ax7020_reference.tcl`，不会修改用户的 `project_AX7020_template`。
+
+### 3. 运行 Vitis 回放
+
+使用 `vivado/evidence_rebuild/artifacts/snn_evidence_system.xsa` 创建 Vitis 2025.1 platform，先编译 platform，再创建 standalone application，导入 `vitis/evidence_rebuild/latency_source/`，编译得到 ELF 后下载 bitstream/ELF 到开发板。完整过程与边界见 [证据链报告](docs/evidence_chain_report.md)。
 
 ## 目录导航
 
@@ -55,13 +62,14 @@ vivado -mode batch `
 - `vivado/system/tb/`：三组 golden case 的 XSim testbench
 - `vivado/system/vectors/`：可追踪的固定向量
 - `vivado/system/tcl/`：SmartConnect 系统生成脚本
-- `vivado/system/artifacts/smartconnect_snn_wrapper_50mhz/`：教师可直接查看的 BD、HWH、XSA、bitstream
-- `vivado/system/reports/`：仿真、综合、实现、时序和 DRC 报告
-- `docs/`：架构和接口说明
+- `vivado/evidence_rebuild/`：当前器件的脚本、发布工件和 Vivado 报告
+- `vitis/evidence_rebuild/`：平台包、回放源码、ELF 和板端结果
+- `vivado/system/`：AXI wrapper、旧阶段仿真与历史证据
+- `docs/`：架构、硬件来源、性能和完整证据链
 
-## 下一步：HLS-6C
+## 汇报入口
 
-1. 用 `smartconnect_snn_wrapper_50mhz.xsa` 创建 Vitis standalone platform；
-2. 编写 AXI-Lite 固定向量回放程序，先读 VERSION，再写 feature/weight/bias，启动并轮询 STATUS；
-3. 输出 UART 日志，逐项比较两个 logits、32 个 spike counts 和 ERROR_STATUS；
-4. 仅当 bitstream、XSA、ELF、输入身份、UART 日志和输出比较全部保留后，才报告“板端 SNN wrapper 回放 PASS”。
+1. [硬件与工具来源](docs/hardware_provenance.md)
+2. [性能、资源、时序与功耗](docs/performance_report.md)
+3. [完整证据链](docs/evidence_chain_report.md)
+4. [统一工件哈希](vivado/evidence_rebuild/EVIDENCE_MANIFEST.json)

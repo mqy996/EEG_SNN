@@ -7,9 +7,9 @@
 - HLS-2：Q12.6 无浮点 CSim，3/3 黄金用例通过。
 - HLS-3：Vitis HLS 2025.1 C 综合完成。
 - HLS-4：Verilog RTL C/RTL 协同仿真完成，3 个测试用例、6/6 次 RTL transaction 通过。
-- HLS-5A：`xc7z020clg400-1`、20 ns/50 MHz 的 Vivado out-of-context implementation 通过；固定向量 replay wrapper 的 XSim 和 Vivado implementation 也已通过，但尚未完成 Zynq bitstream 和板端回放。
-- 目标器件：`xc7z020clg400-1`。
-- HLS 约束：10 ns，也就是 100 MHz。
+- HLS-5A 历史 OOC：`xc7z020clg400-1` 下的独立 50 MHz implementation 通过。
+- 当前系统级证据：完整 Zynq 工程使用 `xc7z020clg400-2`、`MT41J256M16 RE-125` 和 50 MHz，已生成 bitstream/XSA 并完成板端回放，入口见 [完整证据链](../docs/evidence_chain_report.md)。
+- HLS-3 历史 C 综合约束为 10 ns/100 MHz；当前 Vivado 系统约束为 20 ns/50 MHz，二者属于不同阶段。
 
 ## 接口边界
 
@@ -59,3 +59,4 @@ powershell -NoProfile -ExecutionPolicy Bypass `
 - [HLS-4 RTL C/RTL 协同仿真结果](RTL_COSIM_RESULTS.md)
 - [HLS Phase-1 接口契约](../docs/direct_current_hls_architecture.md)
 - [Direct-current HLS 基线摘要](../docs/direct_current_hls_baseline_summary.md)
+- [系统级资源、时序与功耗](../docs/performance_report.md)

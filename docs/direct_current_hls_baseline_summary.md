@@ -1,4 +1,4 @@
-# Direct-current Hybrid-SNN 的 HLS 基线摘要
+# Direct-current Hybrid-SNN 的 HLS 与 FPGA 基线摘要
 
 ## 1. 当前网络
 
@@ -64,7 +64,19 @@ HLS-4 使用 Vitis HLS 2025.1 和 XSIM 对生成的 Verilog RTL 进行 C/RTL 协
 
 3 个黄金用例为 `threshold_edge`、`signed_currents` 和 `rounding_and_reset`，C 侧 3/3 通过，RTL 侧 6/6 次 transaction 完成。完整工具边界和故障记录见 [HLS-4 报告](../hls/RTL_COSIM_RESULTS.md)。
 
-## 5. 结论边界
+## 5. 当前系统级证据
+
+当前完整系统的结果不再停留在 HLS OOC：
+
+- Vivado post-implementation：完整 routed top 为 8902 LUT、21076 FF、34 DSP，50 MHz WNS +4.776 ns；
+- Vitis standalone：平台和应用 ELF 构建通过；
+- 开发板：314/314 样本 checksum、logit、count 一致，277/314 分类正确，fold9 子集准确率 88.2166%；
+- 完整回放：326 us/sample，吞吐率 3067.48 samples/s；
+- 功耗：1.769 W 为 Vivado vectorless estimate，不是板端测量。
+
+完整来源、报告和哈希见 [硬件与工具来源](hardware_provenance.md)、[性能报告](performance_report.md) 和 [证据链报告](evidence_chain_report.md)。
+
+## 6. 结论边界
 
 当前证据可以支持：
 
@@ -75,10 +87,11 @@ HLS-4 使用 Vitis HLS 2025.1 和 XSIM 对生成的 Verilog RTL 进行 C/RTL 协
 当前证据不能支持：
 
 - 完整 CNN/GroupNorm 已经 HLS 化；
-- 已经完成 Vivado implementation 或 bitstream；
-- 已经完成 FPGA 板端运行、整网准确率或功耗测量；
+- 完整 CNN/GroupNorm 前端已经完成 FPGA 硬件化；
+- 88.2166% 是完整 11-fold 平均准确率；
+- 已经完成开发板实测功耗；
 - HLS 读出头结果等于完整 EEG 分类系统的部署结果。
 
-## 6. 下一步
+## 7. 后续工作
 
-下一步优先完成 50 MHz 系统时钟下的 Vivado/IP 集成和软件到 RTL 的逐样本回放。只有在接口、时序和回放一致性确认后，才继续决定是否硬件化 CNN/GroupNorm 前端。
+当前最小闭环已经完成。下一步应把重点放在完整 CNN/GroupNorm 前端的硬件边界评估、数据搬运架构和在线 EEG 输入方案，而不是把当前 AXI-Lite 回放准确率直接当作完整端到端部署准确率。

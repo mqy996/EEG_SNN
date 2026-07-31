@@ -1,0 +1,107 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
+| Date         : Fri Jul 31 15:00:14 2026
+| Host         : mqy996 running 64-bit major release  (build 9200)
+| Command      : report_ip_status
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+IP Status Summary
+
+1. Project IP Status
+--------------------
+Your project uses 17 IP. Some of these IP may have undergone changes in this release of the software. Please review the recommended actions.
+
+More information on the Xilinx versioning policy is available at www.xilinx.com.
+
+Project IP Instances
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| Instance Name                             | Status                    | Recommendation      | Change    | IP Name            | IP      | New Version   | New        | Original Part        |
+|                                           |                           |                     | Log       |                    | Version |               | License    |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| ax7020_ps7_base_axi_interconnect_0_0      | Up-to-date                | No changes required |  *(1)     | AXI SmartConnect   | 1.0     | 1.0 (Rev. 27) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 27)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| ax7020_ps7_base_proc_sys_reset_0_0        | Up-to-date                | No changes required |  *(2)     | Processor System   | 5.0     | 5.0 (Rev. 17) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           | Reset              | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 17)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| ax7020_ps7_base_processing_system7_0_0    | Up-to-date                | No changes required |  *(3)     | ZYNQ7 Processing   | 5.5     | 5.5 (Rev. 7)  | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           | System             | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 7)      |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| ax7020_ps7_base_snn_axi_memory_window_0_0 | Up-to-date                | No changes required | Change    | snn_axi_memory_win | 1.0     | 1.0 (Rev. 1)  | Included   | xc7z020clg400-2      |
+|                                           |                           |                     | Log not   |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     | available |                    | 1)      |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_m00e_0                            | Up-to-date                | No changes required |  *(4)     | SC EXIT            | 1.0     | 1.0 (Rev. 17) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 17)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_m00s2a_0                          | Up-to-date                | No changes required |  *(5)     | SmartConnect       | 1.0     | 1.0 (Rev. 10) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           | SC2AXI Bridge      | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 10)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_one_0                             | Up-to-date (discontinued) | No changes required |  *(6)     | Constant           | 1.1     | 1.1 (Rev. 10) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 10)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_psr_aclk_0                        | Up-to-date                | No changes required |  *(7)     | Processor System   | 5.0     | 5.0 (Rev. 17) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           | Reset              | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 17)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_s00a2s_0                          | Up-to-date                | No changes required |  *(8)     | SmartConnect       | 1.0     | 1.0 (Rev. 10) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           | AXI2SC Bridge      | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 10)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_s00mmu_0                          | Up-to-date                | No changes required |  *(9)     | SC MMU             | 1.0     | 1.0 (Rev. 15) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 15)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_s00sic_0                          | Up-to-date                | No changes required |  *(10)    | SC SI_CONVERTER    | 1.0     | 1.0 (Rev. 15) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 15)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_s00tr_0                           | Up-to-date                | No changes required |  *(11)    | SC                 | 1.0     | 1.0 (Rev. 11) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           | TRANSACTION_REGULA | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 11)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_sarn_0                            | Up-to-date                | No changes required |  *(12)    | SmartConnect Node  | 1.0     | 1.0 (Rev. 18) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 18)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_sawn_0                            | Up-to-date                | No changes required |  *(13)    | SmartConnect Node  | 1.0     | 1.0 (Rev. 18) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 18)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_sbn_0                             | Up-to-date                | No changes required |  *(14)    | SmartConnect Node  | 1.0     | 1.0 (Rev. 18) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 18)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_srn_0                             | Up-to-date                | No changes required |  *(15)    | SmartConnect Node  | 1.0     | 1.0 (Rev. 18) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 18)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+| bd_003b_swn_0                             | Up-to-date                | No changes required |  *(16)    | SmartConnect Node  | 1.0     | 1.0 (Rev. 18) | Included   | xc7z020clg400-2      |
+|                                           |                           |                     |           |                    | (Rev.   |               |            |                      |
+|                                           |                           |                     |           |                    | 18)     |               |            |                      |
++-------------------------------------------+---------------------------+---------------------+-----------+--------------------+---------+---------------+------------+----------------------+
+*(1) d:/vitis/2025.1/Vivado/data/ip/xilinx/smartconnect_v1_0/doc/smartconnect_v1_0_changelog.txt
+*(2) d:/vitis/2025.1/Vivado/data/ip/xilinx/proc_sys_reset_v5_0/doc/proc_sys_reset_v5_0_changelog.txt
+*(3) d:/vitis/2025.1/Vivado/data/ip/xilinx/processing_system7_v5_5/doc/processing_system7_v5_5_changelog.txt
+*(4) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_exit_v1_0/doc/sc_exit_v1_0_changelog.txt
+*(5) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_sc2axi_v1_0/doc/sc_sc2axi_v1_0_changelog.txt
+*(6) d:/vitis/2025.1/Vivado/data/ip/xilinx/xlconstant_v1_1/doc/xlconstant_v1_1_changelog.txt
+*(7) d:/vitis/2025.1/Vivado/data/ip/xilinx/proc_sys_reset_v5_0/doc/proc_sys_reset_v5_0_changelog.txt
+*(8) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_axi2sc_v1_0/doc/sc_axi2sc_v1_0_changelog.txt
+*(9) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_mmu_v1_0/doc/sc_mmu_v1_0_changelog.txt
+*(10) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_si_converter_v1_0/doc/sc_si_converter_v1_0_changelog.txt
+*(11) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_transaction_regulator_v1_0/doc/sc_transaction_regulator_v1_0_changelog.txt
+*(12) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_node_v1_0/doc/sc_node_v1_0_changelog.txt
+*(13) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_node_v1_0/doc/sc_node_v1_0_changelog.txt
+*(14) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_node_v1_0/doc/sc_node_v1_0_changelog.txt
+*(15) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_node_v1_0/doc/sc_node_v1_0_changelog.txt
+*(16) d:/vitis/2025.1/Vivado/data/ip/xilinx/sc_node_v1_0/doc/sc_node_v1_0_changelog.txt
+
+

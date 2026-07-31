@@ -10,6 +10,9 @@
 
 ## 实验与复现
 
+- [硬件与工具来源](hardware_provenance.md)
+- [性能、资源、时序与功耗](performance_report.md)
+- [完整证据链](evidence_chain_report.md)
 - [教师阶段性汇报](teacher_report.md)
 - [技术报告摘要](technical_report.md)
 - [复现实验指南](reproducibility.md)
