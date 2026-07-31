@@ -69,7 +69,8 @@ $repo = 'D:\eeg_fpga\snn_hybrid_eeg'
 
 ## 汇报入口
 
-1. [硬件与工具来源](docs/hardware_provenance.md)
-2. [性能、资源、时序与功耗](docs/performance_report.md)
-3. [完整证据链](docs/evidence_chain_report.md)
-4. [统一工件哈希](vivado/evidence_rebuild/EVIDENCE_MANIFEST.json)
+1. [2026-07-31 SNN FPGA 全流程与结果总览](docs/2026-07-31-snn-fpga-full-flow-overview.md)
+2. [硬件与工具来源](docs/hardware_provenance.md)
+3. [性能、资源、时序与功耗](docs/performance_report.md)
+4. [完整证据链](docs/evidence_chain_report.md)
+5. [统一工件哈希](vivado/evidence_rebuild/EVIDENCE_MANIFEST.json)

@@ -4,6 +4,7 @@
 
 ## 架构与接口
 
+- [2026-07-31 SNN FPGA 全流程与结果总览](2026-07-31-snn-fpga-full-flow-overview.md)
 - [Hybrid-SNN 软件架构图](hybrid_snn_architecture.md)
 - [Direct-current Hybrid-SNN 与 HLS Phase-1 接口契约](direct_current_hls_architecture.md)
 - [Direct-current HLS 基线摘要](direct_current_hls_baseline_summary.md)
